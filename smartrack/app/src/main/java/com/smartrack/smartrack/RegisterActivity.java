@@ -96,23 +96,34 @@ public class RegisterActivity extends AppCompatActivity {
         myLoadingDialog.show();
         Log.d("mail  ",mail);
         Log.d("password  ",password);
-//        Credentials credential = Credentials.emailPassword(mail,password);
-        Credentials credential = Credentials.anonymous();
-        app.loginAsync(credential,new App.Callback<User>(){
-            @Override
-            public void onResult(App.Result<User> result) {
-                if(result.isSuccess()){
-//                    SaveUserData(username);
+        Credentials credential = Credentials.emailPassword(mail,password);
+//        Credentials credential = Credentials.anonymous();
+//        app.loginAsync(credential,new App.Callback<User>(){
+//            @Override
+//            public void onResult(App.Result<User> result) {
+//                if(result.isSuccess()){
+////                    SaveUserData(username);
 //                    myLoadingDialog.dismiss();
 //                    Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    myLoadingDialog.dismiss();
-                    Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
-                }
-            }
-
-        });
+//                }
+//                else{
+//                    myLoadingDialog.dismiss();
+//                    Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//        });
+        app.getEmailPassword().registerUserAsync(mail,password,result->{
+            if(result.isSuccess()){
+            myLoadingDialog.dismiss();
+            Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
+        }
+            else{
+            myLoadingDialog.dismiss();
+            Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
+        }
+    });
+        
 
     }
 
