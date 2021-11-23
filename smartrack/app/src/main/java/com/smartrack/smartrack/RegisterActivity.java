@@ -25,7 +25,6 @@ import io.realm.mongodb.User;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputLayout InputsName, InputMail, InputPassword, InputVerifyPassword;
-//    CircleImageView ProfilImage;
     TextView haveAccount;
     ProgressDialog myLoadingDialog;
     Button signUpBtn;
@@ -96,23 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         myLoadingDialog.show();
         Log.d("mail  ",mail);
         Log.d("password  ",password);
-        Credentials credential = Credentials.emailPassword(mail,password);
-//        Credentials credential = Credentials.anonymous();
-//        app.loginAsync(credential,new App.Callback<User>(){
-//            @Override
-//            public void onResult(App.Result<User> result) {
-//                if(result.isSuccess()){
-////                    SaveUserData(username);
-//                    myLoadingDialog.dismiss();
-//                    Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
-//                }
-//                else{
-//                    myLoadingDialog.dismiss();
-//                    Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
-//                }
-//            }
 //
-//        });
         app.getEmailPassword().registerUserAsync(mail,password,result->{
             if(result.isSuccess()){
             myLoadingDialog.dismiss();
@@ -123,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
         }
     });
-        
+
 
     }
 
