@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatCallback;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -93,22 +94,32 @@ public class RegisterActivity extends AppCompatActivity {
         myLoadingDialog.setMessage("Please Wait, Creating Your Account");
         myLoadingDialog.setCanceledOnTouchOutside(false);
         myLoadingDialog.show();
-        Log.d("mail  ",mail);
-        Log.d("password  ",password);
-//
-        app.getEmailPassword().registerUserAsync(mail,password,result->{
-            if(result.isSuccess()){
-            myLoadingDialog.dismiss();
-            Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
-        }
-            else{
-            myLoadingDialog.dismiss();
-            Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
-        }
-    });
+        Credentials credential = Credentials.emailPassword(mail,password);
+        app.loginAsync(credential,new App.Callback<User>(){
+            @Override
+            public void onResult(App.Result<User> result) {
+                if(result.isSuccess()){
+                    myLoadingDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this,"Account is already exists",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    app.getEmailPassword().registerUserAsync(mail,password,it->{
+                        if(it.isSuccess()){
+                            myLoadingDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            myLoadingDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this,"Account Creation Failed",Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-
+                }
+            }
+        });
     }
+
+
 
     private void showError(TextInputLayout field, String text) {
         field.setError(text);
