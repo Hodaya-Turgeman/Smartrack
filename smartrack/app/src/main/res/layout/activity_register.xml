@@ -33,7 +33,7 @@
                     android:id="@+id/activity_register_input_userName1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="User Name"
+                    android:hint="Name"
                     android:inputType="textPersonName"
                     android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
