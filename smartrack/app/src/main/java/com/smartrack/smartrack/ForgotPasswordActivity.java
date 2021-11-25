@@ -32,7 +32,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         Realm.init(this); // context, usually an Activity or Application
         app=new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         builder= new AlertDialog.Builder(this);
-        builder.setMessage("Check your email ");
+        builder.setMessage("Check your email!\n\n" + "A password reset link has been sent\n");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

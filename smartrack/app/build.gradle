@@ -46,11 +46,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-<<<<<<< HEAD
-
-    implementation   'javax.mail:javax.mail-api:1.5.3'
-=======
     implementation 'com.google.android.libraries.places:places:2.5.0'
 
->>>>>>> 9023430b09def941a7b48b20db566dc9b12bc8df
+
 }
