@@ -63,7 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void goToLogIn() {
-
+        Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+        startActivity(intent);
     }
 
     private void singUpToApp() {
@@ -107,6 +108,10 @@ public class RegisterActivity extends AppCompatActivity {
                         if(it.isSuccess()){
                             myLoadingDialog.dismiss();
                             Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
+                            Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
                         }
                         else{
                             myLoadingDialog.dismiss();

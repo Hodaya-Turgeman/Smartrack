@@ -59,12 +59,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private void sentLinkToEmailResPassword() {
-//        Intent intent=new Intent(LoginActivity.this,ForgotPasswordActivity.class);
-//        startActivity(intent);
+        Intent intent=new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+        startActivity(intent);
     }
     private void goToSignUp(){
         Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
 
     }
 

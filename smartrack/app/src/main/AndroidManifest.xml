@@ -9,10 +9,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartrack">
-        <activity android:name=".ForgotPasswordActivity"></activity>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ResetPassActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="www.theiitiancoder.com"
+                    android:pathPrefix="/resetPassword" />
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="theiitiancoder.com"
+                    android:pathPattern="/resetPassword" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ForgotPasswordActivity">
 
         </activity>
+        <activity android:name=".SplashActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
