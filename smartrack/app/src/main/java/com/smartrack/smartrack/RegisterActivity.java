@@ -113,21 +113,13 @@ public class RegisterActivity extends AppCompatActivity {
                     app.getEmailPassword().registerUserAsync(mail, password, it -> {
                         if (it.isSuccess()) {
                             myLoadingDialog.dismiss();
-<<<<<<< HEAD
                             Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }
-                        else{
-=======
-                            Toast.makeText(RegisterActivity.this, "Account Creation Success", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(intent);
-
-                        } else {
->>>>>>> 9023430b09def941a7b48b20db566dc9b12bc8df
+                         else {
                             myLoadingDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Account Creation Failed", Toast.LENGTH_LONG).show();
                         }
