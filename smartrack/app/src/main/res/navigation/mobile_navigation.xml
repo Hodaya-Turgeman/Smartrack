@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/newUserDetailsFragment">
 
     <fragment
         android:id="@+id/nav_home"
@@ -22,4 +22,9 @@
         android:name="com.smartrack.smartrack.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/newUserDetailsFragment"
+        android:name="com.smartrack.smartrack.ui.newUserDetailsFragment"
+        android:label="fragment_new_user_details"
+        tools:layout="@layout/fragment_new_user_details" />
 </navigation>
