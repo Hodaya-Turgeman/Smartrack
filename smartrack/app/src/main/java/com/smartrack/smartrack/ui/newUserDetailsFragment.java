@@ -79,18 +79,17 @@ public class newUserDetailsFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter =  new ArrayAdapter(this.getContext(), android.R.layout.simple_spinner_item,years);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(adapter);
-        yearSpinner.setOnItemSelectedListener(this);
-//        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                birthYear=Integer.parseInt(years[position]);
-//                Log.d("TAG",String.valueOf(birthYear));
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                birthYear=Integer.parseInt(years[position]);
+                Log.d("TAG",String.valueOf(birthYear));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         radioGroup=view.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
