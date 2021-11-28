@@ -59,7 +59,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                Log.d("Gender",parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -82,7 +82,6 @@ public class UserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 BuildCategoryList();
-
             }});
 
     }
@@ -104,7 +103,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(UserDetailsActivity.this);
 
             // set title
-            builder.setTitle("Select Language");
+            builder.setTitle("Select Categories:");
 
             // set dialog non cancelable
             builder.setCancelable(false);
