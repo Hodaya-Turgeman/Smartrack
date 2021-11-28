@@ -23,7 +23,7 @@ import io.realm.mongodb.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputLayout InputsName, InputMail, InputPassword, InputVerifyPassword;
+    private TextInputLayout InputMail, InputPassword, InputVerifyPassword;
     TextView haveAccount;
     ProgressDialog myLoadingDialog;
     Button signUpBtn;
@@ -33,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        InputsName =findViewById(R.id.activity_register_input_userName);
         InputMail =findViewById(R.id.activity_register_input_mail);
         InputPassword =findViewById(R.id.activity_register_input_password);
         InputVerifyPassword =findViewById(R.id.activity_register_input_verify_password);
@@ -69,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
         String mail= InputMail.getEditText().getText().toString();
         String password= InputPassword.getEditText().getText().toString();
         String verifyPassword= InputVerifyPassword.getEditText().getText().toString();
-        String username= InputsName.getEditText().getText().toString();
 
         if(mail.isEmpty() || !mail.contains("@")){
             showError(InputMail,"Email Address is not Valid");
@@ -80,17 +78,14 @@ public class RegisterActivity extends AppCompatActivity {
         else if(!verifyPassword.equals(password)){
             showError(InputVerifyPassword,"Password does not equal");
         }
-        else if(username.isEmpty() || username.length()<3)  {
-            showError(InputsName,"UserName is not valid");
-        }
         else{
-            createAccountInMongoDb(mail,password,username);
+            createAccountInMongoDb(mail,password);
         }
 
     }
 
 
-    private void createAccountInMongoDb(String mail,String password,String username){
+    private void createAccountInMongoDb(String mail,String password){
         myLoadingDialog.setTitle("Registration");
         myLoadingDialog.setMessage("Please Wait, Creating Your Account");
         myLoadingDialog.setCanceledOnTouchOutside(false);
