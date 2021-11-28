@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/newUserDetailsFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -27,4 +27,9 @@
         android:name="com.smartrack.smartrack.ui.newUserDetailsFragment"
         android:label="fragment_new_user_details"
         tools:layout="@layout/fragment_new_user_details" />
+    <activity
+        android:id="@+id/registerActivity"
+        android:name="com.smartrack.smartrack.RegisterActivity"
+        android:label="activity_register"
+        tools:layout="@layout/activity_register" />
 </navigation>

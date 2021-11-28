@@ -1,5 +1,7 @@
 package com.smartrack.smartrack;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import android.app.ProgressDialog;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.smartrack.smartrack.ui.newUserDetailsFragment;
+
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -103,10 +107,11 @@ public class RegisterActivity extends AppCompatActivity {
                         if (it.isSuccess()) {
                             myLoadingDialog.dismiss();
                             Toast.makeText(RegisterActivity.this,"Account Creation Success",Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                            Intent intent=new Intent(RegisterActivity.this, UserDetailsActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
+
                         }
                          else {
                             myLoadingDialog.dismiss();

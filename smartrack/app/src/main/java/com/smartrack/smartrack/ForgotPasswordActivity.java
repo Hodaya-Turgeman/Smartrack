@@ -14,7 +14,6 @@ import android.widget.Toast;
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
-import io.realm.mongodb.User;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -58,11 +57,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
                     }else {
+                        Toast.makeText(ForgotPasswordActivity.this,"Failed to reset the password for" + mail + ": " + result.getError().getErrorMessage(),Toast.LENGTH_LONG).show();
                         Intent intent=new Intent(ForgotPasswordActivity.this,LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
-                        Log.e("EXAMPLE", "Failed to reset the password for" + mail + ": " + result.getError().getErrorMessage());
                     }
                 }
 

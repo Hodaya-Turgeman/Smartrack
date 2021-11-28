@@ -32,7 +32,7 @@ import io.realm.Realm;
 import io.realm.internal.objectstore.OsApp;
 import io.realm.mongodb.sync.SyncConfiguration;
 
-public class newUserDetailsFragment extends Fragment {
+public class newUserDetailsFragment extends Fragment  implements AdapterView.OnItemSelectedListener{
     public String mail;
     public String password;
     Spinner yearSpinner;
@@ -59,23 +59,23 @@ public class newUserDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_user_details, container, false);
 
         years=getYears();
-        yearSpinner=view.findViewById(R.id.new_user_year);
+        yearSpinner=(Spinner)view.findViewById(R.id.new_user_year);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
+        ArrayAdapter<CharSequence> adapter =  new ArrayAdapter(this.getContext(), android.R.layout.simple_spinner_item,years);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         yearSpinner.setAdapter(adapter);
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                birthYear=Integer.parseInt(years[position]);
-                Log.d("TAG",String.valueOf(birthYear));
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        yearSpinner.setOnItemSelectedListener(this);
+//        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                birthYear=Integer.parseInt(years[position]);
+//                Log.d("TAG",String.valueOf(birthYear));
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         radioGroup=view.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -168,6 +168,16 @@ public class newUserDetailsFragment extends Fragment {
 //            ObjectId primaryKeyValue = new ObjectId();
 //            TurtleEnthusiast turtleEnthusiast = r.createObject(TurtleEnthusiast.class, primaryKeyValue);
 //        });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String birthYear=parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }
