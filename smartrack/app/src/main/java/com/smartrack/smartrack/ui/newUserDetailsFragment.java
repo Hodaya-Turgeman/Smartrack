@@ -23,16 +23,27 @@ import com.smartrack.smartrack.Model.Gender;
 import com.smartrack.smartrack.R;
 import com.smartrack.smartrack.Model.Traveler;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.realm.Realm;
 import io.realm.internal.objectstore.OsApp;
+import io.realm.mongodb.User;
 import io.realm.mongodb.sync.SyncConfiguration;
-
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.Credentials;
+import io.realm.mongodb.mongo.MongoClient;
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.MongoDatabase;
 public class newUserDetailsFragment extends Fragment {
+    String Appid = "application-smartrack-zpmqf";
+    private App app;
+
     public String mail;
     public String password;
     Spinner yearSpinner;
@@ -40,7 +51,6 @@ public class newUserDetailsFragment extends Fragment {
     static String[] years=new String[120];
     Calendar cal;
     private RadioGroup radioGroup;
-    private Button btnDisplay;
     int gender;
     ListView listViewCategories;
     ArrayAdapter<String> categoryAdapter;
@@ -52,12 +62,18 @@ public class newUserDetailsFragment extends Fragment {
     };
 
     Button saveBtn;
+
+    MongoDatabase mongoDatabase;
+    MongoClient mongoClient;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_user_details, container, false);
 
+        Realm.init(getActivity());
+
+        app = new App(new AppConfiguration.Builder(Appid).build());
         years=getYears();
         yearSpinner=view.findViewById(R.id.new_user_year);
 
@@ -98,23 +114,51 @@ public class newUserDetailsFragment extends Fragment {
             }
         });
 
-//        listViewCategories=view.findViewById(R.id.new_user_categories);
-//        categoryAdapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_multiple_choice,  categories);
-//        listViewCategories.setAdapter(categoryAdapter);
+        listViewCategories=view.findViewById(R.id.new_user_categories);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_multiple_choice,  categories);
+        //categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        listViewCategories.setAdapter(categoryAdapter);
+        listViewCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long l) {
+                String itemSelected="";
+                // Get user selected item.
+                //Object itemObject = adapterView.getAdapter().getItem(itemIndex);
+                for(int i=0; i<listViewCategories.getCount();i++){
+                    if(listViewCategories.isItemChecked(i))
+                    {
+                        itemSelected+=listViewCategories.getItemAtPosition(i)+" , ";
+                    }
+                }
+                Log.d("TAG",itemSelected);
+//                // Get the checkbox.
+//                CheckBox itemCheckbox = (CheckBox) view.findViewById(R.id.list_view_item_checkbox);
+//                // Reverse the checkbox and clicked item check state.
+//                if(itemDto.isChecked())
+//                {
+//                    itemCheckbox.setChecked(false);
+//                    itemDto.setChecked(false);
+//                }else
+//                {
+//                    itemCheckbox.setChecked(true);
+//                    itemDto.setChecked(true);
+//                }
+            }
+        });
 
 
 
-//        saveBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                    saveTraveler(v);
-//            }
-//        });
+        saveBtn=view.findViewById(R.id.add_traveler_button);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    saveTraveler(v);
+            }
+        });
         return view;
     }
 
-
-//    @Override
+    //   @Override
 //    public boolean onOptionsItemSelected(@NonNull MenuItem item){
 //        String itemSelected="";
 //        for(int i=0; i<listViewCategories.getCount();i++){
@@ -138,6 +182,13 @@ public class newUserDetailsFragment extends Fragment {
         return years;
     }
     private void saveTraveler(View v) {
+        User user=app.currentUser();
+        Log.d("TAG",user.getId());
+
+
+
+
+
 //        /////////////////////////////////?////////////////
 //        SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
 //                .allowQueriesOnUiThread(true)
@@ -154,9 +205,9 @@ public class newUserDetailsFragment extends Fragment {
 //            }
 //        });
 //        /////////////////////יצירה 1///////////////
-//        Traveler traveler = new Traveler(mail,password,birthYear,gender);
+        Traveler traveler = new Traveler();
 //        backgroundThreadRealm.executeTransaction (transactionRealm -> {
-//            transactionRealm.insert(task);
+//            transactionRealm.insert(traveler);
 //        });
 //        /////////////////////////יצירה 2///////////////////
 //        realm.executeTransaction(r -> {
@@ -168,6 +219,22 @@ public class newUserDetailsFragment extends Fragment {
 //            ObjectId primaryKeyValue = new ObjectId();
 //            TurtleEnthusiast turtleEnthusiast = r.createObject(TurtleEnthusiast.class, primaryKeyValue);
 //        });
+
+        //////////////////3////////////
+        mongoClient = user.getMongoClient("mongodb-atlas");
+        mongoDatabase = mongoClient.getDatabase("smartrack");
+        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("Traveler");
+
+        mongoCollection.insertOne(new Document("userid",user.getId()).append("data",traveler)).getAsync(result -> {
+            if(result.isSuccess())
+            {
+                Log.v("Data","Data Inserted Successfully");
+            }
+            else
+            {
+                Log.v("Data","Error:"+result.getError().toString());
+            }
+        });
 
     }
 }
