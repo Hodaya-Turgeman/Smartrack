@@ -1,50 +1,30 @@
 package com.smartrack.smartrack.ui;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.smartrack.smartrack.Model.Gender;
 import com.smartrack.smartrack.R;
-import com.smartrack.smartrack.Model.Traveler;
-
-import org.bson.Document;
-import org.bson.types.ObjectId;
-
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.concurrent.atomic.AtomicReference;
-
 import io.realm.Realm;
-import io.realm.internal.objectstore.OsApp;
 import io.realm.mongodb.User;
-import io.realm.mongodb.sync.SyncConfiguration;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
-import io.realm.mongodb.Credentials;
 import io.realm.mongodb.mongo.MongoClient;
-import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
+
+
 public class newUserDetailsFragment extends Fragment {
     String Appid = "application-smartrack-zpmqf";
     private App app;
-    public String mail;
-    public String password;
     Spinner yearSpinner;
     int birthYear;
     static String[] years=new String[120];
@@ -52,7 +32,7 @@ public class newUserDetailsFragment extends Fragment {
     private RadioGroup radioGroup;
     int gender;
     ListView listViewCategories;
-    ArrayAdapter<String> categoryAdapter;
+    Button saveBtn;
     String[] categories={
             "amusement park","aquarium","art gallery","bar","casino",
             "museum","night club","park","shopping mall","spa",
@@ -60,10 +40,8 @@ public class newUserDetailsFragment extends Fragment {
             "church","city hall","library","mosque", "synagogue"
     };
 
-    Button saveBtn;
 
-    MongoDatabase mongoDatabase;
-    MongoClient mongoClient;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,7 +68,6 @@ public class newUserDetailsFragment extends Fragment {
 
             }
         });
-
         radioGroup=view.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -180,12 +157,9 @@ public class newUserDetailsFragment extends Fragment {
         return years;
     }
     private void saveTraveler(View v) {
-        User user=app.currentUser();
-        Log.d("TAG",user.getId());
-
-
-
-
+        User user = app.currentUser();
+        Log.d("TAG", user.getId());
+    }
 
 //        /////////////////////////////////?////////////////
 //        SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
@@ -203,7 +177,7 @@ public class newUserDetailsFragment extends Fragment {
 //            }
 //        });
 //        /////////////////////יצירה 1///////////////
-        Traveler traveler = new Traveler();
+//        Traveler traveler = new Traveler();
 //        backgroundThreadRealm.executeTransaction (transactionRealm -> {
 //            transactionRealm.insert(traveler);
 //        });
@@ -219,21 +193,21 @@ public class newUserDetailsFragment extends Fragment {
 //        });
 
         //////////////////3////////////
-        mongoClient = user.getMongoClient("mongodb-atlas");
-        mongoDatabase = mongoClient.getDatabase("smartrack");
-        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("Traveler");
+//        mongoClient = user.getMongoClient("mongodb-atlas");
+//        mongoDatabase = mongoClient.getDatabase("smartrack");
+//        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("Traveler");
+//
+//        mongoCollection.insertOne(new Document("userid",user.getId()).append("data",traveler)).getAsync(result -> {
+//            if(result.isSuccess())
+//            {
+//                Log.v("Data","Data Inserted Successfully");
+//            }
+//            else
+//            {
+//                Log.v("Data","Error:"+result.getError().toString());
+//            }
+//        });
 
-        mongoCollection.insertOne(new Document("userid",user.getId()).append("data",traveler)).getAsync(result -> {
-            if(result.isSuccess())
-            {
-                Log.v("Data","Data Inserted Successfully");
-            }
-            else
-            {
-                Log.v("Data","Error:"+result.getError().toString());
-            }
-        });
-
-    }
+//    }
 
 }

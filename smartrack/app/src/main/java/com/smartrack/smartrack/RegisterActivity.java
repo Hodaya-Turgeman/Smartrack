@@ -1,9 +1,5 @@
 package com.smartrack.smartrack;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,15 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.textfield.TextInputLayout;
-import com.smartrack.smartrack.ui.newUserDetailsFragment;
-
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
 import io.realm.mongodb.User;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -27,7 +21,6 @@ public class RegisterActivity extends AppCompatActivity {
     TextView haveAccount;
     ProgressDialog myLoadingDialog;
     Button signUpBtn;
-
     App app;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +99,6 @@ public class RegisterActivity extends AppCompatActivity {
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
-
                         }
                          else {
                             myLoadingDialog.dismiss();
