@@ -35,28 +35,26 @@ public class UserDetailsActivity extends AppCompatActivity {
     TextInputLayout InputsName;
     Spinner genderSpinner, birthYearSpinner;
     TextView textViewCategory;
-    String travelerName;
-    int travelerBirthYear;
-    String travelerGender;
     boolean[] selectedCategory;
+    Button saveBtn;
     ArrayList<Integer> categoriesList = new ArrayList<>();
+    String travelerName,travelerGender;
+    int travelerBirthYear;
     final String[] categoriesArray={
             "amusement park","aquarium","art gallery","bar","casino",
             "museum","night club","park","shopping mall","spa",
             "tourist attraction","zoo", "bowling alley","cafe",
             "church","city hall","library","mosque", "synagogue"
     };
-    Button saveBtn;
     User user;
     UserProfile userProfile;
-    App app;
-
+    RealmList<String> travelerFavoriteCategories;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
         Realm.init(this); // context, usually an Activity or Application
-        app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
+        App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         user = app.currentUser();
         userProfile = user.getProfile();
         birthYearSpinner = findViewById(R.id.activity_user_details_spinner_birthyear);
@@ -72,11 +70,17 @@ public class UserDetailsActivity extends AppCompatActivity {
 
         textViewCategory = findViewById(R.id.activity_user_details_category_textView);
         selectedCategory = new boolean[categoriesArray.length];
-
+        saveBtn=findViewById(R.id.activity_user_details_btm);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertUser();
+            }
+        });
         genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                travelerGender=parent.getItemAtPosition(position).toString());
+                travelerGender=parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -87,6 +91,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         birthYearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Gender",parent.getItemAtPosition(position).toString());
                 travelerBirthYear=Integer.valueOf( parent.getItemAtPosition(position).toString());
             }
 
@@ -101,15 +106,36 @@ public class UserDetailsActivity extends AppCompatActivity {
                 BuildCategoryList();
             }});
 
+    }
 
-        saveBtn= findViewById(R.id.activity_user_details_btm);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+    private void saveTraveler() {
+        String partitionValue = userProfile.getEmail();
+        travelerName=InputsName.getEditText().getText().toString();
+        SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build();
+        Realm backgroundThreadRealm = Realm.getInstance(config);
+        Realm.getInstanceAsync(config, new Realm.Callback() {
             @Override
-            public void onClick(View v) {
-//                saveTraveler();
+            public void onSuccess(Realm realm) {
+                Log.v(
+                        "EXAMPLE",
+                        "Successfully opened a realm with reads and writes allowed on the UI thread."
+                );
+                ObjectId _id=new ObjectId(user.getId());
+                Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
+
+                realm.executeTransaction (transactionRealm -> {
+                    transactionRealm.insert(traveler);
+                    Toast.makeText(UserDetailsActivity.this, "saved", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(UserDetailsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
             }
         });
-
     }
 
     public String[] getYears() {
@@ -155,10 +181,13 @@ public class UserDetailsActivity extends AppCompatActivity {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    travelerFavoriteCategories=new RealmList<>();
                     // Initialize string builder
                     StringBuilder stringBuilder = new StringBuilder();
                     // use for loop
                     for (int j = 0; j < categoriesList.size(); j++) {
+
+                        travelerFavoriteCategories.add(categoriesArray[categoriesList.get(j)]);
                         // concat array value
                         stringBuilder.append(categoriesArray[categoriesList.get(j)]);
                         // check condition
@@ -198,82 +227,17 @@ public class UserDetailsActivity extends AppCompatActivity {
             // show dialog
             builder.show();
     }
-
     private  void insertUser(){
         String username= InputsName.getEditText().getText().toString();
         if(username.isEmpty() || username.length()<3)  {
             showError(InputsName,"UserName is not valid");
         }
+        else{
+            saveTraveler();
+        }
     }
-
     private void showError(TextInputLayout field, String text) {
         field.setError(text);
         field.requestFocus();
     }
-
-//    private void saveTraveler() {
-//        String partitionValue = userProfile.getEmail();
-//        travelerName=InputsName.getEditText().getText().toString();
-//        RealmList<String> travelerFavoriteCategories=new RealmList<>();
-//        travelerFavoriteCategories.add("aaa");
-//        travelerFavoriteCategories.add("bbb");
-//        SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), partitionValue)
-//                .allowQueriesOnUiThread(true)
-//                .allowWritesOnUiThread(true)
-//                .build();
-//        Realm backgroundThreadRealm = Realm.getInstance(config);
-//
-////        backgroundThreadRealm.executeTransaction(new Realm.Transaction() {
-////            @Override
-////            public void execute(Realm realm) {
-////                ObjectId _id=new ObjectId(user.getId());
-////                RealmList<String> travelerFavoriteCategories=new RealmList<>();
-////                travelerFavoriteCategories.add("aaa");
-////                travelerFavoriteCategories.add("bbb");
-////                Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
-////                Traveler traveler2=realm.createObject(Traveler.class,traveler);
-//////                traveler.set_id(new ObjectId(user.getId()));
-//////                traveler.setTravelerBirthYear(travelerBirthYear);
-//////                traveler.setTravelerGender(travelerGender);
-//////                traveler.setTravelerMail(partitionValue);
-//////                traveler.setTravelerName(travelerName);
-//////                traveler.setTravelerFavoriteCategories(travelerFavoriteCategories);
-////            }
-////        });
-//
-//        Realm.getInstanceAsync(config, new Realm.Callback() {
-//            @Override
-//            public void onSuccess(Realm realm) {
-//                Log.v(
-//                        "EXAMPLE",
-//                        "Successfully opened a realm with reads and writes allowed on the UI thread."
-//                );
-//                ObjectId _id=new ObjectId(user.getId());
-//                RealmList<String> travelerFavoriteCategories=new RealmList<>();
-//                travelerFavoriteCategories.add("aaa");
-//                travelerFavoriteCategories.add("bbb");
-//                Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
-//
-//                realm.executeTransaction (transactionRealm -> {
-//                    transactionRealm.insert(traveler);
-//                    Toast.makeText(UserDetailsActivity.this, "saved", Toast.LENGTH_LONG).show();
-//                    Intent intent=new Intent(UserDetailsActivity.this, MainActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                });
-//            }
-//        });
-////        Realm backgroundThreadRealm = Realm.getInstance(config);
-////        ObjectId _id=new ObjectId(user.getId());
-////        Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender);
-////
-////        backgroundThreadRealm.executeTransaction (transactionRealm -> {
-////            transactionRealm.insert(traveler);
-////            Toast.makeText(getContext(), "saved", Toast.LENGTH_LONG).show();
-////            Intent intent=new Intent(getContext(), MainActivity.class);
-////            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-////            startActivity(intent);
-////        });
-//    }
-
 }
