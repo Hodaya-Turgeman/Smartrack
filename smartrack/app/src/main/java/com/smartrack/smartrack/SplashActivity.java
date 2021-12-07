@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 
 import io.realm.Realm;
@@ -28,10 +29,12 @@ public class SplashActivity extends AppCompatActivity {
                 if(user!=null){
                     Intent intent=new Intent(SplashActivity.this,MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 else{
-                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                    Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         };

@@ -11,8 +11,11 @@
         android:theme="@style/Theme.Smartrack">
         <activity android:name=".PlanTripActivity">
 
+
         </activity>
-        <activity android:name=".UserDetailsActivity"></activity>
+        <activity android:name=".UserDetailsActivity">
+
+        </activity>
         <activity android:name=".ResetPassActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEN" />
@@ -38,18 +41,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SplashActivity" />
+        <activity android:name=".SplashActivity" >
+
+        </activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".RegisterActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+
         </activity >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Smartrack.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
     </application>

@@ -25,9 +25,8 @@ public class PlanTripActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_trip);
-        String apiKey = getString(R.string.places_api_id);
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), apiKey);
+            Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
         }
 
         // Create a new Places client instance.

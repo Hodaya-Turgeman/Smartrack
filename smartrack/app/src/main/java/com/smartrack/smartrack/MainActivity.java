@@ -1,15 +1,9 @@
 package com.smartrack.smartrack;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -21,13 +15,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import java.util.Arrays;
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.mongodb.App;
-import io.realm.mongodb.AppConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_plan_trip, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // Initialize the SDK
-        Places.initialize(getApplicationContext(), "AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0");
-        // Create a new PlacesClient instance
-        PlacesClient placesClient = Places.createClient(this);
+//        // Initialize the SDK
+//        Places.initialize(getApplicationContext(), "AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0");
+//        // Create a new PlacesClient instance
+//        PlacesClient placesClient = Places.createClient(this);
 
     }
 

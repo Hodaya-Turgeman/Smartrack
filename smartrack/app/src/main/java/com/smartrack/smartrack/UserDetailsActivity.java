@@ -34,7 +34,7 @@ import io.realm.mongodb.sync.SyncConfiguration;
 public class UserDetailsActivity extends AppCompatActivity {
     TextInputLayout InputsName;
     Spinner genderSpinner, birthYearSpinner;
-    TextView textViewCategory;
+    TextView textViewCategory,errorCategory;
     boolean[] selectedCategory;
     Button saveBtn;
     ArrayList<Integer> categoriesList = new ArrayList<>();
@@ -63,7 +63,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapterGender = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(adapterGender);
-
+        errorCategory=findViewById(R.id.activity_user_details_textView_error_category);
         ArrayAdapter<CharSequence> adapterBirthYear = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getYears());
         adapterBirthYear.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         birthYearSpinner.setAdapter(adapterBirthYear);
@@ -182,6 +182,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     travelerFavoriteCategories=new RealmList<>();
+                    errorCategory.setText("");
                     // Initialize string builder
                     StringBuilder stringBuilder = new StringBuilder();
                     // use for loop
@@ -232,10 +233,15 @@ public class UserDetailsActivity extends AppCompatActivity {
         if(username.isEmpty() || username.length()<3)  {
             showError(InputsName,"UserName is not valid");
         }
+        else if (textViewCategory.getText()==""){
+            errorCategory.setText("Select at least one category ");
+        }
         else{
             saveTraveler();
         }
     }
+
+
     private void showError(TextInputLayout field, String text) {
         field.setError(text);
         field.requestFocus();
