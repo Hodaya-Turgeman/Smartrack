@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -55,6 +57,16 @@ public class PlanTripFragment extends Fragment {
         // use value in your code
         final int nr = np_channel_nr.getValue();
 
+        Button planBtn=view.findViewById(R.id.fragment_plan_trip_button_ok);
+        planBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //PlanTripFragmentDirections.actionNavPlanTripToPlaceDetailsFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlaceDetailsFragment();
+
+                Navigation.findNavController(view).navigate(PlanTripFragmentDirections.actionNavPlanTripToPlaceDetailsFragment());
+
+            }
+        });
         return view;
     }
 

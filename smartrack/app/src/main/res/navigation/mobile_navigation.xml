@@ -7,29 +7,33 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.smartrack.smartrack.ui.home.HomeFragment"
+        android:name="com.smartrack.smartrack.ui.profile.TravelerProfileFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_traveler_profile" />
 
     <fragment
         android:id="@+id/nav_plan_trip"
         android:name="com.smartrack.smartrack.ui.planTrip.PlanTripFragment"
         android:label="@string/menu_plan_trip"
-        tools:layout="@layout/fragment_plan_trip" />
+        tools:layout="@layout/fragment_plan_trip" >
+        <action
+            android:id="@+id/action_nav_plan_trip_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.smartrack.smartrack.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
-    <fragment
-        android:id="@+id/newUserDetailsFragment"
-        android:name="com.smartrack.smartrack.ui.newUserDetailsFragment"
-        android:label="fragment_new_user_details"
-        tools:layout="@layout/fragment_new_user_details" />
     <activity
         android:id="@+id/registerActivity"
         android:name="com.smartrack.smartrack.RegisterActivity"
         android:label="activity_register"
         tools:layout="@layout/activity_register" />
+    <fragment
+        android:id="@+id/placeDetailsFragment"
+        android:name="com.smartrack.smartrack.ui.planTrip.PlaceDetailsFragment"
+        android:label="fragment_place_details"
+        tools:layout="@layout/fragment_place_details" />
 </navigation>
