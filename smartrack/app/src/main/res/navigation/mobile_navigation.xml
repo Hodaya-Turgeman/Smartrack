@@ -18,10 +18,14 @@
         tools:layout="@layout/fragment_plan_trip" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.smartrack.smartrack.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_logaut"
+        android:name="com.smartrack.smartrack.ui.logout.LogoutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_logout">
+        <action
+            android:id="@+id/action_nav_logaut_to_loginActivity3"
+            app:destination="@id/loginActivity3" />
+    </fragment>
     <fragment
         android:id="@+id/newUserDetailsFragment"
         android:name="com.smartrack.smartrack.ui.newUserDetailsFragment"
@@ -32,4 +36,9 @@
         android:name="com.smartrack.smartrack.RegisterActivity"
         android:label="activity_register"
         tools:layout="@layout/activity_register" />
+    <activity
+        android:id="@+id/loginActivity3"
+        android:name="com.smartrack.smartrack.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>

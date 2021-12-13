@@ -10,7 +10,7 @@
     <string name="places_api_key">AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0</string>
     <string name="menu_home">Home</string>
     <string name="menu_plan_trip">Plan Trip</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_logout">Logout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="gender">

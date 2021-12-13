@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backforsu"
+    android:background="@drawable/back1"
     tools:context=".RegisterActivity">
 
     <ScrollView
@@ -14,19 +14,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/activity_register_input_mail"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="250dp"
-                android:layout_marginEnd="90dp"
-                app:boxStrokeColor="#069CDF"
-                app:hintTextColor="#069CDF"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                app:boxStrokeColor="@color/green"
+                app:hintTextColor="@color/green"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/textView16">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/activity_register_input_mail1"
@@ -41,12 +42,12 @@
                 android:id="@+id/activity_register_btn_signup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Sign-Up"
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/purple_200"
+                app:backgroundTint="@color/green"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_verify_password"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_verify_password"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_verify_password" />
@@ -56,9 +57,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:boxStrokeColor="#069CDF"
-                app:hintTextColor="#069CDF"
+                android:layout_marginTop="16dp"
+                app:boxStrokeColor="@color/green"
+                app:hintTextColor="@color/green"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_mail"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_mail"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_mail">
@@ -76,9 +77,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:boxStrokeColor="#069CDF"
-                app:hintTextColor="#069CDF"
+                android:layout_marginTop="16dp"
+                app:boxStrokeColor="@color/green"
+                app:hintTextColor="@color/green"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_password"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_password"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_password">
@@ -105,6 +106,20 @@
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_btn_signup"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_btn_signup"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_btn_signup" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="176dp"
+                android:text="Signup"
+                android:textColor="#090909"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
