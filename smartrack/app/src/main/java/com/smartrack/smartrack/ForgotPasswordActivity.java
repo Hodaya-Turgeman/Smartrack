@@ -42,12 +42,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void sendLinkToMail() {
         String mail=inputMail.getText().toString();
-        if(mail.isEmpty()){
+        if(mail.isEmpty()|| !mail.contains("@")){
             Toast.makeText(ForgotPasswordActivity.this,"Please Enter Your Email", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(ForgotPasswordActivity.this,LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+
         }
         else{
             app.getEmailPassword().sendResetPasswordEmailAsync(String.valueOf(mail), new App.Callback<Void>() {

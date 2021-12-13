@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartrack.smartrack">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,20 +8,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartrack">
-        <activity android:name=".PlanTripActivity">
-
-
-        </activity>
         <activity android:name=".UserDetailsActivity">
-
         </activity>
         <activity android:name=".ResetPassActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="www.theiitiancoder.com"
                     android:pathPrefix="/resetPassword"
@@ -30,10 +22,8 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="theiitiancoder.com"
                     android:pathPattern="/resetPassword"
@@ -42,16 +32,11 @@
         </activity>
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".SplashActivity" >
-
         </activity>
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".RegisterActivity" >
-
         </activity >
         <activity
             android:name=".MainActivity"
@@ -64,5 +49,6 @@
 
         </activity>
     </application>
-
 </manifest>
+
+
