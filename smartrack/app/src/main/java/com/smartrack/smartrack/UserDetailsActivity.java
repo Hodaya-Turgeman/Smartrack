@@ -46,6 +46,12 @@ public class UserDetailsActivity extends AppCompatActivity {
             "tourist attraction","zoo", "bowling alley","cafe",
             "church","city hall","library","mosque", "synagogue"
     };
+    final String[] categoriesArraySaveInMongoDb={
+            "amusement_park","aquarium","art_gallery","bar","casino",
+            "museum","night club","park","shopping_mall","spa",
+            "tourist_attraction","zoo", "bowling_alley","cafe",
+            "church","city_hall","library","mosque", "synagogue"
+    };
     User user;
     UserProfile userProfile;
     RealmList<String> travelerFavoriteCategories;
@@ -184,8 +190,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                     // use for loop
                     for (int j = 0; j < categoriesList.size(); j++) {
 
-                        travelerFavoriteCategories.add(categoriesArray[categoriesList.get(j)]);
-
+                        travelerFavoriteCategories.add(categoriesArraySaveInMongoDb[categoriesList.get(j)]);
                         // concat array value
                         stringBuilder.append(categoriesArray[categoriesList.get(j)]);
                         // check condition
@@ -216,10 +221,12 @@ public class UserDetailsActivity extends AppCompatActivity {
                         // remove all selection
                         selectedCategory[j] = false;
                         // clear language list
-                        categoriesList.clear();
-                        // clear text view value
-                        textViewCategory.setText("");
+
                     }
+                    categoriesList.clear();
+                    travelerFavoriteCategories.clear();
+                    // clear text view value
+                    textViewCategory.setText("");
                 }
             });
             // show dialog
