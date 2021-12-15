@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.smartrack.smartrack.Model.Place;
+import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.R;
 
 import org.bson.types.ObjectId;
@@ -25,7 +25,7 @@ import io.realm.RealmList;
 
 
 public class PlaceDetailsFragment extends Fragment {
-    Place place;
+    PlaceDetails place;
     ImageView placeImg;
     TextView placeName,placeAddress,placeOpeningHours,placeWebsite;
     RatingBar ratingBar;
@@ -40,8 +40,8 @@ public class PlaceDetailsFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_place_details, container, false);
         ObjectId _id=new ObjectId();
         RealmList<String> opening_hours=new RealmList<>("day1","day2");
-        RealmList<String> img=new RealmList<>("img1,img2");
-        place=new Place(_id,"the place name",13.344,242.434,"the address of the place","48538485",opening_hours, (float) 3.4,"www.www.www",img);
+        String img="img1";
+        place=new PlaceDetails(_id,"the place name",13.344,242.434,"the address of the place","48538485",opening_hours, (float) 3.4,"www.www.www",img);
 
         placeName=view.findViewById(R.id.fragment_place_details_place_name);
         placeName.setText(place.getPlaceName());

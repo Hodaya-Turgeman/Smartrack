@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back1"
+    android:background="@drawable/b2"
     tools:context=".RegisterActivity">
 
     <ScrollView
@@ -23,8 +23,8 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="50dp"
-                app:boxStrokeColor="@color/green"
-                app:hintTextColor="@color/green"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16">
@@ -43,11 +43,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Sign-Up"
+                android:text="Sign Up"
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/green"
+                app:backgroundTint="@color/button"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_verify_password"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_verify_password"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_verify_password" />

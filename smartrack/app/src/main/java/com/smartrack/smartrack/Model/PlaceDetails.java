@@ -3,8 +3,10 @@ package com.smartrack.smartrack.Model;
 import org.bson.types.ObjectId;
 
 import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class Place {
+public class PlaceDetails {
     private ObjectId placeID;
     private String placeName;
     private double placeLocationLat;
@@ -14,12 +16,12 @@ public class Place {
     private RealmList<String> placeOpeningHours;
     private float placeRating;
     private String placeWebsite;
-    private RealmList<String> placeImgUrl;
+    private String placeImgUrl;
 
-    public Place() {
+    public PlaceDetails() {
     }
 
-    public Place(ObjectId placeID, String placeName, double placeLocationLat, double placeLocationLng, String placeFormattedAddress, String placeInternationalPhoneNumber, RealmList<String> placeOpeningHours, float placeRating, String placeWebsite, RealmList<String> placeImgUrl) {
+    public PlaceDetails(ObjectId placeID, String placeName, double placeLocationLat, double placeLocationLng, String placeFormattedAddress, String placeInternationalPhoneNumber, RealmList<String> placeOpeningHours, float placeRating, String placeWebsite, String placeImgUrl) {
         this.placeID = placeID;
         this.placeName = placeName;
         this.placeLocationLat = placeLocationLat;
@@ -104,11 +106,11 @@ public class Place {
         this.placeWebsite = placeWebsite;
     }
 
-    public RealmList<String> getPlaceImgUrl() {
+    public String getPlaceImgUrl() {
         return placeImgUrl;
     }
 
-    public void setPlaceImgUrl(RealmList<String> placeImgUrl) {
+    public void setPlaceImgUrl(String placeImgUrl) {
         this.placeImgUrl = placeImgUrl;
     }
 }

@@ -119,10 +119,6 @@ public class UserDetailsActivity extends AppCompatActivity {
         Realm.getInstanceAsync(config, new Realm.Callback() {
             @Override
             public void onSuccess(Realm realm) {
-                Log.v(
-                        "EXAMPLE",
-                        "Successfully opened a realm with reads and writes allowed on the UI thread."
-                );
                 ObjectId _id=new ObjectId(user.getId());
                 Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
 
@@ -189,6 +185,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                     for (int j = 0; j < categoriesList.size(); j++) {
 
                         travelerFavoriteCategories.add(categoriesArray[categoriesList.get(j)]);
+
                         // concat array value
                         stringBuilder.append(categoriesArray[categoriesList.get(j)]);
                         // check condition

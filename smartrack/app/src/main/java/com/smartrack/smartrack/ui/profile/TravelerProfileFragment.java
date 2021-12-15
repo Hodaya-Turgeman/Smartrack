@@ -2,9 +2,11 @@ package com.smartrack.smartrack.ui.profile;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,7 @@ import io.realm.mongodb.sync.SyncConfiguration;
 
 public class TravelerProfileFragment extends Fragment {
     TextView name, mail,categories;
+    Button editBtn;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -50,21 +53,33 @@ public class TravelerProfileFragment extends Fragment {
                 .allowWritesOnUiThread(true)
                 .build();
         Realm realm = Realm.getInstance(config);
-//        Traveler traveler = query.findFirstAsync();
+        // all tasks in the realm
+        RealmResults<Traveler> travelers = realm.where(Traveler.class).findAll();
+        Traveler traveler= travelers.get(0);
+        //       Traveler traveler = query.where(Traveler.class)
+        //                .equalTo("_id", new ObjectId(user.getId())).findFirst();
 //        Traveler traveler = realm.where(Traveler.class)
 //                .equalTo("_id", new ObjectId(user.getId())).findFirstAsync();
 //
-//        name=view.findViewById(R.id.traveler_profile_name);
-//        name.setText(traveler.getTravelerName());
+        name=view.findViewById(R.id.traveler_profile_name);
+        name.setText(traveler.getTravelerName());
 //
-//        mail=view.findViewById(R.id.traveler_profile_email);
-//        mail.setText(traveler.getTravelerMail());
-//
-//        categories=view.findViewById(R.id.traveler_profile_categories);
-//        String c= traveler.getTravelerFavoriteCategories().stream()
-//                .map(n -> String.valueOf(n))
-//                .collect(Collectors.joining("\n", "", ""));
-//        categories.setText(c);
+        mail=view.findViewById(R.id.traveler_profile_email);
+        mail.setText(traveler.getTravelerMail());
+
+        categories=view.findViewById(R.id.traveler_profile_categories);
+        String c= traveler.getTravelerFavoriteCategories().stream()
+                .map(n -> String.valueOf(n))
+                .collect(Collectors.joining("\n", "", ""));
+        categories.setText(c);
+
+        editBtn= view.findViewById(R.id.traveler_profile_edit_btn);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
 
 
 

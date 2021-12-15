@@ -73,7 +73,7 @@ public class PlanTripFragment extends Fragment {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 String s="https://maps.googleapis.com/maps/api/place/textsearch/json?query=";
-                s+=(myPlace.getName()+"%20Park%20Museun");
+                s+=(myPlace.getName()+"%20Park%20Museum");
                 s+=("&key="+getString(R.string.places_api_key));
                 Request request = new Request.Builder()
                         .url(s)
