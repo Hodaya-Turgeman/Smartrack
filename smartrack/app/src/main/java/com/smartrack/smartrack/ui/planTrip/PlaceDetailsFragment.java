@@ -29,7 +29,7 @@ public class PlaceDetailsFragment extends Fragment {
     ImageView placeImg;
     TextView placeName,placeAddress,placeOpeningHours,placeWebsite;
     RatingBar ratingBar;
-    float placeRating;
+    double placeRating;
     Button addBtn;
 
 
@@ -38,7 +38,7 @@ public class PlaceDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_place_details, container, false);
-        ObjectId _id=new ObjectId();
+        String _id="123456";
         RealmList<String> opening_hours=new RealmList<>("day1","day2");
         String img="img1";
         place=new PlaceDetails(_id,"the place name",13.344,242.434,"the address of the place","48538485",opening_hours, (float) 3.4,"www.www.www",img);
@@ -60,7 +60,7 @@ public class PlaceDetailsFragment extends Fragment {
 
         ratingBar=view.findViewById(R.id.fragment_place_details_place_rating);
         placeRating=place.getPlaceRating();
-        ratingBar.setRating(placeRating);
+        ratingBar.setRating((float)placeRating);
 
         addBtn=view.findViewById(R.id.fragment_place_details_btn_add_place_btn);
         addBtn.setOnClickListener(new View.OnClickListener() {

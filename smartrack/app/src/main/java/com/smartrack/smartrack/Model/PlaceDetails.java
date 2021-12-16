@@ -7,7 +7,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class PlaceDetails {
-    private ObjectId placeID;
+    private String placeID;
     private String placeName;
     private double placeLocationLat;
     private double placeLocationLng;
@@ -21,7 +21,7 @@ public class PlaceDetails {
     public PlaceDetails() {
     }
 
-    public PlaceDetails(ObjectId placeID, String placeName, double placeLocationLat, double placeLocationLng, String placeFormattedAddress, String placeInternationalPhoneNumber, RealmList<String> placeOpeningHours, float placeRating, String placeWebsite, String placeImgUrl) {
+    public PlaceDetails(String placeID, String placeName, double placeLocationLat, double placeLocationLng, String placeFormattedAddress, String placeInternationalPhoneNumber, RealmList<String> placeOpeningHours, float placeRating, String placeWebsite, String placeImgUrl) {
         this.placeID = placeID;
         this.placeName = placeName;
         this.placeLocationLat = placeLocationLat;
@@ -34,11 +34,11 @@ public class PlaceDetails {
         this.placeImgUrl = placeImgUrl;
     }
 
-    public ObjectId getPlaceID() {
+    public String getPlaceID() {
         return placeID;
     }
 
-    public void setPlaceID(ObjectId placeID) {
+    public void setPlaceID(String placeID) {
         this.placeID = placeID;
     }
 
