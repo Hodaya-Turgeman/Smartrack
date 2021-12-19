@@ -48,7 +48,11 @@
         android:id="@+id/placeDetailsFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.PlaceDetailsFragment"
         android:label="fragment_place_details"
-        tools:layout="@layout/fragment_place_details" />
+        tools:layout="@layout/fragment_place_details" >
+        <argument
+            android:name="place"
+            app:argType="com.smartrack.smartrack.Model.PlacePlanning" />
+    </fragment>
     <activity
         android:id="@+id/loginActivity3"
         android:name="com.smartrack.smartrack.LoginActivity"
@@ -62,5 +66,8 @@
         <argument
             android:name="arrayPlaces"
             app:argType="com.smartrack.smartrack.Model.PlacePlanning[]" />
+        <action
+            android:id="@+id/action_placesListFragment_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
     </fragment>
 </navigation>
