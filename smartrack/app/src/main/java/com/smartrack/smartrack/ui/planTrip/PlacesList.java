@@ -2,6 +2,7 @@ package com.smartrack.smartrack.ui.planTrip;
 
 import com.google.gson.JsonArray;
 import com.smartrack.smartrack.Model.PlaceDetails;
+import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 
 import org.bson.types.ObjectId;
@@ -17,8 +18,8 @@ import io.realm.RealmList;
 
 public class PlacesList {
     public static final  String api_key_place="AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0";
-    public static List<PlaceDetails> JsonArrayToListPlace(JSONArray arrayPlace) throws JSONException {
-        List<PlaceDetails> myList=new ArrayList<PlaceDetails>();
+    public static List<PlacePlanning> JsonArrayToListPlace(JSONArray arrayPlace) throws JSONException {
+        List<PlacePlanning> myList=new ArrayList<PlacePlanning>();
         final String url="https://maps.googleapis.com/maps/api/place/photo?photo_reference=";
 
         for(int i=0;i< arrayPlace.length();++i){
@@ -26,6 +27,7 @@ public class PlacesList {
             String placeName="", placeFormattedAddress="",placeInternationalPhoneNumber="",placeWebsite="",placeImgUrl="";
             double placeLocationLat=0,placeLocationLng=0;
             float placeRating=0;
+            boolean status=false;
             RealmList<String> placeOpeningHours=null;
             JSONObject place=(JSONObject)arrayPlace.get(i);
             if(place.has("name")){
@@ -66,7 +68,7 @@ public class PlacesList {
                 System.out.println("Error");
             }
             else {
-                PlaceDetails myPlace = new PlaceDetails(placeID, placeName, placeLocationLat, placeLocationLng, placeFormattedAddress, placeInternationalPhoneNumber, placeOpeningHours, placeRating, placeWebsite, placeImgUrl);
+                PlacePlanning myPlace = new PlacePlanning(placeID, placeName, placeLocationLat, placeLocationLng, placeFormattedAddress, placeInternationalPhoneNumber, placeOpeningHours, placeRating, placeWebsite, placeImgUrl,status);
                 myList.add(myPlace);
             }
         }

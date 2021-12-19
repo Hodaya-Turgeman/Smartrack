@@ -1,12 +1,15 @@
 package com.smartrack.smartrack.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.bson.types.ObjectId;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class PlaceDetails {
+public class PlaceDetails implements Parcelable {
     private String placeID;
     private String placeName;
     private double placeLocationLat;
@@ -33,6 +36,30 @@ public class PlaceDetails {
         this.placeWebsite = placeWebsite;
         this.placeImgUrl = placeImgUrl;
     }
+
+    protected PlaceDetails(Parcel in) {
+        placeID = in.readString();
+        placeName = in.readString();
+        placeLocationLat = in.readDouble();
+        placeLocationLng = in.readDouble();
+        placeFormattedAddress = in.readString();
+        placeInternationalPhoneNumber = in.readString();
+        placeRating = in.readFloat();
+        placeWebsite = in.readString();
+        placeImgUrl = in.readString();
+    }
+
+    public static final Creator<PlaceDetails> CREATOR = new Creator<PlaceDetails>() {
+        @Override
+        public PlaceDetails createFromParcel(Parcel in) {
+            return new PlaceDetails(in);
+        }
+
+        @Override
+        public PlaceDetails[] newArray(int size) {
+            return new PlaceDetails[size];
+        }
+    };
 
     public String getPlaceID() {
         return placeID;
@@ -112,5 +139,23 @@ public class PlaceDetails {
 
     public void setPlaceImgUrl(String placeImgUrl) {
         this.placeImgUrl = placeImgUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(placeID);
+        dest.writeString(placeName);
+        dest.writeDouble(placeLocationLat);
+        dest.writeDouble(placeLocationLng);
+        dest.writeString(placeFormattedAddress);
+        dest.writeString(placeInternationalPhoneNumber);
+        dest.writeFloat(placeRating);
+        dest.writeString(placeWebsite);
+        dest.writeString(placeImgUrl);
     }
 }

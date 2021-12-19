@@ -7,8 +7,8 @@
     android:background="#F4FAFF">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="391dp"
-        android:layout_height="168dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,16 +38,19 @@
 
             <TextView
                 android:id="@+id/place_list_row_name_trip"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="Place Name"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/place_list_row_rating"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/place_list_row_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,29 +59,24 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:saveEnabled="false"
                 android:stepSize="0.2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.546"
-                app:layout_constraintStart_toEndOf="@+id/place_list_row_image"
-                app:layout_constraintTop_toBottomOf="@+id/place_list_row_name_trip" />
+                app:layout_constraintBottom_toTopOf="@+id/place_list_row_button"
+                app:layout_constraintEnd_toEndOf="@+id/place_list_row_name_trip"
+                app:layout_constraintStart_toStartOf="@+id/place_list_row_name_trip" />
 
             <Button
                 android:id="@+id/place_list_row_button"
-                android:layout_width="101dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="12dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="Button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/place_list_row_image"
-                app:layout_constraintTop_toBottomOf="@+id/place_list_row_rating" />
+                app:layout_constraintEnd_toEndOf="@+id/place_list_row_rating"
+                app:layout_constraintStart_toStartOf="@+id/place_list_row_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

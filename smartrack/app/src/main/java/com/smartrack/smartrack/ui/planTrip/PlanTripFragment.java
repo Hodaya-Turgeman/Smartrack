@@ -24,6 +24,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.smartrack.smartrack.Model.PlaceDetails;
+import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 import com.smartrack.smartrack.horizontalNumberPicker.HorizontalNumberPicker;
 
@@ -76,12 +77,12 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchByTextInGooglePlaceApi();
+                searchByTextInGooglePlaceApi(v);
             }});
 
         return view;
     }
-    public void searchByTextInGooglePlaceApi(){
+    public void searchByTextInGooglePlaceApi(View view){
             Thread placeThread=new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -154,7 +155,11 @@ public class PlanTripFragment extends Fragment {
                         }
 
                     }
-                    List<PlaceDetails> myPlaces=PlacesList.JsonArrayToListPlace(places);
+                    List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
+                    PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
+                    myPlaces.toArray(arrayPlaces);
+                    PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces);
+                    Navigation.findNavController(view).navigate(action);
                 }
                 System.out.println("Finish");
             } catch (InterruptedException | JSONException e) {
