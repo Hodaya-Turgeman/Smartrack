@@ -23,14 +23,18 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.smartrack.smartrack.Model.PlaceDetails;
+import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 import com.smartrack.smartrack.horizontalNumberPicker.HorizontalNumberPicker;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,7 +42,8 @@ import okhttp3.Response;
 
 
 public class PlanTripFragment extends Fragment {
-    Place myPlace;
+    Place myPlace=null;
+    JSONObject jsonDataPage1=null,jsonDataPage2=null,jsonDataPage3=null;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plan_trip, container, false);
@@ -56,6 +61,7 @@ public class PlanTripFragment extends Fragment {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 myPlace=place;
+                System.out.println(myPlace.getName());
 //            Toast.makeText(this.GalleryViewModel, place.getName(), Toast.LENGTH_SHORT).show();
             }
             @Override
@@ -71,84 +77,95 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Thread placeThread=new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            OkHttpClient client = new OkHttpClient().newBuilder()
-                                    .build();
-                            String url="https://maps.googleapis.com/maps/api/place/textsearch/json?query=";
-                            url+=(myPlace.getName()+"%20museom%20park");
-                            LatLng placeLatLng= myPlace.getLatLng();
-                            url+=("&key="+getString(R.string.places_api_key));
-
-//                            String url="https://maps.googleapis.com/maps/api/place/photo?photo_reference=Aap_uECgd3KGRw1zDXrM2AqzeYsdZCm8boFEA77aUHZqnZSkiKY0wsqy0BtU54zYxQehr6YR6I9OGmAranUGNY1I04yPER6P8VIwtjkw3dlTI20nnv3NuU6DfFOizaIRb93P8uLpeLwcXqVxZk4QaVzV_CRC2CalgfYgeMAWEYkOHhJN1p5q&maxwidth=4000&maxheight=3000&key=AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0";
-                            Request request = new Request.Builder()
-                                    .url(url)
-                                    .method("GET", null)
-                                    .build();
-                            String next_page_token="";
-                            Response response = client.newCall(request).execute();
-
-                            final String data = response.body().string();
-                            JSONObject json = new JSONObject(data);
-                            System.out.println("Data: " + data);
-                            if(json.has("next_page_token"))
-                                next_page_token=json.getString("next_page_token").toString();
-//                            Log.d("Place", json.getString("results").toString());
-                            System.out.println("########################################################################################\n###########################################################################################");
-                            if(next_page_token!=null && next_page_token!=""){
-                                Thread.sleep(4000);
-                                String s2="https://maps.googleapis.com/maps/api/place/textsearch/json?query=";
-                                s2+=(myPlace.getName()+"%20museom%20park");
-                                s2+="&pagetoken=";
-                                s2+=(next_page_token);
-                                s2+=("&key="+getString(R.string.places_api_key));
-                                Request request2 = new Request.Builder()
-                                        .url(s2)
-                                        .method("GET", null)
-                                        .build();
-                                OkHttpClient client2 = new OkHttpClient().newBuilder().build();
-                                Response response2 = client2.newCall(request2).execute();
-                                final String data2 = response2.body().string();
-                                JSONObject json2 = new JSONObject(data2);
-                                System.out.println("Data2: " + data2);
-                                if(json2.has("next_page_token")){
-                                    String next_page_token2="";
-                                    next_page_token2=json2.getString("next_page_token");
-                                    if(next_page_token2!=null && next_page_token2!=""){
-                                        Thread.sleep(4000);
-                                        String s3="https://maps.googleapis.com/maps/api/place/textsearch/json?query=";
-                                        s3+=(myPlace.getName()+"%20museom%20park");
-                                        s3+="&pagetoken=";
-                                        s3+=(next_page_token2);
-                                        s3+=("&key="+getString(R.string.places_api_key));
-                                        Request request3 = new Request.Builder()
-                                                .url(s3)
-                                                .method("GET", null)
-                                                .build();
-                                        OkHttpClient client3 = new OkHttpClient().newBuilder().build();
-                                        Response response3 = client3.newCall(request3).execute();
-                                        final String data3 = response3.body().string();
-
-                                        JSONObject json3 = new JSONObject(data3);
-                                        System.out.println("Data3: " + data3);
-                                    }
-                                }
-                            }
-                        }catch (IOException | JSONException | InterruptedException exception){
-                        }
-                    }
-                });
-                placeThread.start();
-            }
-        });
+                searchByTextInGooglePlaceApi(v);
+            }});
 
         return view;
     }
+    public void searchByTextInGooglePlaceApi(View view){
+            Thread placeThread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        String url="https://maps.googleapis.com/maps/api/place/textsearch/json?query="+myPlace.getName()+"%20museom%20park";
+                        //Page 1 in location search - 20 result in this page from google api places
+                        OkHttpClient clientPage1 = new OkHttpClient().newBuilder()
+                                .build();
+                        String urlPage1=url+"&key="+getString(R.string.places_api_key);
+                        Request requestPage1 = new Request.Builder()
+                                .url(urlPage1)
+                                .method("GET", null)
+                                .build();
+                        String next_page_token_page1="";
+                        Response responsePage1 = clientPage1.newCall(requestPage1).execute();
+                        final String dataPage1 = responsePage1.body().string();
+                        jsonDataPage1 = new JSONObject(dataPage1);
+                        if(jsonDataPage1.has("next_page_token"))
+                            next_page_token_page1=jsonDataPage1.getString("next_page_token").toString();
+                        //Page 2 in location search - 20 result in this page from google api places
+                        if(next_page_token_page1!=null && next_page_token_page1!=""){
+                            Thread.sleep(2000);
+                            String urlPage2=url+"&pagetoken="+next_page_token_page1+ "&key="+getString(R.string.places_api_key);
+                            Request requestPage2 = new Request.Builder()
+                                    .url(urlPage2)
+                                    .method("GET", null)
+                                    .build();
+                            OkHttpClient clientPage2 = new OkHttpClient().newBuilder().build();
+                            Response responsePage2 = clientPage2.newCall(requestPage2).execute();
+                            final String dataPage2 = responsePage2.body().string();
+                            jsonDataPage2 = new JSONObject(dataPage2);
+                            //Page 2 in location search - 20 result in this page from google api places
+                            if(jsonDataPage2.has("next_page_token")){
+                                String next_page_token_page2="";
+                                next_page_token_page2=jsonDataPage2.getString("next_page_token");
+                                if(next_page_token_page2!=null && next_page_token_page2!=""){
+                                    Thread.sleep(2000);
+                                    String urlPage3=url+ "&pagetoken="+next_page_token_page2+"&key="+getString(R.string.places_api_key);
+                                    Request requestPage3 = new Request.Builder()
+                                            .url(urlPage3)
+                                            .method("GET", null)
+                                            .build();
+                                    OkHttpClient clientPage3 = new OkHttpClient().newBuilder().build();
+                                    Response responsePage3 = clientPage3.newCall(requestPage3).execute();
+                                    final String dataPage3 = responsePage3.body().string();
+                                    jsonDataPage3 = new JSONObject(dataPage3);
+                                }
+                            }
+                        }
+                    }catch (IOException | JSONException | InterruptedException exception){
+                    }
+                }
+            });
+            placeThread.start();
+            try {
+                placeThread.join();
+                JSONArray places=null;
+                if(jsonDataPage1!=null) {
+                    places = (JSONArray) jsonDataPage1.getJSONArray("results");
+                    if(jsonDataPage2!=null){
+                        JSONArray placesPage2=(JSONArray)jsonDataPage2.getJSONArray("results");
+                        for(int i=0;i<placesPage2.length();++i){
+                            places.put((JSONObject)placesPage2.get(i));
+                        }
+                        if(jsonDataPage3!=null) {
+                            JSONArray placesPage3 = (JSONArray) jsonDataPage3.getJSONArray("results");
+                            for (int j = 0; j < placesPage3.length(); ++j) {
+                                places.put((JSONObject) placesPage3.get(j));
+                            }
+                        }
 
-
+                    }
+                    List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
+                    PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
+                    myPlaces.toArray(arrayPlaces);
+                    PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces);
+                    Navigation.findNavController(view).navigate(action);
+                }
+                System.out.println("Finish");
+            } catch (InterruptedException | JSONException e) {
+                e.printStackTrace();
+            }
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

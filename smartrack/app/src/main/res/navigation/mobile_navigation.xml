@@ -17,8 +17,8 @@
         android:label="@string/menu_plan_trip"
         tools:layout="@layout/fragment_plan_trip" >
         <action
-            android:id="@+id/action_nav_plan_trip_to_placeDetailsFragment"
-            app:destination="@id/placeDetailsFragment" />
+            android:id="@+id/action_nav_plan_trip_to_placesListFragment"
+            app:destination="@id/placesListFragment" />
     </fragment>
 
     <fragment
@@ -40,7 +40,11 @@
         android:id="@+id/placeDetailsFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.PlaceDetailsFragment"
         android:label="fragment_place_details"
-        tools:layout="@layout/fragment_place_details" />
+        tools:layout="@layout/fragment_place_details" >
+        <argument
+            android:name="place"
+            app:argType="com.smartrack.smartrack.Model.PlacePlanning" />
+    </fragment>
     <activity
         android:id="@+id/loginActivity3"
         android:name="com.smartrack.smartrack.LoginActivity"
@@ -60,5 +64,17 @@
         <action
             android:id="@+id/action_nav_profile_to_travelerEditProfileFragment"
             app:destination="@id/travelerEditProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/placesListFragment"
+        android:name="com.smartrack.smartrack.ui.planTrip.PlacesListFragment"
+        android:label="fragment_places_list"
+        tools:layout="@layout/fragment_places_list" >
+        <argument
+            android:name="arrayPlaces"
+            app:argType="com.smartrack.smartrack.Model.PlacePlanning[]" />
+        <action
+            android:id="@+id/action_placesListFragment_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
     </fragment>
 </navigation>
