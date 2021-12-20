@@ -29,8 +29,8 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="50dp"
                 app:boxBackgroundColor="@null"
-                app:boxStrokeColor="@color/button"
-                app:hintTextColor="@color/button"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue"
                 app:layout_constraintEnd_toEndOf="@+id/activity_login_input_mail"
                 app:layout_constraintStart_toStartOf="@+id/activity_login_input_mail"
                 app:layout_constraintTop_toBottomOf="@+id/activity_login_input_mail">
@@ -69,7 +69,7 @@
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/button"
+                app:backgroundTint="@color/blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_login_forget_password" />
@@ -97,8 +97,8 @@
                 android:layout_marginEnd="50dp"
                 android:background="@null"
                 app:boxBackgroundColor="@null"
-                app:boxStrokeColor="@color/button"
-                app:hintTextColor="@color/button"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView18">

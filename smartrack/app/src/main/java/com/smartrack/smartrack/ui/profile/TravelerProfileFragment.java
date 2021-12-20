@@ -22,6 +22,7 @@ import org.bson.types.ObjectId;
 import java.util.stream.Collectors;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -47,6 +48,7 @@ public class TravelerProfileFragment extends Fragment {
                 .allowWritesOnUiThread(true)
                 .build();
         Realm realm = Realm.getInstance(config);
+//        Realm realm =Realm.getDefaultInstance();
         RealmResults<Traveler> travelers = realm.where(Traveler.class).equalTo("_id", new ObjectId(user.getId())).findAll();
         Traveler traveler= travelers.get(0);
 

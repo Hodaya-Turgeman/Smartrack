@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import com.smartrack.smartrack.R;
 
+import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
@@ -23,6 +24,7 @@ public class LogoutFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_logout, container, false);
+        Realm.init(getContext());
         App app=new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         User user = app.currentUser();
         Runnable runnable=new Runnable() {

@@ -47,7 +47,7 @@
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/button"
+                app:backgroundTint="@color/blue"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_verify_password"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_verify_password"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_verify_password" />
@@ -58,8 +58,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:boxStrokeColor="@color/green"
-                app:hintTextColor="@color/green"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_mail"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_mail"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_mail">
@@ -78,8 +78,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:boxStrokeColor="@color/green"
-                app:hintTextColor="@color/green"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/activity_register_input_password"
                 app:layout_constraintStart_toStartOf="@+id/activity_register_input_password"
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_input_password">

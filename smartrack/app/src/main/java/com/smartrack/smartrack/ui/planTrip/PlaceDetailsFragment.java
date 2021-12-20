@@ -1,5 +1,7 @@
 package com.smartrack.smartrack.ui.planTrip;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,16 +17,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.smartrack.smartrack.Model.PlaceDetails;
+import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
-
-import org.bson.types.ObjectId;
-
-import java.util.stream.Collectors;
-
-import io.realm.RealmList;
+import com.squareup.picasso.Picasso;
 
 
 public class PlaceDetailsFragment extends Fragment {
+    PlacePlanning placePlanning;
     PlaceDetails place;
     ImageView placeImg;
     TextView placeName,placeAddress,placeOpeningHours,placeWebsite;
@@ -33,42 +32,65 @@ public class PlaceDetailsFragment extends Fragment {
     Button addBtn;
 
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_place_details, container, false);
-        String _id="123456";
-        RealmList<String> opening_hours=new RealmList<>("day1","day2");
-        String img="img1";
-        place=new PlaceDetails(_id,"the place name",13.344,242.434,"the address of the place","48538485",opening_hours, (float) 3.4,"www.www.www",img);
+
+        placePlanning=PlaceDetailsFragmentArgs.fromBundle(getArguments()).getPlace();
+//        String _id="123456";
+//        RealmList<String> opening_hours=new RealmList<>("day1","day2");
+//        String img="img1";
+//        place=new PlaceDetails(_id,"the place name",13.344,242.434,"the address of the place","48538485",opening_hours, (float) 3.4,"www.www.www",img);
 
         placeName=view.findViewById(R.id.fragment_place_details_place_name);
-        placeName.setText(place.getPlaceName());
+        placeName.setText(placePlanning.getPlaceName());
 
         placeAddress=view.findViewById(R.id.fragment_place_details_place_address);
-        placeAddress.setText(place.getPlaceFormattedAddress());
+        placeAddress.setText(placePlanning.getPlaceFormattedAddress());
 
-        placeOpeningHours=view.findViewById(R.id.fragment_place_details_place_opening_hours);
-        String openingHours = place.getPlaceOpeningHours().stream()
-                .map(n -> String.valueOf(n))
-                .collect(Collectors.joining("\n", "", ""));
-        placeOpeningHours.setText(openingHours);
+//        placeOpeningHours=view.findViewById(R.id.fragment_place_details_place_opening_hours);
+//        String openingHours = placePlanning.getPlaceOpeningHours().stream()
+//                .map(n -> String.valueOf(n))
+//                .collect(Collectors.joining("\n", "", ""));
+//        placeOpeningHours.setText(openingHours);
 
-        placeWebsite=view.findViewById(R.id.fragment_place_details_place_website);
-        placeWebsite.setText(place.getPlaceWebsite());
+//        placeWebsite=view.findViewById(R.id.fragment_place_details_place_website);
+//        placeWebsite.setText(placePlanning.getPlaceWebsite());
 
         ratingBar=view.findViewById(R.id.fragment_place_details_place_rating);
-        placeRating=place.getPlaceRating();
+        placeRating=placePlanning.getPlaceRating();
         ratingBar.setRating((float)placeRating);
 
+        placeImg=view.findViewById(R.id.fragment_place_details_image);
+        placeImg.setTag(placePlanning.getPlaceImgUrl());
+        if (placePlanning.getPlaceImgUrl() != null && placePlanning.getPlaceImgUrl() != "") {
+            if (placePlanning.getPlaceImgUrl() == placeImg.getTag()) {
+                Picasso.get().load(placePlanning.getPlaceImgUrl()).into(placeImg);
+            }
+        }
         addBtn=view.findViewById(R.id.fragment_place_details_btn_add_place_btn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(placePlanning.getStatus()==false){
+                    placePlanning.setStatus(true);
+                }
+                else{
+                    placePlanning.setStatus(false);
+                }
             }
         });
+        if(placePlanning.getStatus()==false && String.valueOf(addBtn.getTag())=="false"){
+            addBtn.setText("Add");
+            addBtn.setBackgroundColor(Color.BLUE);
+        }
+        else{
+            addBtn.setText("Remove");
+            addBtn.setBackgroundColor(Color.RED);
+        }
 
 
 

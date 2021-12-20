@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Profile"
-            android:textColor="@color/button"
+            android:textColor="@color/blue"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,11 +95,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="edit"
-            app:backgroundTint="@color/button"
+            app:backgroundTint="@color/blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/traveler_profile_categories"
-            app:rippleColor="@color/button" />
+            app:rippleColor="@color/blue" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

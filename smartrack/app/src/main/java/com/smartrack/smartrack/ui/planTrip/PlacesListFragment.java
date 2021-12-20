@@ -6,7 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +45,9 @@ public class PlacesListFragment extends Fragment {
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-//                HomeFragmentDirections.ActionNavHomeToPostDetailsFragment  action= HomeFragmentDirections.actionNavHomeToPostDetailsFragment(viewModel.getList().getValue().get(i));
-//                Navigation.findNavController(view).navigate(action);
+                Log.d("TAG","post id"+i);
+                PlacesListFragmentDirections.ActionPlacesListFragmentToPlaceDetailsFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToPlaceDetailsFragment(arrayPlaces[i]);
+                Navigation.findNavController(view).navigate(action);
             }
         });
 
@@ -115,7 +118,7 @@ public class PlacesListFragment extends Fragment {
             System.out.println(button.getTag());
             if(place.getStatus()==false && String.valueOf(button.getTag())=="false"){
                 button.setText("Add");
-                button.setBackgroundColor(Color.GREEN);
+                button.setBackgroundColor(Color.BLUE);
             }
             else{
                 button.setText("Remove");
