@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.smartrack.smartrack.ui.profile.TravelerProfileFragment"
+        android:name="com.smartrack.smartrack.ui.TravelerHome"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_traveler_profile" />
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_plan_trip"
@@ -22,7 +22,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_logaut"
+        android:id="@+id/nav_logout"
         android:name="com.smartrack.smartrack.ui.logout.LogoutFragment"
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_logout">
@@ -30,15 +30,7 @@
             android:id="@+id/action_nav_logaut_to_loginActivity3"
             app:destination="@id/loginActivity3" />
     </fragment>
-    <fragment
-        android:id="@+id/newUserDetailsFragment"
-        android:name="com.smartrack.smartrack.ui.newUserDetailsFragment"
-        android:label="fragment_new_user_details"
-        tools:layout="@layout/fragment_new_user_details" />
-        android:id="@+id/nav_slideshow"
-        android:name="com.smartrack.smartrack.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+
     <activity
         android:id="@+id/registerActivity"
         android:name="com.smartrack.smartrack.RegisterActivity"
@@ -54,4 +46,19 @@
         android:name="com.smartrack.smartrack.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/travelerEditProfileFragment"
+        android:name="com.smartrack.smartrack.ui.profile.TravelerEditProfileFragment"
+        android:label="fragment_traveler_edit_profile"
+        tools:layout="@layout/fragment_traveler_edit_profile">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.smartrack.smartrack.ui.profile.TravelerProfileFragment"
+        android:label="fragment_traveler_profile2"
+        tools:layout="@layout/fragment_traveler_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_travelerEditProfileFragment"
+            app:destination="@id/travelerEditProfileFragment" />
+    </fragment>
 </navigation>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/b2"
-    tools:context=".UserDetailsActivity">
+    tools:context=".ui.profile.TravelerEditProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,11 +37,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
-                    android:text="Let Us Know Some More Details About You"
-                    android:textColor="#121111"
-                    android:textSize="25sp"
+                    android:text="Edit Profile"
+                    android:textColor="@color/button"
+                    android:textSize="30sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/activity_user_details_userName"
+                    android:id="@+id/fragment_edit_profile_userName"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="222dp"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView15">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/activity_user_details_input_userName"
+                        android:id="@+id/fragment_edit_profile_input_userName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPersonName"
@@ -93,7 +93,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                 <Spinner
-                    android:id="@+id/activity_user_details_spinner_gender"
+                    android:id="@+id/fragment_edit_profile_spinner_gender"
                     android:layout_width="222dp"
                     android:layout_height="31dp"
                     android:layout_marginEnd="24dp"
@@ -116,7 +116,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                 <Spinner
-                    android:id="@+id/activity_user_details_spinner_birthyear"
+                    android:id="@+id/fragment_edit_profile_spinner_birthyear"
                     android:layout_width="222dp"
                     android:layout_height="31dp"
                     android:layout_marginEnd="24dp"
@@ -150,7 +150,7 @@
 
                     <!-- text view to display selected items-->
                     <TextView
-                        android:id="@+id/activity_user_details_category_textView"
+                        android:id="@+id/fragment_edit_profile_category_textView"
                         style="@android:style/Widget.EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -164,26 +164,45 @@
                 </RelativeLayout>
 
                 <Button
-                    android:id="@+id/activity_user_details_btm"
+                    android:id="@+id/fragment_edit_profile_edit_btn"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="40dp"
-                    android:text="OK"
+                    android:layout_marginBottom="20dp"
+                    android:text="Save changes"
                     android:textAllCaps="false"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/green"
+                    app:backgroundTint="@color/button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
+                <Button
+                    android:id="@+id/fragment_edit_profile_cancel_btn"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Cancel changes"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_edit_profile_edit_btn" />
+
                 <TextView
-                    android:id="@+id/activity_user_details_textView_error_category"
+                    android:id="@+id/fragment_edit_profile_textView_error_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -196,3 +215,4 @@
 
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
