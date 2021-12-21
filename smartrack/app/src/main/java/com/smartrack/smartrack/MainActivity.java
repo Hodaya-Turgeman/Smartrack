@@ -7,6 +7,7 @@ import android.view.Menu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.smartrack.smartrack.Model.Traveler;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,8 +17,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.User;
+import io.realm.mongodb.sync.SyncConfiguration;
+
 public class MainActivity extends AppCompatActivity {
 
+
+    public  static Traveler traveler;
     private AppBarConfiguration mAppBarConfiguration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +47,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-//        // Initialize the SDK
-//        Places.initialize(getApplicationContext(), "AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0");
-//        // Create a new PlacesClient instance
-//        PlacesClient placesClient = Places.createClient(this);
+        Realm.init(this); // context, usually an Activity or Application
+        App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
+        User user = app.currentUser();
+        SyncConfiguration  config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build();
+        Realm realm = Realm.getInstance(config);
+        // all tasks in the realm
+        RealmResults<Traveler> travelers = realm.where(Traveler.class).findAll();
+        traveler= travelers.get(0);
 
     }
 
@@ -56,5 +73,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    public static Traveler getTraveler() {
+        return traveler;
     }
 }

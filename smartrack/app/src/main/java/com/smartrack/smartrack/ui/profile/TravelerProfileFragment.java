@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.smartrack.smartrack.MainActivity;
 import com.smartrack.smartrack.Model.Traveler;
 import com.smartrack.smartrack.R;
 
@@ -33,34 +34,31 @@ import io.realm.mongodb.sync.SyncConfiguration;
 public class TravelerProfileFragment extends Fragment {
     TextView name, mail,categories;
     Button editBtn;
-
+    Traveler traveler;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_traveler_profile, container, false);
-        Realm.init(getContext()); // context, usually an Activity or Application
-        App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
-        User user = app.currentUser();
-//        RealmConfiguration config = new RealmConfiguration.Builder()
+
+//      RealmConfiguration config = new RealmConfiguration.Builder()
 //                .allowQueriesOnUiThread(true)
 //                .allowWritesOnUiThread(true)
 //                .build();
-
-        SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
-        Realm realm = Realm.getInstance(config);
-        // all tasks in the realm
-        RealmResults<Traveler> travelers = realm.where(Traveler.class).findAll();
-        Traveler traveler= travelers.get(0);
         //       Traveler traveler = query.where(Traveler.class)
         //                .equalTo("_id", new ObjectId(user.getId())).findFirst();
 //        Traveler traveler = realm.where(Traveler.class)
 //                .equalTo("_id", new ObjectId(user.getId())).findFirstAsync();
-//
+//        Realm.init(getContext()); // context, usually an Activity or Application
+//        App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
+//        User user = app.currentUser();
+//        SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
+//                .allowQueriesOnUiThread(true)
+//                .allowWritesOnUiThread(true)
+//                .build();
+
+        traveler= MainActivity.getTraveler();
         name=view.findViewById(R.id.traveler_profile_name);
         name.setText(traveler.getTravelerName());
 //
@@ -80,8 +78,6 @@ public class TravelerProfileFragment extends Fragment {
                 
             }
         });
-
-
 
         return view;
     }

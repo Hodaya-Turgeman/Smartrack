@@ -35,14 +35,15 @@ public class SplashActivity extends AppCompatActivity {
                 .build();
 
         Realm realm = Realm.getInstance(config);
-        RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
-        long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
-        Log.d("find",String.valueOf(userDetails));
+
 
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
                 if(user!=null){
+                    RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
+                    long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
+                    Log.d("find",String.valueOf(userDetails));
                     if(userDetails==0)
                     {
                         Intent intent=new Intent(SplashActivity.this,UserDetailsActivity.class);
