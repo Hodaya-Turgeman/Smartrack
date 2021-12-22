@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.smartrack.smartrack.MainActivity;
+import com.smartrack.smartrack.Model.ModelMongoDB;
 import com.smartrack.smartrack.Model.Traveler;
 import com.smartrack.smartrack.R;
 
@@ -58,7 +59,8 @@ public class TravelerProfileFragment extends Fragment {
 //                .allowWritesOnUiThread(true)
 //                .build();
 
-        traveler= MainActivity.getTraveler();
+        traveler= ModelMongoDB.getTraveler(getContext());
+
         name=view.findViewById(R.id.traveler_profile_name);
         name.setText(traveler.getTravelerName());
 //

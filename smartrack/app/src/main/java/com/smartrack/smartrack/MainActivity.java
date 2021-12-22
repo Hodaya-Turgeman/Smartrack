@@ -47,17 +47,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        Realm.init(this); // context, usually an Activity or Application
-        App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
-        User user = app.currentUser();
-        SyncConfiguration  config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
-        Realm realm = Realm.getInstance(config);
-        // all tasks in the realm
-        RealmResults<Traveler> travelers = realm.where(Traveler.class).findAll();
-        traveler= travelers.get(0);
+
 
     }
 
@@ -74,7 +64,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-    public static Traveler getTraveler() {
-        return traveler;
-    }
+
 }

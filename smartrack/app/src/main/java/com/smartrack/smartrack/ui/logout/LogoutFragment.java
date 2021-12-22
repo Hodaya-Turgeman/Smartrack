@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.smartrack.smartrack.Model.ModelMongoDB;
 import com.smartrack.smartrack.R;
 
 import io.realm.mongodb.App;
@@ -30,6 +31,7 @@ public class LogoutFragment extends Fragment {
             public void run() {
                 user.logOutAsync( result -> {
                     if (result.isSuccess()) {
+                        ModelMongoDB.setFlag(false);
                         Navigation.findNavController(getView()).navigate(R.id.action_nav_logaut_to_loginActivity3);
                     } else {
                         Log.e("AUTH", result.getError().toString());
