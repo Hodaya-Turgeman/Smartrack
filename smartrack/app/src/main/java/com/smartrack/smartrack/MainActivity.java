@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
+import com.smartrack.smartrack.Model.Traveler;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,8 +14,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.User;
+import io.realm.mongodb.sync.SyncConfiguration;
+
 public class MainActivity extends AppCompatActivity {
 
+
+    public  static Traveler traveler;
     private AppBarConfiguration mAppBarConfiguration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +44,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-//        // Initialize the SDK
-//        Places.initialize(getApplicationContext(), "AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0");
-//        // Create a new PlacesClient instance
-//        PlacesClient placesClient = Places.createClient(this);
+
 
     }
 
@@ -54,4 +61,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 }

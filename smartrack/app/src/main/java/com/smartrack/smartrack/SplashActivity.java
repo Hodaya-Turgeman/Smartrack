@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.smartrack.smartrack.Model.ModelMongoDB;
 import com.smartrack.smartrack.Model.Traveler;
 
 import org.bson.types.ObjectId;
@@ -27,26 +28,19 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Realm.init(this); // context, usually an Activity or Application
-//        RealmConfiguration c = new RealmConfiguration.Builder().build();
-//        Realm.setDefaultConfiguration(c);
-//        Realm realm1 = Realm.getDefaultInstance();
         App app=new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         User user = app.currentUser();
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
 
-        Realm realm = Realm.getInstance(config);
+
 
 
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
                 if(user!=null){
-                    RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
-                    long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
-                    Log.d("find",String.valueOf(userDetails));
+
+                    long userDetails = ModelMongoDB.getAmountUserDetailsWithId(user);
+                    ModelMongoDB.closeRealm();
                     if(userDetails==0)
                     {
                         Intent intent=new Intent(SplashActivity.this,UserDetailsActivity.class);
