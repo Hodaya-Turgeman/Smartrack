@@ -13,12 +13,15 @@ import com.smartrack.smartrack.Model.Traveler;
 
 import org.bson.types.ObjectId;
 
+import java.util.concurrent.TimeUnit;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
+import io.realm.mongodb.sync.SyncConfiguration;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -31,28 +34,37 @@ public class SplashActivity extends AppCompatActivity {
         App app=new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         User user = app.currentUser();
 
-
-
-
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
                 if(user!=null){
+                    SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .waitForInitialRemoteData(500, TimeUnit.MILLISECONDS)
+                            .compactOnLaunch()
+                            .build();
+                    Realm.setDefaultConfiguration(config);
+                    Realm.getInstanceAsync(config, new Realm.Callback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            System.out.println("Successfully opened a realm.");
+                            long userDetails = ModelMongoDB.getAmountUserDetailsWithId(user);
+                            ModelMongoDB.closeRealm();
+                            Intent intent;
+                            if(userDetails==0)
+                            {
+                                intent = new Intent(SplashActivity.this, UserDetailsActivity.class);
+                            }
+                            else
+                            {
+                                intent = new Intent(SplashActivity.this, MainActivity.class);
+                            }
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
 
-                    long userDetails = ModelMongoDB.getAmountUserDetailsWithId(user);
-                    ModelMongoDB.closeRealm();
-                    if(userDetails==0)
-                    {
-                        Intent intent=new Intent(SplashActivity.this,UserDetailsActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else
-                    {
-                        Intent intent=new Intent(SplashActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
                 }
                 else{
                     Intent intent=new Intent(SplashActivity.this, LoginActivity.class);

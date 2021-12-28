@@ -63,6 +63,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         user = app.currentUser();
         userProfile = user.getProfile();
+
         birthYearSpinner = findViewById(R.id.activity_user_details_spinner_birthyear);
         InputsName =findViewById(R.id.activity_user_details_userName);
         genderSpinner = findViewById(R.id.activity_user_details_spinner_gender);
