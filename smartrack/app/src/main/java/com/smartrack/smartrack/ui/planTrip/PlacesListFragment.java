@@ -32,6 +32,7 @@ public class PlacesListFragment extends Fragment {
     RatingBar rating;
     PlacePlanning[] arrayPlaces;
     Button button;
+    TextView amountUserPlace;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class PlacesListFragment extends Fragment {
 //                Navigation.findNavController(view).navigate(action);
             }
         });
+        amountUserPlace=view.findViewById(R.id.fragment_places_list_count_place_user);
 
         return view;
     }
@@ -102,9 +104,13 @@ public class PlacesListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(place.getStatus()==false){
+                        int count=Integer.parseInt(amountUserPlace.getText().toString())+1;
+                        amountUserPlace.setText(String.valueOf(count));
                         place.setStatus(true);
                     }
                     else{
+                        int count=Integer.parseInt(amountUserPlace.getText().toString())-1;
+                        amountUserPlace.setText(String.valueOf(count));
                         place.setStatus(false);
                     }
                    notifyDataSetChanged();
@@ -112,7 +118,6 @@ public class PlacesListFragment extends Fragment {
             });
 
             button.setTag(place.getStatus());
-            System.out.println(button.getTag());
             if(place.getStatus()==false && String.valueOf(button.getTag())=="false"){
                 button.setText("Add");
                 button.setBackgroundColor(Color.GREEN);

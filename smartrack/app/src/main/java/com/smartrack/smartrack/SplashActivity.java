@@ -19,6 +19,7 @@ import io.realm.RealmQuery;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
+import io.realm.mongodb.sync.SyncConfiguration;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -38,17 +39,25 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(user!=null){
+                    SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .build();
+                    Realm realm = Realm.getInstance(config);
+                    RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
+                    config.shouldDeleteRealmOnLogout();
+                    long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
 
-                    long userDetails = ModelMongoDB.getAmountUserDetailsWithId(user);
-                    ModelMongoDB.closeRealm();
                     if(userDetails==0)
                     {
+                        realm.close();
                         Intent intent=new Intent(SplashActivity.this,UserDetailsActivity.class);
                         startActivity(intent);
                         finish();
                     }
                     else
                     {
+                        realm.close();
                         Intent intent=new Intent(SplashActivity.this,MainActivity.class);
                         startActivity(intent);
                         finish();
