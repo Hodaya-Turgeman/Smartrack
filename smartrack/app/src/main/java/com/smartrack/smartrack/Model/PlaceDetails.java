@@ -9,7 +9,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class PlaceDetails implements Parcelable {
+public class PlaceDetails extends RealmObject implements Parcelable  {
     private String placeID;
     private String placeName;
     private double placeLocationLat;

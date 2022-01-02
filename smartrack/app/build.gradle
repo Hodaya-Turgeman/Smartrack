@@ -51,4 +51,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.libraries.places:places:2.5.0'
     implementation "io.realm:realm-gradle-plugin:10.8.1"
+    implementation 'com.recombee:api-client:3.2.0'
+//    implementation 'de.lmu.ifi.dbs.elki:elki:0.7.5'
 }

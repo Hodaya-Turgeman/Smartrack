@@ -19,11 +19,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.smartrack.smartrack.LoginActivity;
 import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class PlacesListFragment extends Fragment {
 
@@ -33,13 +37,16 @@ public class PlacesListFragment extends Fragment {
     ImageView imagev;
     RatingBar rating;
     PlacePlanning[] arrayPlaces;
-    Button button;
+    ArrayList<PlacePlanning> chosenPlaces;
+    Button button,planBtn;
+    Integer tripDays,placesNum=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places_list, container, false);
         listViewPlaces =view.findViewById(R.id.fragment_places_list_listview);
         arrayPlaces =PlacesListFragmentArgs.fromBundle(getArguments()).getArrayPlaces();
+        tripDays=PlacesListFragmentArgs.fromBundle(getArguments()).getTripDays();
         adapter=new MyAdapter();
         listViewPlaces.setAdapter(adapter);
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -51,7 +58,29 @@ public class PlacesListFragment extends Fragment {
             }
         });
 
+        planBtn=view.findViewById(R.id.fragment_places_list_planBtn);
+        planBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(placesNum==0)
+                    Toast.makeText(getContext(),"no places selected ",Toast.LENGTH_SHORT).show();
+                else if (placesNum > tripDays*3)
+                    Toast.makeText(getContext(),"Too many places selected ",Toast.LENGTH_SHORT).show();
+                else
+                    CreateListForPlanning();
+            }
+        });
         return view;
+    }
+
+    private void CreateListForPlanning() {
+        chosenPlaces=new ArrayList<PlacePlanning>();
+        for(int i=0;i<arrayPlaces.length;i++)
+        {
+            if(arrayPlaces[i].getStatus()==true)
+                chosenPlaces.add(arrayPlaces[i]);
+        }
+        System.out.println(chosenPlaces.size());
     }
 
     class MyAdapter extends BaseAdapter {
@@ -106,16 +135,19 @@ public class PlacesListFragment extends Fragment {
                 public void onClick(View v) {
                     if(place.getStatus()==false){
                         place.setStatus(true);
+                        placesNum++;
+                        arrayPlaces[i].setStatus(true);
                     }
                     else{
                         place.setStatus(false);
+                        placesNum--;
+                        arrayPlaces[i].setStatus(false);
                     }
                    notifyDataSetChanged();
                 }
             });
 
             button.setTag(place.getStatus());
-            System.out.println(button.getTag());
             if(place.getStatus()==false && String.valueOf(button.getTag())=="false"){
                 button.setText("Add");
                 button.setBackgroundColor(Color.BLUE);

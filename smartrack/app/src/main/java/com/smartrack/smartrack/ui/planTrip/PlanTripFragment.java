@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,7 @@ import okhttp3.Response;
 
 public class PlanTripFragment extends Fragment {
     Place myPlace=null;
+    Integer tripDaysNumber;
     JSONObject jsonDataPage1=null,jsonDataPage2=null,jsonDataPage3=null;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class PlanTripFragment extends Fragment {
         if (!Places.isInitialized()) {
             Places.initialize(this.getContext(),getString(R.string.places_api_key));
         }
+        TextView tripDays=view.findViewById(R.id.et_number);
         // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(this.getContext());
         // Initialize the AutocompleteSupportFragment.
@@ -77,6 +80,7 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tripDaysNumber=Integer.parseInt(tripDays.getText().toString());
                 searchByTextInGooglePlaceApi(v);
             }});
 
@@ -158,7 +162,7 @@ public class PlanTripFragment extends Fragment {
                     List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
                     PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
                     myPlaces.toArray(arrayPlaces);
-                    PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces);
+                    PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces,tripDaysNumber);
                     Navigation.findNavController(view).navigate(action);
                 }
                 System.out.println("Finish");

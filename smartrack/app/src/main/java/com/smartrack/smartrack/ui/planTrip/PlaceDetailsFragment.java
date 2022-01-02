@@ -72,30 +72,42 @@ public class PlaceDetailsFragment extends Fragment {
             }
         }
         addBtn=view.findViewById(R.id.fragment_place_details_btn_add_place_btn);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(placePlanning.getStatus()==false){
-                    placePlanning.setStatus(true);
-                }
-                else{
-                    placePlanning.setStatus(false);
-                }
-            }
-        });
-        if(placePlanning.getStatus()==false && String.valueOf(addBtn.getTag())=="false"){
-            addBtn.setText("Add");
+        if(placePlanning.getStatus()==false){
+            addBtn.setText("Add to your trip");
             addBtn.setBackgroundColor(Color.BLUE);
         }
         else{
-            addBtn.setText("Remove");
+            addBtn.setText("Remove from your trip");
             addBtn.setBackgroundColor(Color.RED);
         }
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                placeChosen();
+            }
+        });
+
+
 
 
 
 
 
         return view;
+    }
+
+    private void placeChosen() {
+        if(placePlanning.getStatus()==false){
+            placePlanning.setStatus(true);
+            addBtn.setText("Remove");
+            addBtn.setBackgroundColor(Color.RED);
+        }
+        else{
+            placePlanning.setStatus(false);
+            addBtn.setText("Add");
+            addBtn.setBackgroundColor(Color.BLUE);
+        }
+        addBtn.setTag(placePlanning.getStatus());
+
     }
 }
