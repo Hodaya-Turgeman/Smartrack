@@ -40,6 +40,7 @@ public class PlacesListFragment extends Fragment {
     ArrayList<PlacePlanning> chosenPlaces;
     Button button,planBtn;
     Integer tripDays,placesNum=0;
+    TextView amountUserPlace;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class PlacesListFragment extends Fragment {
                 Navigation.findNavController(view).navigate(action);
             }
         });
+        amountUserPlace=view.findViewById(R.id.fragment_places_list_count_place_user);
 
         planBtn=view.findViewById(R.id.fragment_places_list_planBtn);
         planBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,11 +136,15 @@ public class PlacesListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(place.getStatus()==false){
+                        int count=Integer.parseInt(amountUserPlace.getText().toString())+1;
+                        amountUserPlace.setText(String.valueOf(count));
                         place.setStatus(true);
                         placesNum++;
                         arrayPlaces[i].setStatus(true);
                     }
                     else{
+                        int count=Integer.parseInt(amountUserPlace.getText().toString())-1;
+                        amountUserPlace.setText(String.valueOf(count));
                         place.setStatus(false);
                         placesNum--;
                         arrayPlaces[i].setStatus(false);

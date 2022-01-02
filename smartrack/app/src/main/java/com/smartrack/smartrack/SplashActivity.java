@@ -41,30 +41,25 @@ public class SplashActivity extends AppCompatActivity {
                     SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
-                            .waitForInitialRemoteData(500, TimeUnit.MILLISECONDS)
-                            .compactOnLaunch()
                             .build();
-                    Realm.setDefaultConfiguration(config);
-                    Realm.getInstanceAsync(config, new Realm.Callback() {
-                        @Override
-                        public void onSuccess(Realm realm) {
-                            System.out.println("Successfully opened a realm.");
-                            long userDetails = ModelMongoDB.getAmountUserDetailsWithId(user);
-                            ModelMongoDB.closeRealm();
-                            Intent intent;
-                            if(userDetails==0)
-                            {
-                                intent = new Intent(SplashActivity.this, UserDetailsActivity.class);
-                            }
-                            else
-                            {
-                                intent = new Intent(SplashActivity.this, MainActivity.class);
-                            }
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
+                    Realm realm = Realm.getInstance(config);
+                    RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
+                    config.shouldDeleteRealmOnLogout();
+                    long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
+                    Intent intent;
+                    if(userDetails==0)
+                    {
+                        realm.close();
+                        intent=new Intent(SplashActivity.this,UserDetailsActivity.class);
+                    }
+                    else
+                    {
+                        realm.close();
+                        intent=new Intent(SplashActivity.this,MainActivity.class);
 
+                    }
+                    startActivity(intent);
+                    finish();
                 }
                 else{
                     Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
