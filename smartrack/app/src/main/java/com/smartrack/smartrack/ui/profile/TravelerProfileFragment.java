@@ -67,12 +67,6 @@ public class TravelerProfileFragment extends Fragment {
         editBtn = view.findViewById(R.id.traveler_profile_edit_btn);
         mail = view.findViewById(R.id.traveler_profile_email);
         name = view.findViewById(R.id.traveler_profile_name);
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         Realm.init(getContext()); // context, usually an Activity or Application
         App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());

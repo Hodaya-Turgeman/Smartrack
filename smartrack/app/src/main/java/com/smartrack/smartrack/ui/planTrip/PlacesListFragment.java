@@ -58,7 +58,9 @@ public class PlacesListFragment extends Fragment {
                 Navigation.findNavController(view).navigate(action);
             }
         });
+        chosenNumber(arrayPlaces);
         amountUserPlace=view.findViewById(R.id.fragment_places_list_count_place_user);
+        amountUserPlace.setText(String.valueOf(placesNum));
 
         planBtn=view.findViewById(R.id.fragment_places_list_planBtn);
         planBtn.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,13 @@ public class PlacesListFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void chosenNumber(PlacePlanning[] arrayPlaces) {
+        placesNum=0;
+        for(int i=0; i<arrayPlaces.length;++i)
+            if(arrayPlaces[i].getStatus()==true)
+                placesNum++;
     }
 
     private void CreateListForPlanning() {
@@ -136,18 +145,17 @@ public class PlacesListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(place.getStatus()==false){
-                        int count=Integer.parseInt(amountUserPlace.getText().toString())+1;
-                        amountUserPlace.setText(String.valueOf(count));
                         place.setStatus(true);
                         placesNum++;
                         arrayPlaces[i].setStatus(true);
+                        amountUserPlace.setText(String.valueOf(placesNum));
+
                     }
                     else{
-                        int count=Integer.parseInt(amountUserPlace.getText().toString())-1;
-                        amountUserPlace.setText(String.valueOf(count));
                         place.setStatus(false);
                         placesNum--;
                         arrayPlaces[i].setStatus(false);
+                        amountUserPlace.setText(String.valueOf(placesNum));
                     }
                    notifyDataSetChanged();
                 }
