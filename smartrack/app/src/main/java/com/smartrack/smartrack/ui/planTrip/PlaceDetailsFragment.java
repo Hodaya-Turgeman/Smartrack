@@ -70,6 +70,7 @@ public class PlaceDetailsFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         placeName.setText(placeFullDetails.getPlaceName());
         placeAddress.setText(placeFullDetails.getPlaceFormattedAddress());
         String openingHours = placeFullDetails.getPlaceOpeningHours().stream()
@@ -86,6 +87,7 @@ public class PlaceDetailsFragment extends Fragment {
                 Picasso.get().load(placeFullDetails.getPlaceImgUrl()).into(placeImg);
             }
         }
+
         if(placePlanning.getStatus()==false){
             addBtn.setText("Add to your trip");
             addBtn.setBackgroundColor(Color.BLUE);
@@ -94,6 +96,7 @@ public class PlaceDetailsFragment extends Fragment {
             addBtn.setText("Remove from your trip");
             addBtn.setBackgroundColor(Color.RED);
         }
+
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +153,5 @@ public class PlaceDetailsFragment extends Fragment {
             addBtn.setBackgroundColor(Color.BLUE);
         }
         addBtn.setTag(placePlanning.getStatus());
-
     }
 }

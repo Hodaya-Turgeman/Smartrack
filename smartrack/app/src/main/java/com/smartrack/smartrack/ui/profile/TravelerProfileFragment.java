@@ -106,9 +106,6 @@ public class TravelerProfileFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_nav_profile_to_travelerEditProfileFragment);
             }
         });
-
-
-
         return view;
     }
 
