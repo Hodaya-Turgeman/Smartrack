@@ -1,5 +1,6 @@
 package com.smartrack.smartrack.ui.planTrip;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -45,6 +46,7 @@ import okhttp3.Response;
 public class PlanTripFragment extends Fragment {
     Place myPlace=null;
     Integer tripDaysNumber;
+    ProgressDialog myLoadingDialog;
     JSONObject jsonDataPage1=null,jsonDataPage2=null,jsonDataPage3=null;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,9 +54,10 @@ public class PlanTripFragment extends Fragment {
         if (!Places.isInitialized()) {
             Places.initialize(this.getContext(),getString(R.string.places_api_key));
         }
+        myLoadingDialog=new ProgressDialog(this.getContext());
         TextView tripDays=view.findViewById(R.id.et_number);
         // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this.getContext());
+        PlacesClient placesClient = Places.createClient(getActivity());
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 this.getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -80,6 +83,11 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                myLoadingDialog.setTitle("Search Places");
+//                myLoadingDialog.setMessage("Please Wait!");
+//                myLoadingDialog.setCanceledOnTouchOutside(false);
+//                myLoadingDialog.show();
+
                 tripDaysNumber=Integer.parseInt(tripDays.getText().toString());
                 searchByTextInGooglePlaceApi(v);
             }});
@@ -87,10 +95,12 @@ public class PlanTripFragment extends Fragment {
         return view;
     }
     public void searchByTextInGooglePlaceApi(View view){
+
             Thread placeThread=new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try{
+
                         String url="https://maps.googleapis.com/maps/api/place/textsearch/json?query="+myPlace.getName()+"%20museom%20park";
                         //Page 1 in location search - 20 result in this page from google api places
                         OkHttpClient clientPage1 = new OkHttpClient().newBuilder()
@@ -162,6 +172,7 @@ public class PlanTripFragment extends Fragment {
                     List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
                     PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
                     myPlaces.toArray(arrayPlaces);
+//                    myLoadingDialog.dismiss();
                     PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces,tripDaysNumber);
                     Navigation.findNavController(view).navigate(action);
                 }

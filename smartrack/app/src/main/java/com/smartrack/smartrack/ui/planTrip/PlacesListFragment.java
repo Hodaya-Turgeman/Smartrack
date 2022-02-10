@@ -91,6 +91,7 @@ public class PlacesListFragment extends Fragment {
             if(arrayPlaces[i].getStatus()==true)
                 chosenPlaces.add(arrayPlaces[i]);
         }
+        PlacesList.planTripInDays(chosenPlaces, tripDays);
         System.out.println(chosenPlaces.size());
     }
 
