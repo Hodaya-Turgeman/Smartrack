@@ -198,9 +198,9 @@ public class PlacesList {
     }
 
     public static ArrayList<PlacePlanning> planTripInDays(ArrayList<PlacePlanning> arrChosenPlaces, int numDayTrip) {
-        final String URL_PLAN_TRIP = "http://127.0.0.1:4000/plantrip/samesizekmeans";
+        final String URL_PLAN_TRIP = "http://10.0.2.2:4000/plantrip/samesizekmeans";
         HttpCall httpCallPost = new HttpCall();
-        httpCallPost.setMethodtype(HttpCall.POST);
+        httpCallPost.setMethodtype(HttpCall.GET);
         httpCallPost.setUrl(URL_PLAN_TRIP);
         HashMap<String, String> paramsPost = new HashMap<>();
 

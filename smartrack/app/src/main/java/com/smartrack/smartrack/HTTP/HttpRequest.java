@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+//@RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
 public class HttpRequest extends AsyncTask<HttpCall, String, String> {
     private static final String UTF_8 = "UTF-8";
 
