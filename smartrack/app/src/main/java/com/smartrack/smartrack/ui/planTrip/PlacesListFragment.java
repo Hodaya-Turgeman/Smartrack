@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.smartrack.smartrack.HTTP.HttpCall;
+import com.smartrack.smartrack.HTTP.HttpRequest;
 import com.smartrack.smartrack.LoginActivity;
 import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.Model.PlacePlanning;
@@ -28,6 +31,7 @@ import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PlacesListFragment extends Fragment {
 
@@ -55,7 +59,7 @@ public class PlacesListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 Log.d("TAG","post id"+i);
                 PlacesListFragmentDirections.ActionPlacesListFragmentToPlaceDetailsFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToPlaceDetailsFragment(arrayPlaces[i]);
-                Navigation.findNavController(view).navigate(action);
+                Navigation.findNavController(view).navigate( action);
             }
         });
         chosenNumber(arrayPlaces);
@@ -91,8 +95,40 @@ public class PlacesListFragment extends Fragment {
             if(arrayPlaces[i].getStatus()==true)
                 chosenPlaces.add(arrayPlaces[i]);
         }
-        PlacesList.planTripInDays(chosenPlaces, tripDays);
-        System.out.println(chosenPlaces.size());
+        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/plantrip/samesizekmeans";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_PLAN_TRIP);
+        HashMap<String, String> paramsPost = new HashMap<>();
+
+        for (int i = 0; i < chosenPlaces.size(); ++i) {
+            paramsPost.put("t" + "[" + i + "]", String.valueOf(chosenPlaces.get(i).getPlaceLocationLat()) + "," + String.valueOf(chosenPlaces.get(i).getPlaceLocationLng()));
+        }
+        paramsPost.put("numDayTrip", String.valueOf(tripDays));
+        httpCallPost.setParams(paramsPost);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+                Log.d("My Response:",response.toString());
+                String result = response.toString();
+                try {
+                    String[] arrOfStr = result.split(",");
+                    for (int j=0; j<chosenPlaces.size();++j){
+                        String[] temp = arrOfStr[j].split("=");
+                        chosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
+                    }
+
+                    Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                        if (s.equals("User added successfully")) {
+//                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+//                        }
+            }
+        }.execute(httpCallPost);
+
     }
 
     class MyAdapter extends BaseAdapter {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class PlanTripFragment extends Fragment {
     Place myPlace=null;
     Integer tripDaysNumber;
     ProgressDialog myLoadingDialog;
+    ProgressBar progressBar;
     JSONObject jsonDataPage1=null,jsonDataPage2=null,jsonDataPage3=null;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class PlanTripFragment extends Fragment {
         }
         myLoadingDialog=new ProgressDialog(this.getContext());
         TextView tripDays=view.findViewById(R.id.et_number);
+        progressBar=view.findViewById(R.id.fragment_plan_trip_progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
         // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(getActivity());
         // Initialize the AutocompleteSupportFragment.
@@ -83,106 +87,109 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                progressBar.setVisibility(View.VISIBLE);
 //                myLoadingDialog.setTitle("Search Places");
 //                myLoadingDialog.setMessage("Please Wait!");
 //                myLoadingDialog.setCanceledOnTouchOutside(false);
 //                myLoadingDialog.show();
-
                 tripDaysNumber=Integer.parseInt(tripDays.getText().toString());
-                searchByTextInGooglePlaceApi(v);
+                PlanTripFragmentDirections.ActionNavPlanTripToSplashPlanTripFragment action=PlanTripFragmentDirections.actionNavPlanTripToSplashPlanTripFragment(tripDaysNumber,myPlace.getName());
+                    Navigation.findNavController(view).navigate(action);
+
+//                searchByTextInGooglePlaceApi(v);
             }});
 
         return view;
     }
-    public void searchByTextInGooglePlaceApi(View view){
-
-            Thread placeThread=new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try{
-
-                        String url="https://maps.googleapis.com/maps/api/place/textsearch/json?query="+myPlace.getName()+"%20museom%20park";
-                        //Page 1 in location search - 20 result in this page from google api places
-                        OkHttpClient clientPage1 = new OkHttpClient().newBuilder()
-                                .build();
-                        String urlPage1=url+"&key="+getString(R.string.places_api_key);
-                        Request requestPage1 = new Request.Builder()
-                                .url(urlPage1)
-                                .method("GET", null)
-                                .build();
-                        String next_page_token_page1="";
-                        Response responsePage1 = clientPage1.newCall(requestPage1).execute();
-                        final String dataPage1 = responsePage1.body().string();
-                        jsonDataPage1 = new JSONObject(dataPage1);
-                        if(jsonDataPage1.has("next_page_token"))
-                            next_page_token_page1=jsonDataPage1.getString("next_page_token").toString();
-                        //Page 2 in location search - 20 result in this page from google api places
-                        if(next_page_token_page1!=null && next_page_token_page1!=""){
-                            Thread.sleep(2000);
-                            String urlPage2=url+"&pagetoken="+next_page_token_page1+ "&key="+getString(R.string.places_api_key);
-                            Request requestPage2 = new Request.Builder()
-                                    .url(urlPage2)
-                                    .method("GET", null)
-                                    .build();
-                            OkHttpClient clientPage2 = new OkHttpClient().newBuilder().build();
-                            Response responsePage2 = clientPage2.newCall(requestPage2).execute();
-                            final String dataPage2 = responsePage2.body().string();
-                            jsonDataPage2 = new JSONObject(dataPage2);
-                            //Page 2 in location search - 20 result in this page from google api places
-                            if(jsonDataPage2.has("next_page_token")){
-                                String next_page_token_page2="";
-                                next_page_token_page2=jsonDataPage2.getString("next_page_token");
-                                if(next_page_token_page2!=null && next_page_token_page2!=""){
-                                    Thread.sleep(2000);
-                                    String urlPage3=url+ "&pagetoken="+next_page_token_page2+"&key="+getString(R.string.places_api_key);
-                                    Request requestPage3 = new Request.Builder()
-                                            .url(urlPage3)
-                                            .method("GET", null)
-                                            .build();
-                                    OkHttpClient clientPage3 = new OkHttpClient().newBuilder().build();
-                                    Response responsePage3 = clientPage3.newCall(requestPage3).execute();
-                                    final String dataPage3 = responsePage3.body().string();
-                                    jsonDataPage3 = new JSONObject(dataPage3);
-                                }
-                            }
-                        }
-                    }catch (IOException | JSONException | InterruptedException exception){
-                    }
-                }
-            });
-            placeThread.start();
-            try {
-                placeThread.join();
-                JSONArray places=null;
-                if(jsonDataPage1!=null) {
-                    places = (JSONArray) jsonDataPage1.getJSONArray("results");
-                    if(jsonDataPage2!=null){
-                        JSONArray placesPage2=(JSONArray)jsonDataPage2.getJSONArray("results");
-                        for(int i=0;i<placesPage2.length();++i){
-                            places.put((JSONObject)placesPage2.get(i));
-                        }
-                        if(jsonDataPage3!=null) {
-                            JSONArray placesPage3 = (JSONArray) jsonDataPage3.getJSONArray("results");
-                            for (int j = 0; j < placesPage3.length(); ++j) {
-                                places.put((JSONObject) placesPage3.get(j));
-                            }
-                        }
-
-                    }
-                    List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
-                    PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
-                    myPlaces.toArray(arrayPlaces);
-//                    myLoadingDialog.dismiss();
-                    PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces,tripDaysNumber);
-                    Navigation.findNavController(view).navigate(action);
-                }
-                System.out.println("Finish");
-            } catch (InterruptedException | JSONException e) {
-                e.printStackTrace();
-            }
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//    public void searchByTextInGooglePlaceApi(View view){
+//
+//            Thread placeThread=new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try{
+//
+//                        String url="https://maps.googleapis.com/maps/api/place/textsearch/json?query="+myPlace.getName()+"%20museom%20park";
+//                        //Page 1 in location search - 20 result in this page from google api places
+//                        OkHttpClient clientPage1 = new OkHttpClient().newBuilder()
+//                                .build();
+//                        String urlPage1=url+"&key="+getString(R.string.places_api_key);
+//                        Request requestPage1 = new Request.Builder()
+//                                .url(urlPage1)
+//                                .method("GET", null)
+//                                .build();
+//                        String next_page_token_page1="";
+//                        Response responsePage1 = clientPage1.newCall(requestPage1).execute();
+//                        final String dataPage1 = responsePage1.body().string();
+//                        jsonDataPage1 = new JSONObject(dataPage1);
+//                        if(jsonDataPage1.has("next_page_token"))
+//                            next_page_token_page1=jsonDataPage1.getString("next_page_token").toString();
+//                        //Page 2 in location search - 20 result in this page from google api places
+//                        if(next_page_token_page1!=null && next_page_token_page1!=""){
+//                            Thread.sleep(2000);
+//                            String urlPage2=url+"&pagetoken="+next_page_token_page1+ "&key="+getString(R.string.places_api_key);
+//                            Request requestPage2 = new Request.Builder()
+//                                    .url(urlPage2)
+//                                    .method("GET", null)
+//                                    .build();
+//                            OkHttpClient clientPage2 = new OkHttpClient().newBuilder().build();
+//                            Response responsePage2 = clientPage2.newCall(requestPage2).execute();
+//                            final String dataPage2 = responsePage2.body().string();
+//                            jsonDataPage2 = new JSONObject(dataPage2);
+//                            //Page 2 in location search - 20 result in this page from google api places
+//                            if(jsonDataPage2.has("next_page_token")){
+//                                String next_page_token_page2="";
+//                                next_page_token_page2=jsonDataPage2.getString("next_page_token");
+//                                if(next_page_token_page2!=null && next_page_token_page2!=""){
+//                                    Thread.sleep(2000);
+//                                    String urlPage3=url+ "&pagetoken="+next_page_token_page2+"&key="+getString(R.string.places_api_key);
+//                                    Request requestPage3 = new Request.Builder()
+//                                            .url(urlPage3)
+//                                            .method("GET", null)
+//                                            .build();
+//                                    OkHttpClient clientPage3 = new OkHttpClient().newBuilder().build();
+//                                    Response responsePage3 = clientPage3.newCall(requestPage3).execute();
+//                                    final String dataPage3 = responsePage3.body().string();
+//                                    jsonDataPage3 = new JSONObject(dataPage3);
+//                                }
+//                            }
+//                        }
+//                    }catch (IOException | JSONException | InterruptedException exception){
+//                    }
+//                }
+//            });
+//            placeThread.start();
+//            try {
+//                placeThread.join();
+//                JSONArray places=null;
+//                if(jsonDataPage1!=null) {
+//                    places = (JSONArray) jsonDataPage1.getJSONArray("results");
+//                    if(jsonDataPage2!=null){
+//                        JSONArray placesPage2=(JSONArray)jsonDataPage2.getJSONArray("results");
+//                        for(int i=0;i<placesPage2.length();++i){
+//                            places.put((JSONObject)placesPage2.get(i));
+//                        }
+//                        if(jsonDataPage3!=null) {
+//                            JSONArray placesPage3 = (JSONArray) jsonDataPage3.getJSONArray("results");
+//                            for (int j = 0; j < placesPage3.length(); ++j) {
+//                                places.put((JSONObject) placesPage3.get(j));
+//                            }
+//                        }
+//
+//                    }
+//                    List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
+//                    PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
+//                    myPlaces.toArray(arrayPlaces);
+////                    myLoadingDialog.dismiss();
+//                    PlanTripFragmentDirections.ActionNavPlanTripToPlacesListFragment action=PlanTripFragmentDirections.actionNavPlanTripToPlacesListFragment(arrayPlaces,tripDaysNumber);
+//                    Navigation.findNavController(view).navigate(action);
+//                }
+//                System.out.println("Finish");
+//            } catch (InterruptedException | JSONException e) {
+//                e.printStackTrace();
+//            }
+//    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }

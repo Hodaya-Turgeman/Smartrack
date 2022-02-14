@@ -196,43 +196,50 @@ public class PlacesList {
 
         return placePlanning;
     }
-
-    public static ArrayList<PlacePlanning> planTripInDays(ArrayList<PlacePlanning> arrChosenPlaces, int numDayTrip) {
-        final String URL_PLAN_TRIP = "http://10.0.2.2:4000/plantrip/samesizekmeans";
-        HttpCall httpCallPost = new HttpCall();
-        httpCallPost.setMethodtype(HttpCall.GET);
-        httpCallPost.setUrl(URL_PLAN_TRIP);
-        HashMap<String, String> paramsPost = new HashMap<>();
-
-        for (int i = 0; i < arrChosenPlaces.size(); ++i) {
-            paramsPost.put("t" + "[" + i + "]", String.valueOf(arrChosenPlaces.get(i).getPlaceLocationLat()) + "," + String.valueOf(arrChosenPlaces.get(i).getPlaceLocationLng()));
-        }
-        paramsPost.put("numDayTrip", String.valueOf(numDayTrip));
-        httpCallPost.setParams(paramsPost);
-        new HttpRequest() {
-            @Override
-            public void onResponse(String response) {
-                super.onResponse(response);
-                String s = response;
-                Log.d("UPDATE", s);
-                Log.d("My Response:",response.toString());
-                try {
-
-//                    Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-//                        if (s.equals("User added successfully")) {
-//                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-//                        }
-            }
-        }.execute(httpCallPost);
-//        Log.d( "try",""+adapter.selected_attractions);
-        Log.d("try", "" + paramsPost);
-
-        return arrChosenPlaces;
-    }
 }
+
+//    public static ArrayList<PlacePlanning> planTripInDays(ArrayList<PlacePlanning> arrChosenPlaces, int numDayTrip) {
+////        final String URL_PLAN_TRIP = "http://10.0.2.2:4000/plantrip/samesizekmeans";
+//        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/plantrip/samesizekmeans";
+//        HttpCall httpCallPost = new HttpCall();
+//        httpCallPost.setMethodtype(HttpCall.GET);
+//        httpCallPost.setUrl(URL_PLAN_TRIP);
+//        HashMap<String, String> paramsPost = new HashMap<>();
+//
+//        for (int i = 0; i < arrChosenPlaces.size(); ++i) {
+//            paramsPost.put("t" + "[" + i + "]", String.valueOf(arrChosenPlaces.get(i).getPlaceLocationLat()) + "," + String.valueOf(arrChosenPlaces.get(i).getPlaceLocationLng()));
+//        }
+//        paramsPost.put("numDayTrip", String.valueOf(numDayTrip));
+//        httpCallPost.setParams(paramsPost);
+//        new HttpRequest() {
+//            @Override
+//            public void onResponse(String response) {
+//                super.onResponse(response);
+//                String s = response;
+//                Log.d("UPDATE", s);
+//                Log.d("My Response:",response.toString());
+//                String result = response.toString();
+//                try {
+//                    String[] arrOfStr = result.split(",");
+//                    for (int j=0; j<arrChosenPlaces.size();++j){
+//                        String[] temp = arrOfStr[j].split("=");
+//                        arrChosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
+//                    }
+//
+////                    Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+////                        if (s.equals("User added successfully")) {
+////                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+////                        }
+//            }
+//        }.execute(httpCallPost);
+////        Log.d( "try",""+adapter.selected_attractions);
+//
+//
+//    }
+//}
 
 
 
