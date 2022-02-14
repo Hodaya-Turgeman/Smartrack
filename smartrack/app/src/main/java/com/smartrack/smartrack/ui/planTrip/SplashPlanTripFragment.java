@@ -46,7 +46,7 @@ public class SplashPlanTripFragment extends Fragment {
 
         };
         Handler handler=new Handler();
-        handler.postDelayed(runnable,5000);
+        handler.postDelayed(runnable,4000);
         return view;
     }
     public void searchByTextInGooglePlaceApi(View view){
