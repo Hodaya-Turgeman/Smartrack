@@ -114,12 +114,29 @@ public class PlacesListFragment extends Fragment {
                 String result = response.toString();
                 try {
                     String[] arrOfStr = result.split(",");
+//                    ArrayList<ArrayList<PlacePlanning>> array_place_days_planing = new ArrayList<>();
+//                    for(int k=0; k<tripDays;++k){
+//                        array_place_days_planing.add(new ArrayList<>());
+//                    }
                     for (int j=0; j<chosenPlaces.size();++j){
                         String[] temp = arrOfStr[j].split("=");
                         chosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
+//                        array_place_days_planing.get(Integer.parseInt((temp[1]))).add(chosenPlaces.get(j));
+
                     }
+//                    for(int j=0;j< array_place_days_planing.size();++j){
+//                        System.out.println("The trips in day: "+j);
+//                        for(int i=0; i< array_place_days_planing.get(j).size();++i){
+//                            System.out.print(array_place_days_planing.get(j).get(i).getPlaceName()+"   ,");
+//                        }
+//                        System.out.println();
+//                    }
 
                     Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                    PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces.size()];
+                    chosenPlaces.toArray(arrayPlaces);
+                    PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment("aaa","bbbb",arrayPlaces ,tripDays);
+                    Navigation.findNavController(getView()).navigate( action);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

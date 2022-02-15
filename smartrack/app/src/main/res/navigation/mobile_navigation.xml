@@ -79,6 +79,9 @@
         <argument
             android:name="tripDays"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_placesListFragment_to_listDayInTripFragment"
+            app:destination="@id/listDayInTripFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashPlanTripFragment"
@@ -94,5 +97,23 @@
         <action
             android:id="@+id/action_splashPlanTripFragment_to_placesListFragment"
             app:destination="@id/placesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listDayInTripFragment"
+        android:name="com.smartrack.smartrack.ui.futureTrip.ListDayInTripFragment"
+        android:label="fragment_list_day_in_trip"
+        tools:layout="@layout/fragment_list_day_in_trip" >
+        <argument
+            android:name="tripName"
+            app:argType="string" />
+        <argument
+            android:name="tripLocation"
+            app:argType="string" />
+        <argument
+            android:name="arrTripsDay"
+            app:argType="com.smartrack.smartrack.Model.PlacePlanning[]" />
+        <argument
+            android:name="tripDays"
+            app:argType="integer" />
     </fragment>
 </navigation>
