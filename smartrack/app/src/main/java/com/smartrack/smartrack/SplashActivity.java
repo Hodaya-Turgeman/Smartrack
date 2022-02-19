@@ -43,23 +43,45 @@ public class SplashActivity extends AppCompatActivity {
                             .allowWritesOnUiThread(true)
                             .build();
                     Realm realm = Realm.getInstance(config);
-                    RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
-                    config.shouldDeleteRealmOnLogout();
-                    long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
-                    Intent intent;
-                    if(userDetails==0)
-                    {
-                        realm.close();
-                        intent=new Intent(SplashActivity.this,UserDetailsActivity.class);
-                    }
-                    else
-                    {
-                        realm.close();
-                        intent=new Intent(SplashActivity.this,MainActivity.class);
-
-                    }
-                    startActivity(intent);
-                    finish();
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm bgRealm) {
+                            Traveler traveler = bgRealm.where(Traveler.class).equalTo("travelerMail", user.getProfile().getEmail()).findFirst();
+                            traveler.setTravelerName(traveler.getTravelerName());
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            realm.close();
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Intent intent = new Intent(SplashActivity.this, UserDetailsActivity.class);
+                            realm.close();
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+//                    RealmQuery<Traveler> travelerQuery = realm.where(Traveler.class);
+//                    config.shouldDeleteRealmOnLogout();
+//                    long userDetails = travelerQuery.equalTo("_id", new ObjectId(user.getId())).count();
+//                    Intent intent;
+//                    if(userDetails==0) {
+//                        intent = new Intent(SplashActivity.this, UserDetailsActivity.class);
+//
+//                    }
+//                    else
+//                    {
+//                        realm.close();
+//                        intent=new Intent(SplashActivity.this,MainActivity.class);
+//
+//                    }
+//                    startActivity(intent);
+//                    finish();
                 }
                 else{
                     Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
