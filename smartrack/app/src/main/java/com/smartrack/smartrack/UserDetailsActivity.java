@@ -124,7 +124,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         Model.instance.addTraveler(traveler, new Model.AddTravelerListener() {
             @Override
             public void onComplete(String isSuccess) {
-                if (isSuccess.equals("User added successfully")) {
+                if (isSuccess.equals("true")) {
                     Toast.makeText(UserDetailsActivity.this, "saved", Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(UserDetailsActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
