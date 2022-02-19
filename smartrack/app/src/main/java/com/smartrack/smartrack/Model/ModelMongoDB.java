@@ -20,7 +20,7 @@ import io.realm.mongodb.sync.SyncConfiguration;
 
 public class ModelMongoDB {
 
-    final static String AppId = "application-smartrack-zpmqf";
+    final static String AppId = "application-smartrack-lhtyu";
     static Realm realm=null;
     public  static void closeRealm(){
         if(!realm.isClosed())
