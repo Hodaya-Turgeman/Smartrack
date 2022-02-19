@@ -1,7 +1,5 @@
 package com.smartrack.smartrack.Model;
 
-import com.smartrack.smartrack.R;
-
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
