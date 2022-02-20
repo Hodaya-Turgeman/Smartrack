@@ -1,5 +1,6 @@
 package com.smartrack.smartrack.ui.profile;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -20,6 +21,8 @@ import com.smartrack.smartrack.Model.ModelMongoDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.smartrack.smartrack.Model.Traveler;
 import com.smartrack.smartrack.R;
+import com.smartrack.smartrack.SplashActivity;
+import com.smartrack.smartrack.UserDetailsActivity;
 
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -81,6 +84,7 @@ public class TravelerProfileFragment extends Fragment {
                 @Override
                 public void execute(Realm realm) {
                     Traveler traveler = realm.where(Traveler.class).equalTo("_id", new ObjectId(user.getId())).findFirst(); // returning null so doesn't enter inside if block
+
                     if (traveler != null && traveler.isLoaded()) {
                         if (traveler.getTravelerName() != null)
                             name.setText(traveler.getTravelerName());

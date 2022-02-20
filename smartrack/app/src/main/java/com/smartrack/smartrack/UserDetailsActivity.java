@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.smartrack.smartrack.Model.Model;
 import com.smartrack.smartrack.Model.Traveler;
 
 import org.bson.types.ObjectId;
@@ -118,27 +119,43 @@ public class UserDetailsActivity extends AppCompatActivity {
     private void saveTraveler() {
         String partitionValue = userProfile.getEmail();
         travelerName=InputsName.getEditText().getText().toString();
-        SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
-        Realm backgroundThreadRealm = Realm.getInstance(config);
-        Realm.getInstanceAsync(config, new Realm.Callback() {
+        ObjectId _id=new ObjectId(user.getId());
+        Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
+        Model.instance.addTraveler(traveler, new Model.AddTravelerListener() {
             @Override
-            public void onSuccess(Realm realm) {
-                ObjectId _id=new ObjectId(user.getId());
-                Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
-
-                realm.executeTransaction (transactionRealm -> {
-                    transactionRealm.insert(traveler);
+            public void onComplete(String isSuccess) {
+                if (isSuccess.equals("true")) {
                     Toast.makeText(UserDetailsActivity.this, "saved", Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(UserDetailsActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
-                });
+                } else {
+                    Toast.makeText(UserDetailsActivity.this, "Error! Traveler is not Created", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+//        SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
+//                .allowQueriesOnUiThread(true)
+//                .allowWritesOnUiThread(true)
+//                .build();
+//        Realm backgroundThreadRealm = Realm.getInstance(config);
+//        Realm.getInstanceAsync(config, new Realm.Callback() {
+//            @Override
+//            public void onSuccess(Realm realm) {
+//                ObjectId _id=new ObjectId(user.getId());
+//                Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
+//
+//                realm.executeTransaction (transactionRealm -> {
+//                    transactionRealm.insert(traveler);
+//                    Toast.makeText(UserDetailsActivity.this, "saved", Toast.LENGTH_LONG).show();
+//                    Intent intent=new Intent(UserDetailsActivity.this, MainActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+//                    finish();
+//                });
+//            }
+//        });
     }
 
     public String[] getYears() {

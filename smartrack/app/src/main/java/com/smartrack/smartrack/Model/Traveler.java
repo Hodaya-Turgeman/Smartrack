@@ -44,6 +44,5 @@ public class Traveler extends RealmObject {
     public String getTravelerName() { return travelerName; }
     public void setTravelerName(String travelerName) { this.travelerName = travelerName; }
 
-
 }
 

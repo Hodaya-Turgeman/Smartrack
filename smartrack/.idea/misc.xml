@@ -7,10 +7,12 @@
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/drawable/roundedbutton.xml" value="0.298" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/day_list_row.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/fragment_list_day_in_trip.xml" value="0.2563405797101449" />
+        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/fragment_list_trip_in_day.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/fragment_places_list.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/fragment_plan_trip.xml" value="0.26811594202898553" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/fragment_shplash_plan_trip.xml" value="0.20697463768115942" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/place_list_row.xml" value="0.26403985507246375" />
+        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/trip_in_day_row.xml" value="0.2563405797101449" />
       </map>
     </option>
   </component>

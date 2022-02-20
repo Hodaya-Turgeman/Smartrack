@@ -119,6 +119,7 @@
             android:id="@+id/action_placesListFragment_to_tripFragment"
             app:destination="@id/tripFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/tripFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.TripFragment"
