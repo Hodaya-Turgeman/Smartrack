@@ -1,0 +1,21 @@
+package com.smartrack.smartrack.Model;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+
+import java.util.List;
+
+@Dao
+public interface TravelerDao {
+    @Query("select * from Traveler")
+    List<Traveler> getAllTraveler();
+
+    @Query("select * from Traveler where travelerMail=:travelerMail")
+    List<Traveler> getTravelerByEmail(String travelerMail);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(Traveler... travelers);
+}

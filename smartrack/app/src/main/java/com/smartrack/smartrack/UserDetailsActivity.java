@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.smartrack.smartrack.Model.FavoriteCategories;
 import com.smartrack.smartrack.Model.Model;
 import com.smartrack.smartrack.Model.Traveler;
 
@@ -23,6 +24,8 @@ import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.mongodb.App;
@@ -120,8 +123,13 @@ public class UserDetailsActivity extends AppCompatActivity {
         String partitionValue = userProfile.getEmail();
         travelerName=InputsName.getEditText().getText().toString();
         ObjectId _id=new ObjectId(user.getId());
-        Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
-        Model.instance.addTraveler(traveler, new Model.AddTravelerListener() {
+        Traveler traveler=new Traveler(partitionValue, travelerName,travelerBirthYear,travelerGender);
+        List<FavoriteCategories> listFavoriteCategories = new ArrayList<FavoriteCategories>();
+        for(int i=0; i< travelerFavoriteCategories.size();++i){
+            listFavoriteCategories.add(new FavoriteCategories(travelerFavoriteCategories.get(i),traveler.getTravelerMail()));
+        }
+
+        Model.instance.addTraveler(traveler,listFavoriteCategories,getApplicationContext(),new Model.AddTravelerListener() {
             @Override
             public void onComplete(String isSuccess) {
                 if (isSuccess.equals("true")) {
