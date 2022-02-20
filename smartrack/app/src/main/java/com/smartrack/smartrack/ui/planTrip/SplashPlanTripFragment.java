@@ -1,12 +1,15 @@
 package com.smartrack.smartrack.ui.planTrip;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -38,6 +43,7 @@ public class SplashPlanTripFragment extends Fragment {
         placeName =SplashPlanTripFragmentArgs.fromBundle(getArguments()).getLocationTrip();
         tripDaysNumber=SplashPlanTripFragmentArgs.fromBundle(getArguments()).getTripDays();
         Runnable runnable=new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
                 searchByTextInGooglePlaceApi(view);
@@ -46,9 +52,10 @@ public class SplashPlanTripFragment extends Fragment {
 
         };
         Handler handler=new Handler();
-        handler.postDelayed(runnable,4000);
+        handler.postDelayed(runnable,3000);
         return view;
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void searchByTextInGooglePlaceApi(View view){
 
         Thread placeThread=new Thread(new Runnable() {
@@ -125,6 +132,12 @@ public class SplashPlanTripFragment extends Fragment {
 
                 }
                 List<PlacePlanning> myPlaces=PlacesList.JsonArrayToListPlace(places);
+                Collections.sort(myPlaces, new Comparator<PlacePlanning>() {
+                    @Override
+                    public int compare(PlacePlanning p1, PlacePlanning p2) {
+                        return Float.compare(p2.getPlaceRating(), p1.getPlaceRating());
+                    }
+                });
                 PlacePlanning[] arrayPlaces = new PlacePlanning[myPlaces.size()];
                 myPlaces.toArray(arrayPlaces);
 //                    myLoadingDialog.dismiss();

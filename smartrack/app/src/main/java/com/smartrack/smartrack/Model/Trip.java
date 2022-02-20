@@ -23,14 +23,15 @@
 //    private String tripDays;
 //    @Required
 //    private String tripLocation;
-//    private RealmList<PlaceDetails> tripPlacesList;
-//    private RealmList<TripSchedule> tripSchedules;
+//   // private float arr[][];
+//    //private RealmList<PlaceDetails> tripPlacesList;
+//    //private RealmList<TripSchedule> tripSchedules;
 //
 //
 //    public Trip() {
 //    }
 //
-//    public Trip(ObjectId _id, ObjectId travelerId, String tripName, String tripDescription, String tripStartDate, String tripEndDate, String tripDays, String tripLocation, RealmList<PlaceDetails> tripPlacesList, RealmList<TripSchedule> tripSchedules) {
+//    public Trip(ObjectId _id, ObjectId travelerId, String tripName, String tripDescription, String tripStartDate, String tripEndDate, String tripDays, String tripLocation) {
 //        this._id = _id;
 //        this.travelerId = travelerId;
 //        this.tripName = tripName;
@@ -39,8 +40,8 @@
 //        this.tripEndDate = tripEndDate;
 //        this.tripDays = tripDays;
 //        this.tripLocation = tripLocation;
-//        this.tripPlacesList = tripPlacesList;
-//        this.tripSchedules = tripSchedules;
+////        this.tripPlacesList = tripPlacesList;
+////        this.tripSchedules = tripSchedules;
 //    }
 //
 //    public ObjectId get_id() {
@@ -107,19 +108,19 @@
 //        this.tripLocation = tripLocation;
 //    }
 //
-//    public RealmList<PlaceDetails> getTripPlacesList() {
-//        return tripPlacesList;
-//    }
-//
-//    public void setTripPlacesList(RealmList<PlaceDetails> tripPlacesList) {
-//        this.tripPlacesList = tripPlacesList;
-//    }
-//
-//    public RealmList<TripSchedule> getTripSchedules() {
-//        return tripSchedules;
-//    }
-//
-//    public void setTripSchedules(RealmList<TripSchedule> tripSchedules) {
-//        this.tripSchedules = tripSchedules;
-//    }
+////    public RealmList<PlaceDetails> getTripPlacesList() {
+////        return tripPlacesList;
+////    }
+////
+////    public void setTripPlacesList(RealmList<PlaceDetails> tripPlacesList) {
+////        this.tripPlacesList = tripPlacesList;
+////    }
+////
+////    public RealmList<TripSchedule> getTripSchedules() {
+////        return tripSchedules;
+////    }
+////
+////    public void setTripSchedules(RealmList<TripSchedule> tripSchedules) {
+////        this.tripSchedules = tripSchedules;
+////    }
 //}

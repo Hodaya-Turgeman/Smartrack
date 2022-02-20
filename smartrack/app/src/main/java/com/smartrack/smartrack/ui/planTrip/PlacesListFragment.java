@@ -72,6 +72,8 @@ public class PlacesListFragment extends Fragment {
             public void onClick(View v) {
                 if(placesNum==0)
                     Toast.makeText(getContext(),"no places selected ",Toast.LENGTH_SHORT).show();
+                else if (placesNum<tripDays)
+                    Toast.makeText(getContext(),"Too few places selected ",Toast.LENGTH_SHORT).show();
                 else if (placesNum > tripDays*3)
                     Toast.makeText(getContext(),"Too many places selected ",Toast.LENGTH_SHORT).show();
                 else
@@ -131,6 +133,7 @@ public class PlacesListFragment extends Fragment {
 //                        }
 //                        System.out.println();
 //                    }
+
 
                     Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                     PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces.size()];

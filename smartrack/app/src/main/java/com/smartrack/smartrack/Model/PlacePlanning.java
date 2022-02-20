@@ -8,9 +8,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class PlacePlanning extends PlaceDetails {
     private boolean status;
-
-
-
     private int day_in_trip;
     public PlacePlanning() {
     }
