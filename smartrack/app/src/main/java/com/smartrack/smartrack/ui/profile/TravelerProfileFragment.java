@@ -17,8 +17,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.smartrack.smartrack.MainActivity;
-import com.smartrack.smartrack.Model.ModelMongoDB;
+//import com.smartrack.smartrack.Model.ModelMongoDB;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.smartrack.smartrack.Model.FavoriteCategories;
+import com.smartrack.smartrack.Model.Model;
 import com.smartrack.smartrack.Model.Traveler;
 import com.smartrack.smartrack.R;
 import com.smartrack.smartrack.SplashActivity;
@@ -29,6 +31,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
 
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
@@ -74,34 +77,53 @@ public class TravelerProfileFragment extends Fragment {
         Realm.init(getContext()); // context, usually an Activity or Application
         App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
         User user = app.currentUser();
-        SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
-        Realm realm = Realm.getInstance(config);
-        try {
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    Traveler traveler = realm.where(Traveler.class).equalTo("_id", new ObjectId(user.getId())).findFirst(); // returning null so doesn't enter inside if block
-
-                    if (traveler != null && traveler.isLoaded()) {
-                        if (traveler.getTravelerName() != null)
-                            name.setText(traveler.getTravelerName());
-                        if (traveler.getTravelerMail() != null)
-                            mail.setText(traveler.getTravelerMail());
-                        if (traveler.getTravelerFavoriteCategories() != null) {
-                            String c = traveler.getTravelerFavoriteCategories().stream()
+       Model.instance.getTravelerByEmailInDB(user.getProfile().getEmail(), getContext(), new Model.GetTravelerByEmailListener() {
+            @Override
+            public void onComplete(Traveler traveler, List<String> favoriteCategories) {
+                name.setText(traveler.getTravelerName());
+                mail.setText(traveler.getTravelerMail());
+                String c = favoriteCategories.stream()
                                     .map(n -> String.valueOf(n))
                                     .collect(Collectors.joining("\n", "", ""));
                             categories.setText(c);
+            }
+        });
+//        name.setText(traveler.getTravelerName());
+//        mail.setText(traveler.getTravelerMail());
+//        List<String> listFavoriteCategories = Model.instance.getAllFavoriteCategoriesOfTraveler(user.getProfile().getEmail());
+//        String c = listFavoriteCategories.stream()
+//                                    .map(n -> String.valueOf(n))
+//                                    .collect(Collectors.joining("\n", "", ""));
+//                            categories.setText(c);
 
-                        }
-                    }
-                }
-            });
-        }catch (Exception e){}
-        realm.close();
+//        SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
+//                .allowQueriesOnUiThread(true)
+//                .allowWritesOnUiThread(true)
+//                .build();
+//        Realm realm = Realm.getInstance(config);
+//        try {
+//            realm.executeTransaction(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    Traveler traveler = realm.where(Traveler.class).equalTo("_id", new ObjectId(user.getId())).findFirst(); // returning null so doesn't enter inside if block
+//
+//                    if (traveler != null && traveler.isLoaded()) {
+//                        if (traveler.getTravelerName() != null)
+//                            name.setText(traveler.getTravelerName());
+//                        if (traveler.getTravelerMail() != null)
+//                            mail.setText(traveler.getTravelerMail());
+//                        if (traveler.getTravelerFavoriteCategories() != null) {
+//                            String c = traveler.getTravelerFavoriteCategories().stream()
+//                                    .map(n -> String.valueOf(n))
+//                                    .collect(Collectors.joining("\n", "", ""));
+//                            categories.setText(c);
+//
+//                        }
+//                    }
+//                }
+//            });
+//        }catch (Exception e){}
+//        realm.close();
 
         editBtn= view.findViewById(R.id.traveler_profile_edit_btn);
         editBtn.setOnClickListener(new View.OnClickListener() {

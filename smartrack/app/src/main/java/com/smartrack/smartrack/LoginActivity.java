@@ -24,6 +24,8 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.textfield.TextInputLayout;
+import com.smartrack.smartrack.Model.Model;
+import com.smartrack.smartrack.Model.Traveler;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -112,10 +114,16 @@ public class LoginActivity extends AppCompatActivity {
                 if(result.isSuccess()){
                     myLoadingDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Log-in Succeeded",Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                    Model.instance.getTravelerByEmailInServer(mail, getApplicationContext(), new Model.GetTravelerByEmailListener() {
+                        @Override
+                        public void onComplete(Traveler traveler, List<String> favoriteCategories) {
+                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
                 }
                 else{
                     myLoadingDialog.dismiss();

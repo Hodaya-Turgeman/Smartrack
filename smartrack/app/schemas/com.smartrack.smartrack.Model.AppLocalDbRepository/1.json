@@ -1,0 +1,77 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "07a853b49bda8b479e0ba42fe00a0483",
+    "entities": [
+      {
+        "tableName": "Traveler",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`travelerMail` TEXT NOT NULL, `travelerBirthYear` INTEGER, `travelerGender` TEXT, `travelerName` TEXT, PRIMARY KEY(`travelerMail`))",
+        "fields": [
+          {
+            "fieldPath": "travelerMail",
+            "columnName": "travelerMail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "travelerBirthYear",
+            "columnName": "travelerBirthYear",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "travelerGender",
+            "columnName": "travelerGender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "travelerName",
+            "columnName": "travelerName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "travelerMail"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FavoriteCategories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category` TEXT NOT NULL, `travelerMail` TEXT, PRIMARY KEY(`category`))",
+        "fields": [
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "travelerMail",
+            "columnName": "travelerMail",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "category"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"07a853b49bda8b479e0ba42fe00a0483\")"
+    ]
+  }
+}

@@ -24,15 +24,15 @@ public class UserModelMongoDB {
     }
 
 
-    public static Traveler getTravelerById() {
-        App app= new App(new AppConfiguration.Builder("applcation-smartrack-zpmqf").build());
-        User user=app.currentUser();
-        SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
-        Realm realm = Realm.getInstance(config);
-        Traveler traveler = realm.where(Traveler.class).equalTo("_id", new ObjectId(user.getId())).findFirst();
-        return traveler;
-    }
+//    public static Traveler getTravelerById() {
+//        App app= new App(new AppConfiguration.Builder("applcation-smartrack-zpmqf").build());
+//        User user=app.currentUser();
+//        SyncConfiguration config = new SyncConfiguration.Builder(user, user.getProfile().getEmail())
+//                .allowQueriesOnUiThread(true)
+//                .allowWritesOnUiThread(true)
+//                .build();
+//        Realm realm = Realm.getInstance(config);
+//        Traveler traveler = realm.where(Traveler.class).equalTo("_id", new ObjectId(user.getId())).findFirst();
+//        return traveler;
+//    }
 }
