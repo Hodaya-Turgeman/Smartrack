@@ -52,13 +52,13 @@ public class UserDetailsActivity extends AppCompatActivity {
     };
     final String[] categoriesArraySaveInMongoDb={
             "amusement_park","aquarium","art_gallery","bar","casino",
-            "museum","night club","park","shopping_mall","spa",
+            "museum","night_club","park","shopping_mall","spa",
             "tourist_attraction","zoo", "bowling_alley","cafe",
             "church","city_hall","library","mosque", "synagogue"
     };
     User user;
     UserProfile userProfile;
-    RealmList<String> travelerFavoriteCategories;
+    List<String> travelerFavoriteCategories;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,27 +143,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-//        SyncConfiguration config = new SyncConfiguration.Builder(user, partitionValue)
-//                .allowQueriesOnUiThread(true)
-//                .allowWritesOnUiThread(true)
-//                .build();
-//        Realm backgroundThreadRealm = Realm.getInstance(config);
-//        Realm.getInstanceAsync(config, new Realm.Callback() {
-//            @Override
-//            public void onSuccess(Realm realm) {
-//                ObjectId _id=new ObjectId(user.getId());
-//                Traveler traveler=new Traveler(_id,partitionValue, travelerName,travelerBirthYear,travelerGender,travelerFavoriteCategories);
-//
-//                realm.executeTransaction (transactionRealm -> {
-//                    transactionRealm.insert(traveler);
-//                    Toast.makeText(UserDetailsActivity.this, "saved", Toast.LENGTH_LONG).show();
-//                    Intent intent=new Intent(UserDetailsActivity.this, MainActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                    finish();
-//                });
-//            }
-//        });
+
     }
 
     public String[] getYears() {
@@ -209,7 +189,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    travelerFavoriteCategories=new RealmList<>();
+                    travelerFavoriteCategories=new ArrayList<>();
                     errorCategory.setText("");
                     // Initialize string builder
                     StringBuilder stringBuilder = new StringBuilder();

@@ -82,55 +82,9 @@ public class PlacesList {
         }
         return myList;
     }
-//     "place_id" : "ChIJTy8ebfKiAhURRKp0tl8_eDk",
-//             "plus_code" : {
-//        "compound_code" : "QMF4+7V Ashdod",
-//                "global_code" : "8G3PQMF4+7V"
-//    },
-//            "rating" : 4.5,
-//            "reference" : "ChIJTy8ebfKiAhURRKp0tl8_eDk",
-//            "types" : [ "tourist_attraction", "park", "point_of_interest", "establishment" ],
-//            "user_ratings_total" : 193
-//},
-//        {
-//        "business_status" : "OPERATIONAL",
-//        "formatted_address" : "Ashdod, Israel",
-//        "geometry" : {
-//        "location" : {
-//        "lat" : 31.8168821,
-//        "lng" : 34.6473344
-//        },
-//        "viewport" : {
-//        "northeast" : {
-//        "lat" : 31.81823192989272,
-//        "lng" : 34.64868422989272
-//        },
-//        "southwest" : {
-//        "lat" : 31.81553227010727,
-//        I/System.out:                   "lng" : 34.64598457010727
-//        }
-//        }
-//        },
-//        "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/park-71.png",
-//        "icon_background_color" : "#4DB546",
-//        "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/tree_pinlet",
-//        "name" : "Парк Лакхиш",
-//        "opening_hours" : {
-//        "open_now" : true
-//        },
-//        "photos" : [
-//        {
-//        "height" : 3456,
-//        "html_attributions" : [
-//        "\u003ca href=\"https://maps.google.com/maps/contrib/100995579281806437413\"\u003eshalva1948\u003c/a\u003e"
-//        ],
-//        "photo_reference" : "Aap_uECQBOk-mBCXLc9Nn-Tuqa-rYp1PXTjuHYhuTlp4SC0hRR8m4WKc-WhzzCyjX5K63VjK_JGeUmhwXsWv-e1HkPyTe63cg5O-Ly17DalHu4N8Lqv3C8AbZn_1I6uEC1zOOY8piMN84cEl3I-ng8Z5TRPJw6c37Cs5tJg7UIR5XLzbNhsD",
-//        "width" : 5184
-//        }
-//        ],
+
 
     public static PlacePlanning JsonToPlace(JSONObject place) throws JSONException {
-        //List<PlacePlanning> myList=new ArrayList<PlacePlanning>();
         PlacePlanning placePlanning = new PlacePlanning();
         final String url = "https://maps.googleapis.com/maps/api/place/photo?photo_reference=";
         String placeID = null;

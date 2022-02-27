@@ -1,14 +1,10 @@
-package com.smartrack.smartrack.ui.futureTrip;
+package com.smartrack.smartrack.ui.MyTrip;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +15,6 @@ import android.widget.TextView;
 
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
-import com.smartrack.smartrack.ui.planTrip.PlacesListFragment;
-import com.smartrack.smartrack.ui.planTrip.PlacesListFragmentArgs;
-import com.smartrack.smartrack.ui.planTrip.PlacesListFragmentDirections;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

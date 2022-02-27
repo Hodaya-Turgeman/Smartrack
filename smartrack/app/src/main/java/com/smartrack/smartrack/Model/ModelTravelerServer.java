@@ -69,7 +69,12 @@ public class ModelTravelerServer {
                     JSONObject  jsonTraveler = new JSONObject(result);
                     Traveler traveler= new Traveler(jsonTraveler.get("travelerMail").toString(),jsonTraveler.get("travelerName").toString(),Integer.valueOf(jsonTraveler.get("travelerBirthYear").toString()),jsonTraveler.get("travelerGender").toString());
                     List<FavoriteCategories>listFavoriteCategories= new ArrayList<FavoriteCategories>();
-                    String[] travelerFavoriteCategories = jsonTraveler.get("travelerFavoriteCategories").toString().split(",");
+                    String str = jsonTraveler.get("travelerFavoriteCategories").toString();
+                    str = str.substring(1,str.length()-1);
+                    String[] travelerFavoriteCategories = str.split(",");
+                    for(int i=0 ;i< travelerFavoriteCategories.length;++i){
+                        travelerFavoriteCategories[i] = travelerFavoriteCategories[i].substring(1, travelerFavoriteCategories[i].length() - 1);
+                    }
                     for(int i=0; i<travelerFavoriteCategories.length;++i){
                         listFavoriteCategories.add(new FavoriteCategories(travelerFavoriteCategories[i],jsonTraveler.get("travelerMail").toString()));
                     }
@@ -80,6 +85,41 @@ public class ModelTravelerServer {
                         }
                     });
                     listener.onComplete(traveler, Arrays.asList(travelerFavoriteCategories));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute(httpCallPost);
+
+    }
+    public void editTraveler(Traveler traveler, List<FavoriteCategories>listFavoriteCategories, Context context, Model.EditTravelerListener listener) {
+        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/traveler/editTraveler";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_PLAN_TRIP);
+        HashMap<String, String> paramsTraveler = new HashMap<>();
+        paramsTraveler.put("travelerMail",traveler.getTravelerMail());
+        paramsTraveler.put("travelerName",traveler.getTravelerName());
+        paramsTraveler.put("travelerBirthYear", String.valueOf(traveler.getTravelerBirthYear()));
+        paramsTraveler.put("travelerGender",traveler.getTravelerGender());
+        for (int i = 0; i < listFavoriteCategories.size() ; ++i) {
+            paramsTraveler.put("travelerFavoriteCategories" + "[" + i + "]", listFavoriteCategories.get(i).getCategory());
+        }
+        httpCallPost.setParams(paramsTraveler);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+                Log.d("My Response:",response.toString());
+                String result = response.toString();
+                try {
+                    travelerModelSQL.editTraveler(traveler, listFavoriteCategories, context, new Model.AddTravelerListener() {
+                        @Override
+                        public void onComplete(String isSuccess) {
+
+                        }
+                    });
+                    listener.onComplete(response);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

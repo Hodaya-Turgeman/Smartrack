@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.futureTrip.ListTripInDayFragment">
+    tools:context=".ui.MyTrip.ListTripInDayFragment">
 
     <ListView
         android:id="@+id/fragment_list_trip_in_day_list_view"

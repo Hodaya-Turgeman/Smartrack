@@ -14,13 +14,63 @@ public class ModelTravelerSQL {
     public List<Traveler> getAllTraveler(Context context){
         return AppLocalDB.getDatabase(context).travelerDao().getAllTraveler();
     }
-    public List<String> getAllFavoriteCategoriesOfTraveler(String travelerMail,Context context){
-        return  AppLocalDB.getDatabase(context).favoriteCategoriesDao().getAllFavoriteCategoriesOfTraveler(travelerMail);
+    public void getAllFavoriteCategoriesOfTraveler(String travelerMail,Context context,final Model.GetTravelerFavoriteCategories listener){
+
+        class MyAsynchTask extends AsyncTask {
+            List<String> listF;
+            @Override
+            protected Object doInBackground(Object[] objects) {
+              listF = AppLocalDB.getDatabase(context).favoriteCategoriesDao().getAllFavoriteCategoriesOfTraveler(travelerMail);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if (listener != null) {
+                    listener.onComplete(listF);
+                }
+            }
+        }
+        MyAsynchTask task = new MyAsynchTask();
+        task.execute();
+
     }
     public  void addTraveler(Traveler traveler,List<FavoriteCategories> favoriteCategories ,Context context,final Model.AddTravelerListener listener) {
         class MyAsynchTask extends AsyncTask {
             @Override
             protected Object doInBackground(Object[] objects) {
+                AppLocalDB.getDatabase(context).travelerDao().insertAll(traveler);
+                for (int i=0;i<favoriteCategories.size();++i){
+                    AppLocalDB.getDatabase(context).favoriteCategoriesDao().insertAll(favoriteCategories.get(i));
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if (listener != null) {
+                    listener.onComplete("true");
+                }
+            }
+        }
+        MyAsynchTask task = new MyAsynchTask();
+        task.execute();
+
+    }
+    public  void editTraveler(Traveler traveler,List<FavoriteCategories> favoriteCategories ,Context context,final Model.AddTravelerListener listener) {
+        class MyAsynchTask extends AsyncTask {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                Traveler traveler1= AppLocalDB.getDatabase(context).travelerDao().getTravelerByEmail(traveler.getTravelerMail()).get(0);
+                List<FavoriteCategories> listFavoriteCategories = AppLocalDB.getDatabase(context).favoriteCategoriesDao().getAllFavoriteCategories(traveler.getTravelerMail());
+                AppLocalDB.getDatabase(context).travelerDao().deleteTraveler(traveler1);
+                for(int i=0;i<listFavoriteCategories.size();++i){
+                    AppLocalDB.getDatabase(context).favoriteCategoriesDao().deleteFavoriteCategories(listFavoriteCategories.get(i));
+                }
+
                 AppLocalDB.getDatabase(context).travelerDao().insertAll(traveler);
                 for (int i=0;i<favoriteCategories.size();++i){
                     AppLocalDB.getDatabase(context).favoriteCategoriesDao().insertAll(favoriteCategories.get(i));
@@ -65,7 +115,30 @@ public class ModelTravelerSQL {
         MyAsynchTask task = new MyAsynchTask();
         task.execute();
     }
+    public static void deleteTraveler(String travelerMail, Context context, final Model.DeleteTravelerListener listener) {
 
+        class MyAsynchTask extends AsyncTask {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                Traveler traveler= AppLocalDB.getDatabase(context).travelerDao().getTravelerByEmail(travelerMail).get(0);
+                List<FavoriteCategories> listFavoriteCategories = AppLocalDB.getDatabase(context).favoriteCategoriesDao().getAllFavoriteCategories(travelerMail);
+                AppLocalDB.getDatabase(context).travelerDao().deleteTraveler(traveler);
+                for(int i=0;i<listFavoriteCategories.size();++i){
+                    AppLocalDB.getDatabase(context).favoriteCategoriesDao().deleteFavoriteCategories(listFavoriteCategories.get(i));
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if (listener != null) {
+                    listener.onComplete(true);
+                }
+            }
+        }
+        MyAsynchTask task = new MyAsynchTask();
+        task.execute();
+    }
 
 
 }

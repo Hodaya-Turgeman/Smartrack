@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import org.bson.types.ObjectId;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -16,7 +18,7 @@ public class PlaceDetails implements Parcelable  {
     private double placeLocationLng;
     private String placeFormattedAddress;
     private String placeInternationalPhoneNumber;
-    private RealmList<String> placeOpeningHours;
+    private List<String> placeOpeningHours;
     private float placeRating;
     private String placeWebsite;
     private String placeImgUrl;
@@ -24,7 +26,7 @@ public class PlaceDetails implements Parcelable  {
     public PlaceDetails() {
     }
 
-    public PlaceDetails(String placeID, String placeName, double placeLocationLat, double placeLocationLng, String placeFormattedAddress, String placeInternationalPhoneNumber, RealmList<String> placeOpeningHours, float placeRating, String placeWebsite, String placeImgUrl) {
+    public PlaceDetails(String placeID, String placeName, double placeLocationLat, double placeLocationLng, String placeFormattedAddress, String placeInternationalPhoneNumber, List<String> placeOpeningHours, float placeRating, String placeWebsite, String placeImgUrl) {
         this.placeID = placeID;
         this.placeName = placeName;
         this.placeLocationLat = placeLocationLat;
@@ -109,7 +111,7 @@ public class PlaceDetails implements Parcelable  {
         this.placeInternationalPhoneNumber = placeInternationalPhoneNumber;
     }
 
-    public RealmList<String> getPlaceOpeningHours() {
+    public List<String> getPlaceOpeningHours() {
         return placeOpeningHours;
     }
 
