@@ -1,5 +1,8 @@
 package com.smartrack.smartrack.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,7 +10,7 @@ import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
-public class FavoriteCategories {
+public class FavoriteCategories implements Parcelable {
     @PrimaryKey
     @NotNull
     private  String category;
@@ -17,6 +20,23 @@ public class FavoriteCategories {
         this.category=category;
         this.travelerMail= travelerMail;
     }
+
+    protected FavoriteCategories(Parcel in) {
+        category = in.readString();
+        travelerMail = in.readString();
+    }
+
+    public static final Creator<FavoriteCategories> CREATOR = new Creator<FavoriteCategories>() {
+        @Override
+        public FavoriteCategories createFromParcel(Parcel in) {
+            return new FavoriteCategories(in);
+        }
+
+        @Override
+        public FavoriteCategories[] newArray(int size) {
+            return new FavoriteCategories[size];
+        }
+    };
 
     public String getCategory() {
         return category;
@@ -32,5 +52,16 @@ public class FavoriteCategories {
 
     public void setTravelerMail(String travelerMail) {
         this.travelerMail = travelerMail;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(category);
+        dest.writeString(travelerMail);
     }
 }

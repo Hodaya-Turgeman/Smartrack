@@ -77,8 +77,6 @@ public class PlanTripFragment extends Fragment {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 myPlace=place;
-                System.out.println(myPlace.getName());
-//            Toast.makeText(this.GalleryViewModel, place.getName(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -93,7 +91,6 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                progressBar.setVisibility(View.VISIBLE);
 //                myLoadingDialog.setTitle("Search Places");
 //                myLoadingDialog.setMessage("Please Wait!");
 //                myLoadingDialog.setCanceledOnTouchOutside(false);
@@ -102,7 +99,7 @@ public class PlanTripFragment extends Fragment {
                 tripDaysNumber=Integer.parseInt(tripDays.getText().toString());
                 if(checkName(tripName)&&myPlace!=null)
                 {
-                    PlanTripFragmentDirections.ActionNavPlanTripToSplashPlanTripFragment action=PlanTripFragmentDirections.actionNavPlanTripToSplashPlanTripFragment(tripDaysNumber,myPlace.getName());
+                    PlanTripFragmentDirections.ActionNavPlanTripToSplashPlanTripFragment action=PlanTripFragmentDirections.actionNavPlanTripToSplashPlanTripFragment(tripDaysNumber,myPlace.getName(), (float)myPlace.getLatLng().latitude, (float)myPlace.getLatLng().longitude);
                     Navigation.findNavController(view).navigate(action);
                 }
                 else
@@ -213,4 +210,5 @@ public class PlanTripFragment extends Fragment {
 //    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
 //    }
+
 }

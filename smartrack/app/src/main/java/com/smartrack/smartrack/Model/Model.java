@@ -14,19 +14,12 @@ public class Model {
     public final static Model instance = new Model();
     String appID = "application-smartrack-lhtyu";
     App app = new App(new AppConfiguration.Builder(appID).build());
-    UserModelMongoDB user= new UserModelMongoDB();
     private ModelTravelerServer travelerModelServer=new ModelTravelerServer();
     private ModelTravelerSQL travelerModelSQL=new ModelTravelerSQL();
     List<String>listFavoriteCategoriesOfTraveler;
     private Model(){}
 
-    public User getCurrentUser()
-    {
-        return UserModelMongoDB.getCurrentUser();
-    }
-    public interface GetUserByIDsListener{
-        void onComplete(User user);
-    }
+
 
 
     public interface AddTravelerListener{
@@ -45,17 +38,30 @@ public class Model {
         travelerModelServer.getTraveler(travelerMail, context,listener);
 
     }
-    public List<String> getAllFavoriteCategoriesOfTraveler(String travelerMail,Context context) {
-        if(listFavoriteCategoriesOfTraveler==null){
-            listFavoriteCategoriesOfTraveler=travelerModelSQL.getAllFavoriteCategoriesOfTraveler(travelerMail,context);
-        }
-        return  listFavoriteCategoriesOfTraveler;
+    public void editTraveler(final Traveler traveler,final List<FavoriteCategories> listFavoriteCategories,Context context ,final EditTravelerListener listener){
+        travelerModelServer.editTraveler(traveler,listFavoriteCategories,context,listener);
+    }
+    public  void deleteTraveler(String travelerMail, Context context,final DeleteTravelerListener listener){
+        travelerModelSQL.deleteTraveler(travelerMail,context,listener);
+    }
+    public void getAllFavoriteCategoriesOfTraveler(String travelerMail,Context context,final  GetTravelerFavoriteCategories listener) {
+
+      travelerModelSQL.getAllFavoriteCategoriesOfTraveler(travelerMail,context, listener);
     }
     public interface AddTravelerAndFavoriteCategoriesListener{
         void onComplete(boolean isSuccess);
     }
     public interface GetTravelerByEmailListener{
         void onComplete(Traveler traveler,List<String> favoriteCategories);
+    }
+    public interface GetTravelerFavoriteCategories{
+        void onComplete(List<String> favoriteCategories);
+    }
+    public  interface DeleteTravelerListener{
+        void onComplete(boolean isSuccess);
+    }
+    public interface EditTravelerListener{
+        void onComplete(String isSuccess);
     }
 
 }
