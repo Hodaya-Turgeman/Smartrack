@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
@@ -45,10 +47,12 @@ import okhttp3.Response;
 
 
 public class PlanTripFragment extends Fragment {
+    TextInputLayout InputsTripName;
     Place myPlace=null;
     Integer tripDaysNumber;
     ProgressDialog myLoadingDialog;
     ProgressBar progressBar;
+    String tripName;
     JSONObject jsonDataPage1=null,jsonDataPage2=null,jsonDataPage3=null;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class PlanTripFragment extends Fragment {
         if (!Places.isInitialized()) {
             Places.initialize(this.getContext(),getString(R.string.places_api_key));
         }
+        InputsTripName =view.findViewById(R.id.fragment_plan_trip_name);
+
         myLoadingDialog=new ProgressDialog(this.getContext());
         TextView tripDays=view.findViewById(R.id.et_number);
         progressBar=view.findViewById(R.id.fragment_plan_trip_progressBar);
@@ -92,15 +98,30 @@ public class PlanTripFragment extends Fragment {
 //                myLoadingDialog.setMessage("Please Wait!");
 //                myLoadingDialog.setCanceledOnTouchOutside(false);
 //                myLoadingDialog.show();
+                tripName=InputsTripName.getEditText().getText().toString();
                 tripDaysNumber=Integer.parseInt(tripDays.getText().toString());
-                PlanTripFragmentDirections.ActionNavPlanTripToSplashPlanTripFragment action=PlanTripFragmentDirections.actionNavPlanTripToSplashPlanTripFragment(tripDaysNumber,myPlace.getName());
+                if(checkName(tripName)&&myPlace!=null)
+                {
+                    PlanTripFragmentDirections.ActionNavPlanTripToSplashPlanTripFragment action=PlanTripFragmentDirections.actionNavPlanTripToSplashPlanTripFragment(tripDaysNumber,myPlace.getName());
                     Navigation.findNavController(view).navigate(action);
+                }
+                else
+                    Toast.makeText(getContext(),"please choose destination for the trip", Toast.LENGTH_SHORT).show();
+
 
 //                searchByTextInGooglePlaceApi(v);
             }});
 
         return view;
     }
+
+    private boolean checkName(String tripName) {
+        if (tripName.length()>0)
+            return true;
+        Toast.makeText(getContext(), "please enter a name for the trip", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
 //    public void searchByTextInGooglePlaceApi(View view){
 //
 //            Thread placeThread=new Thread(new Runnable() {
