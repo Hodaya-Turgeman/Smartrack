@@ -2,14 +2,17 @@ package com.smartrack.smartrack.ui.MyTrip;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,17 +28,25 @@ public class ListDayInTripFragment extends Fragment {
     ListView listViewPlaces;
     MyAdapter adapter;
     int [] arrDays;
-    TextView numDay;
+    TextView numDay,nameTrip,locationTrip;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_day_in_trip, container, false);
-
         arrayPlaces = ListDayInTripFragmentArgs.fromBundle(getArguments()).getArrTripsDay();
         tripDays=  ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripDays();
+        String name= ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripName();
+        String location = ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripLocation();
         arrDays = new int[tripDays];
-
+        nameTrip = view.findViewById(R.id.fragment_list_day_in_trip_name);
+        String temp = "Schedule of trip \"";
+        temp+=name;
+        temp+= "\"";
+        nameTrip.setText(temp);
+        locationTrip = view.findViewById(R.id.fragment_list_day_in_trip_location);
+        locationTrip.setText(location);
         listViewPlaces =view.findViewById(R.id.fragment_list_day_in_trip_list_view);
         ArrayList<ArrayList<PlacePlanning>> array_place_days_planing = new ArrayList<>();
         for(int k=0; k<tripDays;++k){
@@ -44,7 +55,6 @@ public class ListDayInTripFragment extends Fragment {
         for (int j=0; j<arrayPlaces.length;++j){
             array_place_days_planing.get(arrayPlaces[j].getDay_in_trip()-1).add(arrayPlaces[j]);
         }
-
         adapter=new MyAdapter();
         listViewPlaces.setAdapter(adapter);
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,4 +102,5 @@ public class ListDayInTripFragment extends Fragment {
         }
 
     }
+
 }

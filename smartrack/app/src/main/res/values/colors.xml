@@ -12,4 +12,8 @@
     <color name="green">#3F9C53</color>
     <color name="gold">#FDC313</color>
     <color name="red">#AE4038</color>
+    <array name="array_name">
+        <item>@color/red</item>
+        <item>@color/blue</item>
+    </array>
 </resources>

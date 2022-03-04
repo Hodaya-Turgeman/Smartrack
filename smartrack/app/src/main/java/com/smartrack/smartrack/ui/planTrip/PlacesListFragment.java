@@ -6,7 +6,11 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -26,8 +30,10 @@ import android.widget.Toast;
 import com.smartrack.smartrack.HTTP.HttpCall;
 import com.smartrack.smartrack.HTTP.HttpRequest;
 import com.smartrack.smartrack.LoginActivity;
+import com.smartrack.smartrack.Model.Model;
 import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.Model.PlacePlanning;
+import com.smartrack.smartrack.Model.Trip;
 import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
 
@@ -37,36 +43,43 @@ import java.util.HashMap;
 public class PlacesListFragment extends Fragment {
     ListView listViewPlaces;
     MyAdapter adapter;
-    TextView name,location;
+    TextView name;
     ImageView imagev;
     RatingBar rating;
     PlacePlanning[] arrayPlaces;
     ArrayList<PlacePlanning> chosenPlaces;
-    Button button,planBtn;
+    Button button;
+    TextView planBtn;
     Integer tripDays,placesNum=0;
-    TextView amountUserPlace;
+    TextView amountUserPlace,location;
     ProgressDialog myLoadingDialog;
+    String tripName,tripLocation;
+    int[] colorArray;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places_list, container, false);
         listViewPlaces =view.findViewById(R.id.fragment_places_list_listview);
+
         arrayPlaces =PlacesListFragmentArgs.fromBundle(getArguments()).getArrayPlaces();
         tripDays=PlacesListFragmentArgs.fromBundle(getArguments()).getTripDays();
+        String destination = PlacesListFragmentArgs.fromBundle(getArguments()).getLocationTrip();
         adapter=new MyAdapter();
         listViewPlaces.setAdapter(adapter);
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                Log.d("TAG","post id"+i);
                 PlacesListFragmentDirections.ActionPlacesListFragmentToPlaceDetailsFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToPlaceDetailsFragment(arrayPlaces[i]);
                 Navigation.findNavController(view).navigate( action);
             }
         });
+        tripName= PlacesListFragmentArgs.fromBundle(getArguments()).getTripName();
+        tripLocation = PlacesListFragmentArgs.fromBundle(getArguments()).getLocationTrip();
         chosenNumber(arrayPlaces);
         amountUserPlace=view.findViewById(R.id.fragment_places_list_count_place_user);
         amountUserPlace.setText(String.valueOf(placesNum));
-
+        location = view.findViewById(R.id.fragment_places_list_location);
+        location.setText(destination);
         planBtn=view.findViewById(R.id.fragment_places_list_planBtn);
         planBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +95,7 @@ public class PlacesListFragment extends Fragment {
             }
         });
         myLoadingDialog=new ProgressDialog(getContext());
-
+        colorArray= getContext().getResources().getIntArray(R.array.array_name);
         return view;
     }
 
@@ -104,45 +117,18 @@ public class PlacesListFragment extends Fragment {
             if(arrayPlaces[i].getStatus()==true)
                 chosenPlaces.add(arrayPlaces[i]);
         }
-        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/plantrip/samesizekmeans";
-        HttpCall httpCallPost = new HttpCall();
-        httpCallPost.setMethodtype(HttpCall.GET);
-        httpCallPost.setUrl(URL_PLAN_TRIP);
-        HashMap<String, String> paramsPost = new HashMap<>();
-
-        for (int i = 0; i < chosenPlaces.size(); ++i) {
-            paramsPost.put("t" + "[" + i + "]", String.valueOf(chosenPlaces.get(i).getPlaceLocationLat()) + "," + String.valueOf(chosenPlaces.get(i).getPlaceLocationLng()));
-        }
-        paramsPost.put("numDayTrip", String.valueOf(tripDays));
-        httpCallPost.setParams(paramsPost);
-        new HttpRequest() {
+        Model.instance.planTrip(chosenPlaces, tripDays, new Model.PlanTripListener() {
             @Override
-            public void onResponse(String response) {
-                super.onResponse(response);
-                Log.d("My Response:",response.toString());
-                String result = response.toString();
-                try {
-                    String[] arrOfStr = result.split(",");
-                    for (int j=0; j<chosenPlaces.size();++j){
-                        String[] temp = arrOfStr[j].split("=");
-                        chosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
+            public void onComplete(ArrayList<PlacePlanning> chosenPlaces1) {
+                PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces1.size()];
 
-                    }
-
-
-
-                    Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                    PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces.size()];
-                    chosenPlaces.toArray(arrayPlaces);
-                    myLoadingDialog.dismiss();
-                    PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment("aaa","bbbb",arrayPlaces ,tripDays);
-                    Navigation.findNavController(getView()).navigate( action);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                chosenPlaces1.toArray(arrayPlaces);
+                myLoadingDialog.dismiss();
+                getParentFragmentManager().popBackStack();
+                PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,arrayPlaces ,tripDays);
+                Navigation.findNavController(getView()).navigate( action);
             }
-        }.execute(httpCallPost);
-
+        });
     }
 
     class MyAdapter extends BaseAdapter {
@@ -215,14 +201,15 @@ public class PlacesListFragment extends Fragment {
             button.setTag(place.getStatus());
             if(place.getStatus()==false && String.valueOf(button.getTag())=="false"){
                 button.setText("Add");
-                button.setBackgroundColor(Color.BLUE);
+                button.setBackgroundColor(colorArray[1]);
             }
             else{
                 button.setText("Remove");
-                button.setBackgroundColor(Color.RED);
+                button.setBackgroundColor(colorArray[0]);
             }
             return view;
         }
 
     }
+
 }

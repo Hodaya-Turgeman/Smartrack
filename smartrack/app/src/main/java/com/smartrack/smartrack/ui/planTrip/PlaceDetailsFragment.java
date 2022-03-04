@@ -1,14 +1,14 @@
 package com.smartrack.smartrack.ui.planTrip;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
+
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,25 +17,18 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.DataInput;
 import java.io.IOException;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import com.google.gson.Gson;
 public class PlaceDetailsFragment extends Fragment {
     PlacePlanning placePlanning,placeFullDetails;
     ImageView placeImg;
@@ -46,13 +39,12 @@ public class PlaceDetailsFragment extends Fragment {
     JSONObject jsonData=null;
     String jsonStringPlace;
 
-    @SuppressLint("ResourceAsColor")
+    int[] colorArray;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_place_details, container, false);
-
         placePlanning=PlaceDetailsFragmentArgs.fromBundle(getArguments()).getPlace();
 
         placeName=view.findViewById(R.id.fragment_place_details_place_name);
@@ -70,14 +62,19 @@ public class PlaceDetailsFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        colorArray= getContext().getResources().getIntArray(R.array.array_name);
         placeName.setText(placeFullDetails.getPlaceName());
         placeAddress.setText(placeFullDetails.getPlaceFormattedAddress());
         String openingHours = placeFullDetails.getPlaceOpeningHours().stream()
                 .map(n -> String.valueOf(n))
                 .collect(Collectors.joining("\n", "", ""));
         placeOpeningHours.setText(openingHours);
-       // placeWebsite.setText(placeFullDetails.getPlaceWebsite());
+        String weblink = placeFullDetails.getPlaceWebsite();
+        if(weblink!=null && weblink!="") {
+            placeWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+            String text = "<a href='"+weblink+"'> Link </a>";
+            placeWebsite.setText(Html.fromHtml(text));
+        }
         placeRating=placeFullDetails.getPlaceRating();
         ratingBar.setRating((float)placeRating);
         placeImg.setTag(placeFullDetails.getPlaceImgUrl());
@@ -89,12 +86,12 @@ public class PlaceDetailsFragment extends Fragment {
         }
 
         if(placePlanning.getStatus()==false){
-            addBtn.setText("Add to your trip");
-            addBtn.setBackgroundColor(Color.BLUE);
+            addBtn.setText("Add");
+            addBtn.setBackgroundColor(colorArray[1]);
         }
         else{
-            addBtn.setText("Remove from your trip");
-            addBtn.setBackgroundColor(Color.RED);
+            addBtn.setText("Remove");
+            addBtn.setBackgroundColor(colorArray[0]);
         }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +100,7 @@ public class PlaceDetailsFragment extends Fragment {
                 placeChosen();
             }
         });
+
         return view;
     }
 
@@ -145,12 +143,12 @@ public class PlaceDetailsFragment extends Fragment {
         if(placePlanning.getStatus()==false){
             placePlanning.setStatus(true);
             addBtn.setText("Remove");
-            addBtn.setBackgroundColor(Color.RED);
+            addBtn.setBackgroundColor(colorArray[0]);
         }
         else{
             placePlanning.setStatus(false);
             addBtn.setText("Add");
-            addBtn.setBackgroundColor(Color.BLUE);
+            addBtn.setBackgroundColor(colorArray[1]);
         }
         addBtn.setTag(placePlanning.getStatus());
     }

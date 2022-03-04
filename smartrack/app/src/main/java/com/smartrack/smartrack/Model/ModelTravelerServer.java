@@ -1,9 +1,13 @@
 package com.smartrack.smartrack.Model;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.navigation.Navigation;
 
 import com.smartrack.smartrack.HTTP.HttpCall;
 import com.smartrack.smartrack.HTTP.HttpRequest;
+import com.smartrack.smartrack.ui.planTrip.PlacesListFragmentDirections;
 
 
 import org.json.JSONObject;
@@ -17,10 +21,10 @@ public class ModelTravelerServer {
 
     private ModelTravelerSQL travelerModelSQL=new ModelTravelerSQL();
     public void addTraveler(Traveler traveler, List<FavoriteCategories>listFavoriteCategories, Context context, Model.AddTravelerListener listener) {
-        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/traveler/addtraveler";
+        final String URL_ADD_TRIP = "https://smartrack-app.herokuapp.com/traveler/addtraveler";
         HttpCall httpCallPost = new HttpCall();
         httpCallPost.setMethodtype(HttpCall.GET);
-        httpCallPost.setUrl(URL_PLAN_TRIP);
+        httpCallPost.setUrl(URL_ADD_TRIP);
         HashMap<String, String> paramsTraveler = new HashMap<>();
         paramsTraveler.put("travelerMail",traveler.getTravelerMail());
         paramsTraveler.put("travelerName",traveler.getTravelerName());
@@ -52,10 +56,10 @@ public class ModelTravelerServer {
 
     }
     public void getTraveler(String travelerMail,Context context,Model.GetTravelerByEmailListener listener){
-        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/traveler/getinfotraveler";
+        final String URL_GET_TRAVELER = "https://smartrack-app.herokuapp.com/traveler/getinfotraveler";
         HttpCall httpCallPost = new HttpCall();
         httpCallPost.setMethodtype(HttpCall.GET);
-        httpCallPost.setUrl(URL_PLAN_TRIP);
+        httpCallPost.setUrl(URL_GET_TRAVELER);
         HashMap<String, String> paramsTraveler = new HashMap<>();
         paramsTraveler.put("travelerMail",travelerMail);
         httpCallPost.setParams(paramsTraveler);
@@ -93,10 +97,10 @@ public class ModelTravelerServer {
 
     }
     public void editTraveler(Traveler traveler, List<FavoriteCategories>listFavoriteCategories, Context context, Model.EditTravelerListener listener) {
-        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/traveler/editTraveler";
+        final String URL_EDIT_TRAVELER = "https://smartrack-app.herokuapp.com/traveler/editTraveler";
         HttpCall httpCallPost = new HttpCall();
         httpCallPost.setMethodtype(HttpCall.GET);
-        httpCallPost.setUrl(URL_PLAN_TRIP);
+        httpCallPost.setUrl(URL_EDIT_TRAVELER);
         HashMap<String, String> paramsTraveler = new HashMap<>();
         paramsTraveler.put("travelerMail",traveler.getTravelerMail());
         paramsTraveler.put("travelerName",traveler.getTravelerName());
@@ -127,5 +131,89 @@ public class ModelTravelerServer {
         }.execute(httpCallPost);
 
     }
+    public void planTrip(ArrayList<PlacePlanning> chosenPlaces,int tripDays,Model.PlanTripListener listener ){
+        final String URL_PLAN_TRIP = "https://smartrack-app.herokuapp.com/plantrip/samesizekmeans";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_PLAN_TRIP);
+        HashMap<String, String> paramsPost = new HashMap<>();
 
+        for (int i = 0; i < chosenPlaces.size(); ++i) {
+            paramsPost.put("t" + "[" + i + "]", String.valueOf(chosenPlaces.get(i).getPlaceLocationLat()) + "," + String.valueOf(chosenPlaces.get(i).getPlaceLocationLng()));
+        }
+        paramsPost.put("numDayTrip", String.valueOf(tripDays));
+        httpCallPost.setParams(paramsPost);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+                Log.d("My Response:",response.toString());
+                String result = response.toString();
+                try {
+                    String[] arrOfStr = result.split(",");
+                    for (int j=0; j<chosenPlaces.size();++j){
+                        String[] temp = arrOfStr[j].split("=");
+                        chosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
+
+                    }
+                 listener.onComplete(chosenPlaces);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute(httpCallPost);
+
+    }
+    public void addTrip(ArrayList<PlacePlanning> chosenPlaces,String tripName,String tripLocation,String travelerMail, Integer  tripDays, Model.AddTripListener listener) {
+        final String URL_ADD_TRIP = "https://smartrack-app.herokuapp.com/traveler/addTrip";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_ADD_TRIP);
+        HashMap<String, String> paramsPost = new HashMap<>();
+        paramsPost.put("tripDaysNumber", String.valueOf(tripDays));
+        paramsPost.put("tripName", tripName);
+        paramsPost.put("travelerMail", travelerMail);
+        paramsPost.put("tripDestination", tripLocation);
+        for (int i = 0; i < chosenPlaces.size(); ++i) {
+            String s="";
+            s+=(chosenPlaces.get(i).getPlaceID()+",");
+            s+=(chosenPlaces.get(i).getPlaceName()+",");
+            s+=(String.valueOf(chosenPlaces.get(i).getPlaceLocationLat())+",");
+            s+=(String.valueOf(chosenPlaces.get(i).getPlaceLocationLng())+",");
+            s+=(chosenPlaces.get(i).getPlaceFormattedAddress()+",");
+            s+=(chosenPlaces.get(i).getPlaceInternationalPhoneNumber()+",");
+            s+=(String.valueOf(chosenPlaces.get(i).getPlaceRating())+",");
+            s+=(chosenPlaces.get(i).getPlaceWebsite()+",");
+            s+=(chosenPlaces.get(i).getPlaceImgUrl()+",");
+            s+=(chosenPlaces.get(i).getDay_in_trip()+",");
+            String openHours="";
+            for (int j=0;j<chosenPlaces.get(i).getPlaceOpeningHours().size();++j){
+                openHours+=(chosenPlaces.get(i).getPlaceOpeningHours().get(j)+"#");
+            }
+            s+=(openHours);
+            paramsPost.put("arrChosenPlaces" + "[" + i + "]", s);
+        }
+        httpCallPost.setParams(paramsPost);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+                Log.d("My Response:",response.toString());
+                String result = response.toString();
+                try {
+                    String[] arrOfStr = result.split(",");
+                    for (int j=0; j<chosenPlaces.size();++j){
+                        String[] temp = arrOfStr[j].split("=");
+                        chosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
+
+                    }
+                    listener.onComplete(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute(httpCallPost);
+
+
+    }
 }

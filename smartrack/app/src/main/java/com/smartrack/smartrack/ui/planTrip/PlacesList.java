@@ -77,9 +77,7 @@ public class PlacesList {
                 myList.add(myPlace);
             }
         }
-        for (int i = 0; i < myList.size(); ++i) {
-            System.out.println("[" + myList.get(i).getPlaceLocationLat() + "," + myList.get(i).getPlaceLocationLng() + "]");
-        }
+
         return myList;
     }
 

@@ -4,6 +4,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -45,6 +47,7 @@ public class SplashPlanTripFragment extends Fragment {
     int end=0;
     int m;
     float latitude,longitude;
+    String  tripName,tripLocation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +57,8 @@ public class SplashPlanTripFragment extends Fragment {
         tripDaysNumber=SplashPlanTripFragmentArgs.fromBundle(getArguments()).getTripDays();
         latitude= SplashPlanTripFragmentArgs.fromBundle(getArguments()).getLatitude();
         longitude = SplashPlanTripFragmentArgs.fromBundle(getArguments()).getLongitude();
+        tripName = SplashPlanTripFragmentArgs.fromBundle(getArguments()).getNameTrip();
+        tripLocation = SplashPlanTripFragmentArgs.fromBundle(getArguments()).getLocationTrip();
         Runnable runnable=new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -166,7 +171,8 @@ public class SplashPlanTripFragment extends Fragment {
                             if(m== end) {
                                 PlacePlanning[] arrayPlaces = new PlacePlanning[myAllPlaces.size()];
                                 myAllPlaces.toArray(arrayPlaces);
-                                SplashPlanTripFragmentDirections.ActionSplashPlanTripFragmentToPlacesListFragment action = SplashPlanTripFragmentDirections.actionSplashPlanTripFragmentToPlacesListFragment(arrayPlaces, tripDaysNumber);
+                                getParentFragmentManager().popBackStack();
+                                SplashPlanTripFragmentDirections.ActionSplashPlanTripFragmentToPlacesListFragment action = SplashPlanTripFragmentDirections.actionSplashPlanTripFragmentToPlacesListFragment(arrayPlaces, tripDaysNumber,tripName,tripLocation);
                                 Navigation.findNavController(view).navigate(action);
                             }
                         }
@@ -179,4 +185,5 @@ public class SplashPlanTripFragment extends Fragment {
         });
 
     }
+
 }

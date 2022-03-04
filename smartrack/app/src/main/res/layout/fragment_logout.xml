@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/b2"
-    tools:context=".ui.logout.LogoutFragment">
+    tools:context=".ui.profile.LogoutFragment">
 
     <TextView
         android:layout_width="376dp"

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.mongodb.App;
@@ -48,6 +49,9 @@ public class Model {
 
       travelerModelSQL.getAllFavoriteCategoriesOfTraveler(travelerMail,context, listener);
     }
+    public  void planTrip(ArrayList<PlacePlanning> chosenPlaces,int tripDays,Model.PlanTripListener listener ){
+        travelerModelServer.planTrip(chosenPlaces,tripDays,listener);
+    }
     public interface AddTravelerAndFavoriteCategoriesListener{
         void onComplete(boolean isSuccess);
     }
@@ -63,5 +67,10 @@ public class Model {
     public interface EditTravelerListener{
         void onComplete(String isSuccess);
     }
-
+    public interface PlanTripListener{
+        void onComplete(ArrayList<PlacePlanning> chosenPlaces);
+    }
+    public interface AddTripListener{
+        void onComplete(boolean isSuccess);
+    }
 }

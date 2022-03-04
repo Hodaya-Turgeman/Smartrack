@@ -15,7 +15,7 @@
         android:id="@+id/nav_plan_trip"
         android:name="com.smartrack.smartrack.ui.planTrip.PlanTripFragment"
         android:label="@string/menu_plan_trip"
-        tools:layout="@layout/fragment_plan_trip" >
+        tools:layout="@layout/fragment_plan_trip">
         <action
             android:id="@+id/action_nav_plan_trip_to_splashPlanTripFragment"
             app:destination="@id/splashPlanTripFragment" />
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/nav_logout"
-        android:name="com.smartrack.smartrack.ui.logout.LogoutFragment"
+        android:name="com.smartrack.smartrack.ui.profile.LogoutFragment"
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_logout">
         <action
@@ -39,8 +39,8 @@
     <fragment
         android:id="@+id/placeDetailsFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.PlaceDetailsFragment"
-        android:label="fragment_place_details"
-        tools:layout="@layout/fragment_place_details" >
+        android:label="1"
+        tools:layout="@layout/fragment_place_details">
         <argument
             android:name="place"
             app:argType="com.smartrack.smartrack.Model.PlacePlanning" />
@@ -53,7 +53,7 @@
     <fragment
         android:id="@+id/travelerEditProfileFragment"
         android:name="com.smartrack.smartrack.ui.profile.TravelerEditProfileFragment"
-        android:label="Edit Profile"
+        android:label="1"
         tools:layout="@layout/fragment_traveler_edit_profile">
         <argument
             android:name="traveler"
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.smartrack.smartrack.ui.profile.TravelerProfileFragment"
-        android:label="Profile"
+        android:label="@string/menu_home"
         tools:layout="@layout/fragment_traveler_profile">
         <action
             android:id="@+id/action_nav_profile_to_travelerEditProfileFragment"
@@ -80,6 +80,7 @@
     <fragment
         android:id="@+id/placesListFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.PlacesListFragment"
+        android:label="@string/blank"
         tools:layout="@layout/fragment_places_list">
         <argument
             android:name="arrayPlaces"
@@ -93,10 +94,17 @@
         <action
             android:id="@+id/action_placesListFragment_to_listDayInTripFragment"
             app:destination="@id/listDayInTripFragment" />
+        <argument
+            android:name="tripName"
+            app:argType="string" />
+        <argument
+            android:name="locationTrip"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/splashPlanTripFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.SplashPlanTripFragment"
+        android:label="1"
         tools:layout="@layout/fragment_shplash_plan_trip">
         <argument
             android:name="tripDays"
@@ -113,10 +121,14 @@
         <argument
             android:name="longitude"
             app:argType="float" />
+        <argument
+            android:name="nameTrip"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/listDayInTripFragment"
         android:name="com.smartrack.smartrack.ui.MyTrip.ListDayInTripFragment"
+        android:label="1"
         tools:layout="@layout/fragment_list_day_in_trip">
         <argument
             android:name="tripName"
@@ -139,6 +151,7 @@
     <fragment
         android:id="@+id/listTripInDayFragment"
         android:name="com.smartrack.smartrack.ui.MyTrip.ListTripInDayFragment"
+        android:label="1"
         tools:layout="@layout/fragment_list_trip_in_day">
         <argument
             android:name="arrTrip"

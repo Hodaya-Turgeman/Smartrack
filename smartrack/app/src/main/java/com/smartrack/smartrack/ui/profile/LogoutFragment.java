@@ -1,4 +1,4 @@
-package com.smartrack.smartrack.ui.logout;
+package com.smartrack.smartrack.ui.profile;
 
 import android.os.Bundle;
 import android.os.Handler;
