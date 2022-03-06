@@ -40,6 +40,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import io.realm.Realm;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.User;
+
 public class PlacesListFragment extends Fragment {
     ListView listViewPlaces;
     MyAdapter adapter;
@@ -55,6 +60,7 @@ public class PlacesListFragment extends Fragment {
     ProgressDialog myLoadingDialog;
     String tripName,tripLocation;
     int[] colorArray;
+    User user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +79,9 @@ public class PlacesListFragment extends Fragment {
                 Navigation.findNavController(view).navigate( action);
             }
         });
+        Realm.init(getContext()); // context, usually an Activity or Application
+        App app = new App(new AppConfiguration.Builder(getString(R.string.AppId)).build());
+        user = app.currentUser();
         tripName= PlacesListFragmentArgs.fromBundle(getArguments()).getTripName();
         tripLocation = PlacesListFragmentArgs.fromBundle(getArguments()).getLocationTrip();
         chosenNumber(arrayPlaces);
@@ -123,10 +132,16 @@ public class PlacesListFragment extends Fragment {
                 PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces1.size()];
 
                 chosenPlaces1.toArray(arrayPlaces);
-                myLoadingDialog.dismiss();
-                getParentFragmentManager().popBackStack();
-                PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,arrayPlaces ,tripDays);
-                Navigation.findNavController(getView()).navigate( action);
+                Model.instance.addTrip(chosenPlaces1, tripName, tripLocation, user.getProfile().getEmail(), tripDays, new Model.AddTripListener() {
+                    @Override
+                    public void onComplete(boolean isSuccess) {
+                        myLoadingDialog.dismiss();
+                        getParentFragmentManager().popBackStack();
+                        PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,arrayPlaces ,tripDays);
+                        Navigation.findNavController(getView()).navigate( action);
+                    }
+                });
+
             }
         });
     }

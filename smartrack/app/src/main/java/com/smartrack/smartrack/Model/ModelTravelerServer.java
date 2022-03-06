@@ -187,11 +187,14 @@ public class ModelTravelerServer {
             s+=(chosenPlaces.get(i).getPlaceImgUrl()+",");
             s+=(chosenPlaces.get(i).getDay_in_trip()+",");
             String openHours="";
-            for (int j=0;j<chosenPlaces.get(i).getPlaceOpeningHours().size();++j){
-                openHours+=(chosenPlaces.get(i).getPlaceOpeningHours().get(j)+"#");
+            if(chosenPlaces.get(i).getPlaceOpeningHours()!=null){
+                for (int j=0;j<chosenPlaces.get(i).getPlaceOpeningHours().size();++j){
+                    openHours+=(chosenPlaces.get(i).getPlaceOpeningHours().get(j)+"#");
+                }
             }
             s+=(openHours);
             paramsPost.put("arrChosenPlaces" + "[" + i + "]", s);
+            System.out.println(paramsPost);
         }
         httpCallPost.setParams(paramsPost);
         new HttpRequest() {
@@ -201,19 +204,17 @@ public class ModelTravelerServer {
                 Log.d("My Response:",response.toString());
                 String result = response.toString();
                 try {
-                    String[] arrOfStr = result.split(",");
-                    for (int j=0; j<chosenPlaces.size();++j){
-                        String[] temp = arrOfStr[j].split("=");
-                        chosenPlaces.get(j).setDay_in_trip(Integer.parseInt((temp[1]))+1);
 
-                    }
-                    listener.onComplete(true);
+                    listener.onComplete(result);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }.execute(httpCallPost);
 
+
+    }
+    public void AddPlace(PlacePlanning chosenPlaces,String travelerMail,Model.AddPlaceListener listener){
 
     }
 }
