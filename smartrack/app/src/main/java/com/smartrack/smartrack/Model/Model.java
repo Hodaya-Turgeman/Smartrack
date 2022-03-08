@@ -34,8 +34,8 @@ public class Model {
         travelerModelSQL.getTravelerByMail(travelerMail, context,listener);
 
     }
-    public void addTrip(String tripName,String tripLocation,String travelerMail, Integer  tripDays, Model.AddTripListener listener){
-        travelerModelServer.addTrip(tripName,tripLocation,travelerMail,tripDays,  listener );
+    public void addTrip(String tripName,String tripLocation,String travelerMail, Integer  tripDays,Context context, Model.AddTripListener listener){
+        travelerModelServer.addTrip(tripName,tripLocation,travelerMail,tripDays,context,  listener );
     }
     public void getTravelerByEmailInServer(String travelerMail, Context context, final GetTravelerByEmailListener listener){
 

@@ -167,7 +167,7 @@ public class ModelTravelerServer {
         }.execute(httpCallPost);
 
     }
-    public void addTrip(String tripName,String tripLocation,String travelerMail, Integer  tripDays, Model.AddTripListener listener) {
+    public void addTrip(String tripName,String tripLocation,String travelerMail, Integer  tripDays,Context context, Model.AddTripListener listener) {
         final String URL_ADD_TRIP = "https://smartrack-app.herokuapp.com/traveler/addTrip";
         HttpCall httpCallPost = new HttpCall();
         httpCallPost.setMethodtype(HttpCall.GET);
@@ -191,7 +191,14 @@ public class ModelTravelerServer {
                 String result = response.toString();
                 try {
                     String[] a= response.split("\"");
-                    listener.onComplete(a[1]);
+                    Trip trip = new Trip(a[1],travelerMail,tripLocation,tripName,tripDays);
+                    travelerModelSQL.addTrip(trip, context, new Model.AddTripListener() {
+                        @Override
+                        public void onComplete(String tripId) {
+                            listener.onComplete(a[1]);
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

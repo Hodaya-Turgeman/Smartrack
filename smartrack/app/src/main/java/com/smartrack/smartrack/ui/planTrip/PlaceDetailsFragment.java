@@ -32,7 +32,7 @@ import okhttp3.Response;
 public class PlaceDetailsFragment extends Fragment {
     PlacePlanning placePlanning,placeFullDetails;
     ImageView placeImg;
-    TextView placeName,placeAddress,placeOpeningHours,placeWebsite;
+    TextView placeName,placeAddress,placeOpeningHours,placeWebsite,placePhone;
     RatingBar ratingBar;
     double placeRating;
     Button addBtn;
@@ -54,7 +54,7 @@ public class PlaceDetailsFragment extends Fragment {
         ratingBar=view.findViewById(R.id.fragment_place_details_place_rating);
         placeImg=view.findViewById(R.id.fragment_place_details_image);
         addBtn=view.findViewById(R.id.fragment_place_details_btn_add_place_btn);
-
+        placePhone = view.findViewById(R.id.fragment_place_details_place_phone);
         String placeId=placePlanning.getPlaceID();
         placeFullDetails=getPlaceDetailsById(placeId);
         try {
@@ -74,6 +74,12 @@ public class PlaceDetailsFragment extends Fragment {
             placeWebsite.setMovementMethod(LinkMovementMethod.getInstance());
             String text = "<a href='"+weblink+"'> Link </a>";
             placeWebsite.setText(Html.fromHtml(text));
+        }
+        String phone= placeFullDetails.getPlaceInternationalPhoneNumber();
+        if(phone!=null && phone!=""){
+            placePhone.setMovementMethod(LinkMovementMethod.getInstance());
+            String text = "<a href=\"tel:"+phone+"\""+">"+phone+"</a>";
+            placePhone.setText(Html.fromHtml(text));
         }
         placeRating=placeFullDetails.getPlaceRating();
         ratingBar.setRating((float)placeRating);

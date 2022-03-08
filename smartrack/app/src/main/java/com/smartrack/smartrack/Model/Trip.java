@@ -36,6 +36,7 @@ public class Trip implements Parcelable {
         tripDaysNumber = in.readInt();
     }
 
+
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
         @Override
         public Trip createFromParcel(Parcel in) {
@@ -48,18 +49,55 @@ public class Trip implements Parcelable {
         }
     };
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id_trip);
-        dest.writeString(travelerMail);
-        dest.writeString(tripDestination);
-        dest.writeString(tripName);
-        dest.writeInt(tripDaysNumber);
+    @NonNull
+    public String getId_trip() {
+        return id_trip;
+    }
+
+    public void setId_trip(@NonNull String id_trip) {
+        this.id_trip = id_trip;
+    }
+
+    public String getTravelerMail() {
+        return travelerMail;
+    }
+
+    public void setTravelerMail(String travelerMail) {
+        this.travelerMail = travelerMail;
+    }
+
+    public String getTripDestination() {
+        return tripDestination;
+    }
+
+    public void setTripDestination(String tripDestination) {
+        this.tripDestination = tripDestination;
+    }
+
+    public String getTripName() {
+        return tripName;
+    }
+
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
+    }
+
+    public int getTripDaysNumber() {
+        return tripDaysNumber;
+    }
+
+    public void setTripDaysNumber(int tripDaysNumber) {
+        this.tripDaysNumber = tripDaysNumber;
     }
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 
 

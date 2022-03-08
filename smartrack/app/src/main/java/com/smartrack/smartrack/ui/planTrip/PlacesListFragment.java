@@ -38,7 +38,10 @@ import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,6 +49,9 @@ import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class PlacesListFragment extends Fragment {
     ListView listViewPlaces;
@@ -126,15 +132,18 @@ public class PlacesListFragment extends Fragment {
         chosenPlaces=new ArrayList<PlacePlanning>();
         for(int i=0;i<arrayPlaces.length;i++)
         {
-            if(arrayPlaces[i].getStatus()==true)
-                chosenPlaces.add(arrayPlaces[i]);
+            if(arrayPlaces[i].getStatus()==true) {
+                PlacePlanning place = getPlaceDetailsById(arrayPlaces[i].getPlaceID());
+                chosenPlaces.add(place);
+            }
         }
+
 
         Model.instance.planTrip(chosenPlaces, tripDays, new Model.PlanTripListener() {
             @Override
             public void onComplete(ArrayList<PlacePlanning> chosenPlaces1) {
 
-                Model.instance.addTrip(tripName, tripLocation, user.getProfile().getEmail(), tripDays, new Model.AddTripListener() {
+                Model.instance.addTrip(tripName, tripLocation, user.getProfile().getEmail(), tripDays,getContext(), new Model.AddTripListener() {
                     @Override
                     public void onComplete(String  tripId) {
                         addPlaces(chosenPlaces1,0,tripId);
@@ -142,6 +151,43 @@ public class PlacesListFragment extends Fragment {
                 });
             }
         });
+    }
+
+    JSONObject jsonData=null;
+    String jsonStringPlace;
+    private  PlacePlanning getPlaceDetailsById(String placeId) {
+        PlacePlanning p=new PlacePlanning();
+        Thread placeThread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    String url="https://maps.googleapis.com/maps/api/place/details/json?place_id=";
+                    url+=placeId+"&key="+getString(R.string.places_api_key);
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .method("GET", null)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    jsonStringPlace= response.body().string();
+                    jsonData = new JSONObject(jsonStringPlace);
+                }catch (IOException | JSONException f){
+                }
+            }
+        });
+        placeThread.start();
+        try {
+            placeThread.join();
+            if(jsonData!=null)
+            {
+                JSONObject result=(JSONObject)jsonData.get("result");
+                p=PlacesList.JsonToPlace(result);
+            }
+        } catch (InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
+        return p;
     }
     public void addPlaces(ArrayList<PlacePlanning> chosenPlaces,int index,String tripId){
         if(index==chosenPlaces.size()) {

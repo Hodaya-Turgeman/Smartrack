@@ -5,13 +5,15 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import org.bson.types.ObjectId;
+
 @Entity
 public class OpenHours {
     @PrimaryKey
     @NonNull
+    private String id;
+
     private String open;
-    @PrimaryKey
-    @NonNull
     private  String place_id;
 
     @Ignore
@@ -19,6 +21,8 @@ public class OpenHours {
 
     }
     public OpenHours(String open, String place_id){
+        ObjectId _id=new ObjectId();
+        this.id = _id.toString();
         this.open=open;
         this.place_id=place_id;
     }
@@ -37,5 +41,14 @@ public class OpenHours {
 
     public void setPlace_id(String place_id) {
         this.place_id = place_id;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 }
