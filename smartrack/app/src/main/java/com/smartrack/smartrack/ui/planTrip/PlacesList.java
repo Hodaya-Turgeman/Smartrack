@@ -1,25 +1,11 @@
 package com.smartrack.smartrack.ui.planTrip;
-
-import android.util.Log;
-
-import com.google.gson.JsonArray;
-import com.smartrack.smartrack.HTTP.HttpCall;
-import com.smartrack.smartrack.HTTP.HttpRequest;
-import com.smartrack.smartrack.Model.PlaceDetails;
 import com.smartrack.smartrack.Model.PlacePlanning;
-import com.smartrack.smartrack.R;
-
-import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import io.realm.RealmList;
 
 public class PlacesList {
     public static final String api_key_place = "AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0";
@@ -34,7 +20,7 @@ public class PlacesList {
             double placeLocationLat = 0, placeLocationLng = 0;
             float placeRating = 0;
             boolean status = false;
-            RealmList<String> placeOpeningHours = null;
+            List<String> placeOpeningHours = null;
             JSONObject place = (JSONObject) arrayPlace.get(i);
             if (place.has("name")) {
                 placeName = place.get("name").toString();
@@ -90,7 +76,7 @@ public class PlacesList {
         double placeLocationLat = 0, placeLocationLng = 0;
         float placeRating = 0;
         boolean status = false;
-        RealmList<String> placeOpeningHours = new RealmList<>();
+        List<String> placeOpeningHours = new ArrayList<String>();
 
         if (place.has("name")) {
             placeName = place.get("name").toString();

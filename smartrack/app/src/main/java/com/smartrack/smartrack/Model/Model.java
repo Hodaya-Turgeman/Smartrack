@@ -34,8 +34,8 @@ public class Model {
         travelerModelSQL.getTravelerByMail(travelerMail, context,listener);
 
     }
-    public void addTrip(ArrayList<PlacePlanning> chosenPlaces,String tripName,String tripLocation,String travelerMail, Integer  tripDays, Model.AddTripListener listener){
-        travelerModelServer.addTrip(chosenPlaces,tripName,tripLocation,travelerMail,tripDays,  listener );
+    public void addTrip(String tripName,String tripLocation,String travelerMail, Integer  tripDays, Model.AddTripListener listener){
+        travelerModelServer.addTrip(tripName,tripLocation,travelerMail,tripDays,  listener );
     }
     public void getTravelerByEmailInServer(String travelerMail, Context context, final GetTravelerByEmailListener listener){
 
@@ -44,6 +44,9 @@ public class Model {
     }
     public void editTraveler(final Traveler traveler,final List<FavoriteCategories> listFavoriteCategories,Context context ,final EditTravelerListener listener){
         travelerModelServer.editTraveler(traveler,listFavoriteCategories,context,listener);
+    }
+    public void addPlace(PlacePlanning place,String tripLocation,String travelerMail,String tripId,Model.AddPlaceListener listener){
+        travelerModelServer.addPlace( place,tripLocation,travelerMail,tripId,listener);
     }
     public  void deleteTraveler(String travelerMail, Context context,final DeleteTravelerListener listener){
         travelerModelSQL.deleteTraveler(travelerMail,context,listener);

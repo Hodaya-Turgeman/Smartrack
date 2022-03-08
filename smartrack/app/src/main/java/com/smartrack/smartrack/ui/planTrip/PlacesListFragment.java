@@ -37,6 +37,8 @@ import com.smartrack.smartrack.Model.Trip;
 import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
 
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -114,7 +116,8 @@ public class PlacesListFragment extends Fragment {
             if(arrayPlaces[i].getStatus()==true)
                 placesNum++;
     }
-
+    int count;
+    int j;
     private void CreateListForPlanning() {
         myLoadingDialog.setTitle("Planing Trip");
         myLoadingDialog.setMessage("Please Wait, planing your trip");
@@ -126,25 +129,41 @@ public class PlacesListFragment extends Fragment {
             if(arrayPlaces[i].getStatus()==true)
                 chosenPlaces.add(arrayPlaces[i]);
         }
+
         Model.instance.planTrip(chosenPlaces, tripDays, new Model.PlanTripListener() {
             @Override
             public void onComplete(ArrayList<PlacePlanning> chosenPlaces1) {
-                PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces1.size()];
 
-                chosenPlaces1.toArray(arrayPlaces);
-                Model.instance.addTrip(chosenPlaces1, tripName, tripLocation, user.getProfile().getEmail(), tripDays, new Model.AddTripListener() {
+                Model.instance.addTrip(tripName, tripLocation, user.getProfile().getEmail(), tripDays, new Model.AddTripListener() {
                     @Override
-                    public void onComplete(boolean isSuccess) {
-                        myLoadingDialog.dismiss();
-                        getParentFragmentManager().popBackStack();
-                        PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,arrayPlaces ,tripDays);
-                        Navigation.findNavController(getView()).navigate( action);
+                    public void onComplete(String  tripId) {
+                        addPlaces(chosenPlaces1,0,tripId);
                     }
                 });
-
             }
         });
     }
+    public void addPlaces(ArrayList<PlacePlanning> chosenPlaces,int index,String tripId){
+        if(index==chosenPlaces.size()) {
+            PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces.size()];
+            chosenPlaces.toArray(arrayPlaces);
+            myLoadingDialog.dismiss();
+            getParentFragmentManager().popBackStack();
+            PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,arrayPlaces ,tripDays);
+            Navigation.findNavController(getView()).navigate( action);
+        }
+        else {
+            Model.instance.addPlace(chosenPlaces.get(index), tripLocation, user.getProfile().getEmail(), tripId, new Model.AddPlaceListener() {
+                @Override
+                public void onComplete(boolean isSuccess) {
+                    addPlaces(chosenPlaces, index + 1, tripId);
+
+                }
+
+            });
+        }
+    }
+
 
     class MyAdapter extends BaseAdapter {
         @Override
