@@ -199,11 +199,10 @@ public class PlacesListFragment extends Fragment {
             Navigation.findNavController(getView()).navigate( action);
         }
         else {
-            Model.instance.addPlace(chosenPlaces.get(index), tripLocation, user.getProfile().getEmail(), tripId, new Model.AddPlaceListener() {
+            Model.instance.addPlace(chosenPlaces.get(index), tripLocation, user.getProfile().getEmail(), tripId, getContext(),new Model.AddPlaceListener() {
                 @Override
                 public void onComplete(boolean isSuccess) {
                     addPlaces(chosenPlaces, index + 1, tripId);
-
                 }
 
             });

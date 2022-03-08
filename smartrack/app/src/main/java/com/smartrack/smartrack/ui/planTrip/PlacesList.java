@@ -98,7 +98,6 @@ public class PlacesList {
         }
         if (place.has("international_phone_number")) {
             placeInternationalPhoneNumber = place.get("international_phone_number").toString();
-            System.out.println("phone"+placeInternationalPhoneNumber);
         }
         if (place.has("website")) {
             placeWebsite = place.get("website").toString();
@@ -136,7 +135,6 @@ public class PlacesList {
             JSONObject openingHours = (JSONObject) place.get("opening_hours");
             if (openingHours.has("weekday_text")) {
                 JSONArray weekdayText = (JSONArray) openingHours.get("weekday_text");
-                System.out.println(weekdayText);
                 for (int i = 0; i < weekdayText.length(); ++i) {
                     placeOpeningHours.add((String) weekdayText.get(i));
                 }

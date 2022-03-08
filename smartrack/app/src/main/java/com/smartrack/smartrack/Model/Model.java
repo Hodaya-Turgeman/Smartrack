@@ -45,8 +45,8 @@ public class Model {
     public void editTraveler(final Traveler traveler,final List<FavoriteCategories> listFavoriteCategories,Context context ,final EditTravelerListener listener){
         travelerModelServer.editTraveler(traveler,listFavoriteCategories,context,listener);
     }
-    public void addPlace(PlacePlanning place,String tripLocation,String travelerMail,String tripId,Model.AddPlaceListener listener){
-        travelerModelServer.addPlace( place,tripLocation,travelerMail,tripId,listener);
+    public void addPlace(PlacePlanning place,String tripLocation,String travelerMail,String tripId,Context context,Model.AddPlaceListener listener){
+        travelerModelServer.addPlace( place,tripLocation,travelerMail,tripId,context,listener);
     }
     public  void deleteTraveler(String travelerMail, Context context,final DeleteTravelerListener listener){
         travelerModelSQL.deleteTraveler(travelerMail,context,listener);
