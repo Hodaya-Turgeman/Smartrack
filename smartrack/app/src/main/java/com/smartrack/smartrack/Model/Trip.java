@@ -8,6 +8,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Entity
 public class Trip implements Parcelable {
     @PrimaryKey
@@ -17,15 +21,17 @@ public class Trip implements Parcelable {
     private String tripDestination;
     private String tripName;
     private int tripDaysNumber;
+    private String date;
 
     @Ignore
     public Trip(){ }
-    public Trip(String id_trip,String travelerMail,String tripDestination, String tripName,int tripDaysNumber) {
+    public Trip(String id_trip,String date,String travelerMail,String tripDestination, String tripName,int tripDaysNumber) {
         this.id_trip = id_trip;
         this.tripDestination = tripDestination;
         this.tripName = tripName;
         this.tripDaysNumber = tripDaysNumber;
         this.travelerMail=travelerMail;
+        this.date=date;
     }
 
     protected Trip(Parcel in) {
@@ -48,6 +54,10 @@ public class Trip implements Parcelable {
             return new Trip[size];
         }
     };
+
+    public static Creator<Trip> getCREATOR() {
+        return CREATOR;
+    }
 
     @NonNull
     public String getId_trip() {
@@ -101,4 +111,11 @@ public class Trip implements Parcelable {
     }
 
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

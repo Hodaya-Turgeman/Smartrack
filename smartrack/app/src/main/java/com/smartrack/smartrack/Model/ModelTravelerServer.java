@@ -13,6 +13,7 @@ import com.smartrack.smartrack.ui.planTrip.PlacesListFragmentDirections;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -178,6 +179,10 @@ public class ModelTravelerServer {
         paramsPost.put("tripName", tripName);
         paramsPost.put("travelerMail", travelerMail);
         paramsPost.put("tripDestination", tripLocation);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        String myDate=dateFormat.format(date);
+        paramsPost.put("tripDate",myDate);
         httpCallPost.setParams(paramsPost);
         new HttpRequest() {
             @Override
@@ -187,7 +192,7 @@ public class ModelTravelerServer {
                 String result = response.toString();
                 try {
                     String[] a= response.split("\"");
-                    Trip trip = new Trip(a[1],travelerMail,tripLocation,tripName,tripDays);
+                    Trip trip = new Trip(a[1],myDate,travelerMail,tripLocation,tripName,tripDays);
                     travelerModelSQL.addTrip(trip, context, new Model.AddTripListener() {
                         @Override
                         public void onComplete(String tripId) {
