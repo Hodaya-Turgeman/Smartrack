@@ -17,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.smartrack.smartrack.Model.Model;
+import com.smartrack.smartrack.Model.ModelTravelerSQL;
 import com.smartrack.smartrack.Model.PlacePlanning;
+import com.smartrack.smartrack.Model.Trip;
 import com.smartrack.smartrack.R;
 
 import org.json.JSONArray;
@@ -169,6 +171,7 @@ public class SplashPlanTripFragment extends Fragment {
                             });
                             myAllPlaces.addAll(myPlaces);
                             if(m== end) {
+                                Collections.sort(myAllPlaces, new SortByDatePlace());
                                 PlacePlanning[] arrayPlaces = new PlacePlanning[myAllPlaces.size()];
                                 myAllPlaces.toArray(arrayPlaces);
                                 getParentFragmentManager().popBackStack();
@@ -185,5 +188,11 @@ public class SplashPlanTripFragment extends Fragment {
         });
 
     }
+    static class SortByDatePlace implements Comparator<PlacePlanning> {
 
+        @Override
+        public int compare(PlacePlanning o1, PlacePlanning o2) {
+            return String.valueOf(o1.getPlaceRating()).compareTo(String.valueOf(o2.getPlaceRating()))*-1;
+        }
+    }
 }

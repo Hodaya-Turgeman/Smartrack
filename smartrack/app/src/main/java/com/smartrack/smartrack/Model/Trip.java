@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 
 @Entity
@@ -34,14 +35,15 @@ public class Trip implements Parcelable {
         this.date=date;
     }
 
+
     protected Trip(Parcel in) {
         id_trip = in.readString();
         travelerMail = in.readString();
         tripDestination = in.readString();
         tripName = in.readString();
         tripDaysNumber = in.readInt();
+        date = in.readString();
     }
-
 
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
         @Override
@@ -54,10 +56,6 @@ public class Trip implements Parcelable {
             return new Trip[size];
         }
     };
-
-    public static Creator<Trip> getCREATOR() {
-        return CREATOR;
-    }
 
     @NonNull
     public String getId_trip() {
@@ -100,16 +98,6 @@ public class Trip implements Parcelable {
         this.tripDaysNumber = tripDaysNumber;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
 
     public String getDate() {
         return date;
@@ -118,4 +106,20 @@ public class Trip implements Parcelable {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id_trip);
+        dest.writeString(travelerMail);
+        dest.writeString(tripDestination);
+        dest.writeString(tripName);
+        dest.writeInt(tripDaysNumber);
+        dest.writeString(date);
+    }
+
 }

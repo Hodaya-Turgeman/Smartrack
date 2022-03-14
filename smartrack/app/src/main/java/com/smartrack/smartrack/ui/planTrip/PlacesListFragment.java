@@ -5,16 +5,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,25 +18,15 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.smartrack.smartrack.HTTP.HttpCall;
-import com.smartrack.smartrack.HTTP.HttpRequest;
-import com.smartrack.smartrack.LoginActivity;
 import com.smartrack.smartrack.Model.Model;
-import com.smartrack.smartrack.Model.PlaceDetails;
+import com.smartrack.smartrack.Model.Place;
 import com.smartrack.smartrack.Model.PlacePlanning;
-import com.smartrack.smartrack.Model.Trip;
 import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
-
-import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -98,6 +80,7 @@ public class PlacesListFragment extends Fragment {
         location = view.findViewById(R.id.fragment_places_list_location);
         location.setText(destination);
         planBtn=view.findViewById(R.id.fragment_places_list_planBtn);
+        myLoadingDialog=new ProgressDialog(getContext());
         planBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +94,6 @@ public class PlacesListFragment extends Fragment {
                     CreateListForPlanning();
             }
         });
-        myLoadingDialog=new ProgressDialog(getContext());
         colorArray= getContext().getResources().getIntArray(R.array.array_name);
         return view;
     }
@@ -191,12 +173,17 @@ public class PlacesListFragment extends Fragment {
     }
     public void addPlaces(ArrayList<PlacePlanning> chosenPlaces,int index,String tripId){
         if(index==chosenPlaces.size()) {
-            PlacePlanning[] arrayPlaces = new PlacePlanning[chosenPlaces.size()];
-            chosenPlaces.toArray(arrayPlaces);
-            myLoadingDialog.dismiss();
-            getParentFragmentManager().popBackStack();
-            PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,arrayPlaces ,tripDays);
-            Navigation.findNavController(getView()).navigate( action);
+
+
+            Model.instance.getAllPlacesOfTrip(tripId, getContext(), new Model.GetAllPlacesOfTrip() {
+                @Override
+                public void onComplete(Place[] places) {
+                    myLoadingDialog.dismiss();
+                    PlacesListFragmentDirections.ActionPlacesListFragmentToListDayInTripFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToListDayInTripFragment(tripName,tripLocation,tripDays,places );
+                    Navigation.findNavController(getView()).navigate( action);
+                }
+            });
+
         }
         else {
             Model.instance.addPlace(chosenPlaces.get(index), tripLocation, user.getProfile().getEmail(), tripId, getContext(),new Model.AddPlaceListener() {

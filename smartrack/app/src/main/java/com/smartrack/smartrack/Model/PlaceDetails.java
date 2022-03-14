@@ -11,7 +11,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class PlaceDetails implements Parcelable  {
+public class PlaceDetails {
     private String placeID;
     private String placeName;
     private double placeLocationLat;
@@ -50,18 +50,6 @@ public class PlaceDetails implements Parcelable  {
         placeWebsite = in.readString();
         placeImgUrl = in.readString();
     }
-
-    public static final Creator<PlaceDetails> CREATOR = new Creator<PlaceDetails>() {
-        @Override
-        public PlaceDetails createFromParcel(Parcel in) {
-            return new PlaceDetails(in);
-        }
-
-        @Override
-        public PlaceDetails[] newArray(int size) {
-            return new PlaceDetails[size];
-        }
-    };
 
     public String getPlaceID() {
         return placeID;
@@ -143,21 +131,5 @@ public class PlaceDetails implements Parcelable  {
         this.placeImgUrl = placeImgUrl;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(placeID);
-        dest.writeString(placeName);
-        dest.writeDouble(placeLocationLat);
-        dest.writeDouble(placeLocationLng);
-        dest.writeString(placeFormattedAddress);
-        dest.writeString(placeInternationalPhoneNumber);
-        dest.writeFloat(placeRating);
-        dest.writeString(placeWebsite);
-        dest.writeString(placeImgUrl);
-    }
 }

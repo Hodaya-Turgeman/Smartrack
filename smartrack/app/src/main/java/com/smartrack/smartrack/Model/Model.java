@@ -58,6 +58,12 @@ public class Model {
     public  void planTrip(ArrayList<PlacePlanning> chosenPlaces,int tripDays,Model.PlanTripListener listener ){
         travelerModelServer.planTrip(chosenPlaces,tripDays,listener);
     }
+    public void getAllTrip(String travelerMail,Context context,Model.GetAllTripListener listener){
+        travelerModelSQL.getAllTrip(travelerMail,context,listener);
+    }
+    public void getAllPlacesOfTrip(String tripId,Context context,Model.GetAllPlacesOfTrip listener){
+        travelerModelSQL.getAllPlacesOfTrip(tripId,context,listener);
+    }
     public interface AddTravelerAndFavoriteCategoriesListener{
         void onComplete(boolean isSuccess);
     }
@@ -81,5 +87,11 @@ public class Model {
     }
     public interface AddPlaceListener{
         void onComplete(boolean isSuccess);
+    }
+    public interface GetAllTripListener{
+        void onComplete(Trip[] trips);
+    }
+    public interface GetAllPlacesOfTrip{
+        void onComplete(Place[] places);
     }
 }

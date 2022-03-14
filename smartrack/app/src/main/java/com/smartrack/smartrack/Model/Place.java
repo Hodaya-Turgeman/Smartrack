@@ -1,5 +1,8 @@
 package com.smartrack.smartrack.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -10,7 +13,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 @Entity
-public class Place {
+public class Place implements Parcelable {
     @PrimaryKey
     @NonNull
     private String id;
@@ -47,6 +50,35 @@ public class Place {
         this.id_trip=id_trip;
         this.travelerRating=0;
     }
+
+    protected Place(Parcel in) {
+        id = in.readString();
+        placeID = in.readString();
+        placeName = in.readString();
+        placeLocationLat = in.readDouble();
+        placeLocationLng = in.readDouble();
+        placeFormattedAddress = in.readString();
+        placeInternationalPhoneNumber = in.readString();
+        placeRating = in.readFloat();
+        placeWebsite = in.readString();
+        placeImgUrl = in.readString();
+        day_in_trip = in.readInt();
+        travelerMail = in.readString();
+        id_trip = in.readString();
+        travelerRating = in.readFloat();
+    }
+
+    public static final Creator<Place> CREATOR = new Creator<Place>() {
+        @Override
+        public Place createFromParcel(Parcel in) {
+            return new Place(in);
+        }
+
+        @Override
+        public Place[] newArray(int size) {
+            return new Place[size];
+        }
+    };
 
     public String getPlaceID() {
         return placeID;
@@ -159,5 +191,28 @@ public class Place {
 
     public void setId(@NonNull String id) {
         this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(placeID);
+        dest.writeString(placeName);
+        dest.writeDouble(placeLocationLat);
+        dest.writeDouble(placeLocationLng);
+        dest.writeString(placeFormattedAddress);
+        dest.writeString(placeInternationalPhoneNumber);
+        dest.writeFloat(placeRating);
+        dest.writeString(placeWebsite);
+        dest.writeString(placeImgUrl);
+        dest.writeInt(day_in_trip);
+        dest.writeString(travelerMail);
+        dest.writeString(id_trip);
+        dest.writeFloat(travelerRating);
     }
 }

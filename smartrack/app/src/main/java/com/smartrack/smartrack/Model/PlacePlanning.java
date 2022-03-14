@@ -1,5 +1,8 @@
 package com.smartrack.smartrack.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.bson.types.ObjectId;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class PlacePlanning extends PlaceDetails {
+public class PlacePlanning extends PlaceDetails implements Parcelable {
     private boolean status;
     private int day_in_trip;
     public PlacePlanning() {
@@ -19,6 +22,23 @@ public class PlacePlanning extends PlaceDetails {
         this.status=status;
         this.day_in_trip = 0;
     }
+
+    protected PlacePlanning(Parcel in) {
+        status = in.readByte() != 0;
+        day_in_trip = in.readInt();
+    }
+
+    public static final Creator<PlacePlanning> CREATOR = new Creator<PlacePlanning>() {
+        @Override
+        public PlacePlanning createFromParcel(Parcel in) {
+            return new PlacePlanning(in);
+        }
+
+        @Override
+        public PlacePlanning[] newArray(int size) {
+            return new PlacePlanning[size];
+        }
+    };
 
     public boolean getStatus() {
         return status;
@@ -33,5 +53,16 @@ public class PlacePlanning extends PlaceDetails {
 
     public void setDay_in_trip(int day_in_trip) {
         this.day_in_trip = day_in_trip;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (status ? 1 : 0));
+        dest.writeInt(day_in_trip);
     }
 }

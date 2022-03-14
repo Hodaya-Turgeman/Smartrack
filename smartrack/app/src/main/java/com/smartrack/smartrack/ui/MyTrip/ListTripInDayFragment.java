@@ -4,9 +4,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +16,17 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.smartrack.smartrack.Model.Place;
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 import com.squareup.picasso.Picasso;
 
 
 public class ListTripInDayFragment extends Fragment {
-    TextView name,location;
+    TextView name,location,numDay;
     ImageView imagev;
     RatingBar rating;
-    PlacePlanning[] arrayPlaces;
+    Place[] arrayPlaces;
     ListView listViewPlaces;
     MyAdapter adapter;
     @Override
@@ -36,7 +35,9 @@ public class ListTripInDayFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_trip_in_day, container, false);
         listViewPlaces =view.findViewById(R.id.fragment_list_trip_in_day_list_view);
-        arrayPlaces =  ListTripInDayFragmentArgs.fromBundle(getArguments()).getArrTrip();
+        arrayPlaces =  ListTripInDayFragmentArgs.fromBundle(getArguments()).getArrPlaces();
+        numDay = view.findViewById(R.id.fragment_list_trip_in_day_num_day);
+        numDay.setText("Day "+String.valueOf(arrayPlaces[0].getDay_in_trip()));
         adapter=new MyAdapter();
         listViewPlaces.setAdapter(adapter);
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,7 +79,7 @@ public class ListTripInDayFragment extends Fragment {
             } else {
 
             }
-            PlacePlanning place=arrayPlaces[i];
+            Place place=arrayPlaces[i];
 
             name = view.findViewById(R.id.trip_in_day_row_name_trip);
             imagev = view.findViewById(R.id.trip_in_day_row_image);
@@ -88,12 +89,11 @@ public class ListTripInDayFragment extends Fragment {
             rating.setRating(place.getPlaceRating());
             Drawable drawable = rating.getProgressDrawable();
             drawable.setColorFilter(Color.parseColor("#FDC313"), PorterDuff.Mode.SRC_ATOP);
-            if (place.getPlaceImgUrl() != null && place.getPlaceImgUrl() != "") {
+            if (place.getPlaceImgUrl() != null && !place.getPlaceImgUrl().equals("")) {
                 if (place.getPlaceImgUrl() == imagev.getTag()) {
                     Picasso.get().load(place.getPlaceImgUrl()).into(imagev);
                 }
             } else {
-
 
             }
 

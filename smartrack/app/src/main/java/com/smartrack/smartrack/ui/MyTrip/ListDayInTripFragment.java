@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.smartrack.smartrack.Model.Place;
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 
 public class ListDayInTripFragment extends Fragment {
-    PlacePlanning[] arrayPlaces;
+    Place[] arrayPlaces;
     Integer tripDays;
     ListView listViewPlaces;
     MyAdapter adapter;
@@ -35,7 +36,7 @@ public class ListDayInTripFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_day_in_trip, container, false);
-        arrayPlaces = ListDayInTripFragmentArgs.fromBundle(getArguments()).getArrTripsDay();
+        arrayPlaces = ListDayInTripFragmentArgs.fromBundle(getArguments()).getArrPlaces();
         tripDays=  ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripDays();
         String name= ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripName();
         String location = ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripLocation();
@@ -48,7 +49,7 @@ public class ListDayInTripFragment extends Fragment {
         locationTrip = view.findViewById(R.id.fragment_list_day_in_trip_location);
         locationTrip.setText(location);
         listViewPlaces =view.findViewById(R.id.fragment_list_day_in_trip_list_view);
-        ArrayList<ArrayList<PlacePlanning>> array_place_days_planing = new ArrayList<>();
+        ArrayList<ArrayList<Place>> array_place_days_planing = new ArrayList<>();
         for(int k=0; k<tripDays;++k){
             array_place_days_planing.add(new ArrayList<>());
         }
@@ -60,7 +61,7 @@ public class ListDayInTripFragment extends Fragment {
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                PlacePlanning[] newArrayPlaces = new PlacePlanning[array_place_days_planing.get(i).size()];
+                Place[] newArrayPlaces = new Place[array_place_days_planing.get(i).size()];
                 array_place_days_planing.get(i).toArray(newArrayPlaces);
                 ListDayInTripFragmentDirections.ActionListDayInTripFragmentToListTripInDayFragment action =  ListDayInTripFragmentDirections.actionListDayInTripFragmentToListTripInDayFragment(newArrayPlaces);
                 Navigation.findNavController(view).navigate( action);

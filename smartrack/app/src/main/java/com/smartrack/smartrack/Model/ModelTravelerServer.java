@@ -179,10 +179,13 @@ public class ModelTravelerServer {
         paramsPost.put("tripName", tripName);
         paramsPost.put("travelerMail", travelerMail);
         paramsPost.put("tripDestination", tripLocation);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String myDate=dateFormat.format(date);
         paramsPost.put("tripDate",myDate);
+        ObjectId _id= new ObjectId();
+        String myId=_id.toString();
+        paramsPost.put("tripId",myId);
         httpCallPost.setParams(paramsPost);
         new HttpRequest() {
             @Override
@@ -191,14 +194,15 @@ public class ModelTravelerServer {
                 Log.d("My Response:",response.toString());
                 String result = response.toString();
                 try {
-                    String[] a= response.split("\"");
-                    Trip trip = new Trip(a[1],myDate,travelerMail,tripLocation,tripName,tripDays);
-                    travelerModelSQL.addTrip(trip, context, new Model.AddTripListener() {
-                        @Override
-                        public void onComplete(String tripId) {
-                            listener.onComplete(a[1]);
-                        }
-                    });
+
+                        Trip trip = new Trip(myId, myDate, travelerMail, tripLocation, tripName, tripDays);
+                        travelerModelSQL.addTrip(trip, context, new Model.AddTripListener() {
+                            @Override
+                            public void onComplete(String tripId) {
+                                listener.onComplete(myId);
+                            }
+                        });
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

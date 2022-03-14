@@ -9,6 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="places_api_key">AIzaSyBJRQaRXY6ZHdXFKC7akPpuTTI0sytMjH0</string>
     <string name="menu_home">Home</string>
+    <string name="menu_my_trip">My Planing</string>
     <string name="menu_plan_trip">Plan Trip</string>
     <string name="menu_logout">Logout</string>
     <string name="blank">   </string>

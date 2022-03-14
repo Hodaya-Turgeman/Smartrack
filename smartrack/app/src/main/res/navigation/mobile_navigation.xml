@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/nav_profile">
 
     <fragment
         android:id="@+id/nav_home"
@@ -91,15 +91,15 @@
         <argument
             android:name="tripDays"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_placesListFragment_to_listDayInTripFragment"
-            app:destination="@id/listDayInTripFragment" />
         <argument
             android:name="tripName"
             app:argType="string" />
         <argument
             android:name="locationTrip"
             app:argType="string" />
+        <action
+            android:id="@+id/action_placesListFragment_to_listDayInTripFragment"
+            app:destination="@id/listDayInTripFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashPlanTripFragment"
@@ -128,7 +128,6 @@
     <fragment
         android:id="@+id/listDayInTripFragment"
         android:name="com.smartrack.smartrack.ui.MyTrip.ListDayInTripFragment"
-        android:label="1"
         tools:layout="@layout/fragment_list_day_in_trip">
         <argument
             android:name="tripName"
@@ -137,11 +136,11 @@
             android:name="tripLocation"
             app:argType="string" />
         <argument
-            android:name="arrTripsDay"
-            app:argType="com.smartrack.smartrack.Model.PlacePlanning[]" />
-        <argument
             android:name="tripDays"
             app:argType="integer" />
+        <argument
+            android:name="arrPlaces"
+            app:argType="com.smartrack.smartrack.Model.Place[]" />
         <action
             android:id="@+id/action_listDayInTripFragment_to_listTripInDayFragment"
             app:destination="@id/listTripInDayFragment" />
@@ -154,7 +153,16 @@
         android:label="1"
         tools:layout="@layout/fragment_list_trip_in_day">
         <argument
-            android:name="arrTrip"
-            app:argType="com.smartrack.smartrack.Model.PlacePlanning[]" />
+            android:name="arrPlaces"
+            app:argType="com.smartrack.smartrack.Model.Place[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_myTrip"
+        android:name="com.smartrack.smartrack.ui.MyTrip.ListMyTripFragment"
+        android:label="fragment_list_my_trip"
+        tools:layout="@layout/fragment_list_my_trip" >
+        <action
+            android:id="@+id/action_nav_myTrip_to_listDayInTripFragment"
+            app:destination="@id/listDayInTripFragment" />
     </fragment>
 </navigation>
