@@ -11,6 +11,7 @@ import com.smartrack.smartrack.ui.planTrip.PlacesListFragmentDirections;
 
 
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -56,6 +57,7 @@ public class ModelTravelerServer {
                     e.printStackTrace();
                 }
             }
+
         }.execute(httpCallPost);
 
     }
@@ -70,32 +72,33 @@ public class ModelTravelerServer {
         new HttpRequest() {
             @Override
             public void onResponse(String response) {
-                super.onResponse(response);
-                Log.d("My Response:",response.toString());
-                String result = response.toString();
-                try {
-                    JSONObject  jsonTraveler = new JSONObject(result);
-                    Traveler traveler= new Traveler(jsonTraveler.get("travelerMail").toString(),jsonTraveler.get("travelerName").toString(),Integer.valueOf(jsonTraveler.get("travelerBirthYear").toString()),jsonTraveler.get("travelerGender").toString());
-                    List<FavoriteCategories>listFavoriteCategories= new ArrayList<FavoriteCategories>();
-                    String str = jsonTraveler.get("travelerFavoriteCategories").toString();
-                    str = str.substring(1,str.length()-1);
-                    String[] travelerFavoriteCategories = str.split(",");
-                    for(int i=0 ;i< travelerFavoriteCategories.length;++i){
-                        travelerFavoriteCategories[i] = travelerFavoriteCategories[i].substring(1, travelerFavoriteCategories[i].length() - 1);
-                    }
-                    for(int i=0; i<travelerFavoriteCategories.length;++i){
-                        listFavoriteCategories.add(new FavoriteCategories(travelerFavoriteCategories[i],jsonTraveler.get("travelerMail").toString()));
-                    }
-                    travelerModelSQL.addTraveler(traveler, listFavoriteCategories, context, new Model.AddTravelerListener() {
-                        @Override
-                        public void onComplete(String isSuccess) {
-
-                        }
-                    });
-                    listener.onComplete(traveler, Arrays.asList(travelerFavoriteCategories));
-                } catch (Exception e) {
-                    e.printStackTrace();
+            super.onResponse(response);
+            Log.d("My Response:",response.toString());
+            String result = response.toString();
+            try {
+                JSONObject  jsonTraveler = new JSONObject(result);
+                Traveler traveler= new Traveler(jsonTraveler.get("travelerMail").toString(),jsonTraveler.get("travelerName").toString(),Integer.valueOf(jsonTraveler.get("travelerBirthYear").toString()),jsonTraveler.get("travelerGender").toString());
+                List<FavoriteCategories>listFavoriteCategories= new ArrayList<FavoriteCategories>();
+                String str = jsonTraveler.get("travelerFavoriteCategories").toString();
+                str = str.substring(1,str.length()-1);
+                String[] travelerFavoriteCategories = str.split(",");
+                for(int i=0 ;i< travelerFavoriteCategories.length;++i){
+                    travelerFavoriteCategories[i] = travelerFavoriteCategories[i].substring(1, travelerFavoriteCategories[i].length() - 1);
                 }
+                for(int i=0; i<travelerFavoriteCategories.length;++i){
+                    listFavoriteCategories.add(new FavoriteCategories(travelerFavoriteCategories[i],jsonTraveler.get("travelerMail").toString()));
+                }
+                travelerModelSQL.addTraveler(traveler, listFavoriteCategories, context, new Model.AddTravelerListener() {
+                    @Override
+                    public void onComplete(String isSuccess) {
+
+                    }
+                });
+                listener.onComplete(traveler, Arrays.asList(travelerFavoriteCategories));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             }
         }.execute(httpCallPost);
 
@@ -210,8 +213,8 @@ public class ModelTravelerServer {
             }
         }.execute(httpCallPost);
 
-
     }
+
     public void addPlace(PlacePlanning place,String tripLocation,String travelerMail,String tripId,Context context,Model.AddPlaceListener listener){
         final String URL_ADD_Place = "https://smartrack-app.herokuapp.com/traveler/addPlace";
         HttpCall httpCallPost = new HttpCall();
@@ -243,23 +246,104 @@ public class ModelTravelerServer {
         new HttpRequest() {
             @Override
             public void onResponse(String response) {
-                super.onResponse(response);
-                Log.d("My Response:",response.toString());
-                String result = response.toString();
-                List<OpenHours>openHoursList= new ArrayList<OpenHours>();
-                try {
-                    Place newPlace=new Place(place.getPlaceID(),place.getPlaceName(),place.getPlaceLocationLat(),place.getPlaceLocationLng(),place.getPlaceFormattedAddress(),place.getPlaceInternationalPhoneNumber(), place.getPlaceRating(), place.getPlaceWebsite(), place.getPlaceImgUrl(), place.getDay_in_trip(),travelerMail,tripId);
-                    if(place.getPlaceOpeningHours()!=null){
-                        for(int i=0;i<place.getPlaceOpeningHours().size();++i){
-                            openHoursList.add(new OpenHours(place.getPlaceOpeningHours().get(i),place.getPlaceID()));
-                        }
+            super.onResponse(response);
+            Log.d("My Response:",response.toString());
+            String result = response.toString();
+            List<OpenHours>openHoursList= new ArrayList<OpenHours>();
+            try {
+                Place newPlace=new Place(place.getPlaceID(),place.getPlaceName(),place.getPlaceLocationLat(),place.getPlaceLocationLng(),place.getPlaceFormattedAddress(),place.getPlaceInternationalPhoneNumber(), place.getPlaceRating(), place.getPlaceWebsite(), place.getPlaceImgUrl(), place.getDay_in_trip(),travelerMail,tripId);
+                if(place.getPlaceOpeningHours()!=null){
+                    for(int i=0;i<place.getPlaceOpeningHours().size();++i){
+                        openHoursList.add(new OpenHours(place.getPlaceOpeningHours().get(i),place.getPlaceID()));
                     }
-                    travelerModelSQL.addPlace(newPlace, openHoursList, context, new Model.AddTripListener() {
-                        @Override
-                        public void onComplete(String tripId) {
-                            listener.onComplete(true);
+                }
+                travelerModelSQL.addPlace(newPlace, openHoursList, context, new Model.AddTripListener() {
+                    @Override
+                    public void onComplete(String tripId) {
+                        listener.onComplete(true);
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            }
+        }.execute(httpCallPost);
+
+    }
+    public  void getTripUser(String travelerMail, Context context,Model.GetTripUserListener listener){
+        final String URL_GET_TRIP = "https://smartrack-app.herokuapp.com/traveler/getTripUser";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_GET_TRIP);
+        HashMap<String, String> paramsPlace = new HashMap<>();
+        paramsPlace.put("travelerMail", travelerMail);
+        httpCallPost.setParams(paramsPlace);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+
+                try {
+                    if (response != "false") {
+                        JSONObject object  = new JSONObject(response);
+                        JSONArray trips = (JSONArray) object.get("trips");
+                        JSONArray placeTraveler = (JSONArray)object.get("placeTraveler") ;
+                        for(int k=0;k<trips.length();++k){
+                            JSONObject trip = trips.getJSONObject(k);
+                            String id_trip = trip.get("tripId").toString();
+                            String travelerMail=  trip.get("travelerMail").toString();
+                            String tripDestination = trip.get("tripDestination").toString();
+                            String tripName = trip.get("tripName").toString();
+                            int tripDaysNumber= Integer.parseInt(trip.get("tripDaysNumber").toString());
+                            String date= trip.get("tripDate").toString();
+                            Trip myTrip=new Trip(id_trip,date,travelerMail,tripDestination,tripName,tripDaysNumber);
+                            travelerModelSQL.addTrip(myTrip, context, new Model.AddTripListener() {
+                                @Override
+                                public void onComplete(String tripId) {
+
+                                }
+                            });
                         }
-                    });
+                        for(int i=0;i<placeTraveler.length();++i){
+                            JSONObject placeObject= placeTraveler.getJSONObject(i);
+                            String placeID = placeObject.get("placeId").toString();
+                            String placeName = placeObject.get("placeName").toString();
+                            double placeLocationLat = Double.valueOf(placeObject.get("placeLocationLat").toString());
+                            double placeLocationLng = Double.valueOf(placeObject.get("placeLocationLng").toString());
+                            String placeFormattedAddress = placeObject.get("placeFormattedAddress").toString();
+                            String placeInternationalPhoneNumber=placeObject.get("placeInternationalPhoneNumber").toString();
+                            float placeRating = Float.parseFloat(placeObject.get("placeRating").toString());
+                            String placeWebsite = placeObject.get("placeWebsite").toString();
+                            String placeImgUrl = placeObject.get("placeImgUrl").toString();
+                            int day_in_trip = Integer.parseInt(placeObject.get("placeDayInTrip").toString());
+                            String travelerMail = placeObject.get("travelerMail").toString();
+                            String id_trip = placeObject.get("tripId").toString();
+                            float travelerRating = Float.parseFloat(placeObject.get("travelerPlaceRating").toString());
+                            JSONArray openHours = placeObject.getJSONArray("placeOpeningHours");
+                            Place place= new Place(placeID,placeName,placeLocationLat,placeLocationLng,placeFormattedAddress,placeInternationalPhoneNumber,placeRating,placeWebsite,placeImgUrl,day_in_trip,travelerMail,id_trip);
+                            place.setTravelerRating(travelerRating);
+                            List<OpenHours> myOpenHours=null;
+                            if(openHours.length()>0) {
+                                myOpenHours= new ArrayList<>();
+                                for (int j = 0; j < openHours.length(); ++j) {
+                                    myOpenHours.add(new OpenHours(openHours.get(j).toString(), travelerMail));
+                                }
+                            }
+
+                            travelerModelSQL.addPlace(place, myOpenHours, context, new Model.AddTripListener() {
+                                @Override
+                                public void onComplete(String tripId) {
+
+                                }
+                            });
+                        }
+
+                        listener.onComplete(true);
+                    }
+                    else{
+                        listener.onComplete(false);
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();

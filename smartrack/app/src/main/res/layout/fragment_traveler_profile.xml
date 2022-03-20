@@ -4,105 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/b2"
+    android:background="@drawable/back4"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.profile.TravelerProfileFragment">
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/traveler_profile_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        android:text="Hello traveler name"
+        android:textColor="@color/blue"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/traveler_profile_logout" />
 
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/traveler_profile_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:drawableStart="@drawable/ic_mail"
+        android:text="traveler email"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/traveler_profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/traveler_profile_name" />
+
+    <TextView
+        android:id="@+id/traveler_profile_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Your favorite categories:"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/traveler_profile_email"
+        app:layout_constraintTop_toBottomOf="@+id/traveler_profile_email" />
+
+    <ListView
+        android:id="@+id/traveler_profile_list_category"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="20dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/traveler_profile_edit_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/traveler_profile_1" />
+
+    <Button
+        android:id="@+id/traveler_profile_edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edit"
+        android:layout_marginBottom="12dp"
+        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:rippleColor="@color/blue" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#AEFAFAFA">
+    <TextView
+        android:id="@+id/traveler_profile_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:drawableStart="@drawable/ic_logout"
+        android:gravity="end"
+        android:text="Logout"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/traveler_profile_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Profile"
-            android:textColor="@color/blue"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/traveler_profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="traveler name"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/traveler_profile_title" />
-
-        <TextView
-            android:id="@+id/traveler_profile_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="traveler email"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/traveler_profile_name" />
-
-        <TextView
-            android:id="@+id/traveler_profile_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="your favorite categories"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/traveler_profile_email" />
-
-        <TextView
-            android:id="@+id/traveler_profile_categories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="traveler categories"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/traveler_profile_1" />
-
-        <Button
-            android:id="@+id/traveler_profile_edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="edit"
-            app:backgroundTint="@color/blue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/traveler_profile_categories"
-            app:rippleColor="@color/blue" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

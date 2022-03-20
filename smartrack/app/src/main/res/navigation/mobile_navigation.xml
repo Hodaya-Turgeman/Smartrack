@@ -62,9 +62,6 @@
             android:name="listCategories"
             app:argType="string[]" />
         <action
-            android:id="@+id/action_travelerEditProfileFragment_to_nav_home"
-            app:destination="@id/nav_home" />
-        <action
             android:id="@+id/action_travelerEditProfileFragment_to_nav_profile"
             app:destination="@id/nav_profile" />
     </fragment>
@@ -76,6 +73,9 @@
         <action
             android:id="@+id/action_nav_profile_to_travelerEditProfileFragment"
             app:destination="@id/travelerEditProfileFragment" />
+        <action
+            android:id="@+id/action_nav_profile_to_logoutActivity"
+            app:destination="@id/logoutActivity" />
     </fragment>
     <fragment
         android:id="@+id/placesListFragment"
@@ -165,4 +165,9 @@
             android:id="@+id/action_nav_myTrip_to_listDayInTripFragment"
             app:destination="@id/listDayInTripFragment" />
     </fragment>
+    <activity
+        android:id="@+id/logoutActivity"
+        android:name="com.smartrack.smartrack.ui.profile.LogoutActivity"
+        android:label="activity_logout"
+        tools:layout="@layout/activity_logout" />
 </navigation>

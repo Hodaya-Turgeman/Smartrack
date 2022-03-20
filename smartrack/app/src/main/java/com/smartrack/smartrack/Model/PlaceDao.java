@@ -12,10 +12,12 @@ import java.util.List;
 public interface PlaceDao {
     @Query("select * from Place where id_trip=:tripId")
     List<Place> getPlaceOfTrip(String tripId);
+    @Query("select * from Place where travelerMail=:travelerMail")
+    List<Place> getPlaceOfTraveler(String travelerMail);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Place... places);
 
     @Delete
-    void deleteTrip(Place place);
+    void deletePlace(Place place);
 }

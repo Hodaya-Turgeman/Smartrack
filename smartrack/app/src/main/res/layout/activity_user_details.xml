@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/b2"
+    android:background="@drawable/back4"
     tools:context=".UserDetailsActivity">
 
     <ScrollView
@@ -13,24 +13,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#75FFFFFF">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:layout_gravity="center"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#AEFAFAFA">
+
+              >
 
                 <TextView
                     android:id="@+id/textView12"
@@ -54,6 +46,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="50dp"
                     android:text="Name:"
+                    android:textStyle="bold"
                     android:textColor="#121111"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -89,6 +82,7 @@
                     android:text="Gender:"
                     android:textColor="#121111"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -111,6 +105,7 @@
                     android:layout_marginTop="50dp"
                     android:text="Birth Year:"
                     android:textColor="#121111"
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/textView11"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -134,6 +129,7 @@
                     android:layout_marginTop="60dp"
                     android:text="Category:"
                     android:textColor="#121111"
+                    android:textStyle="bold"
                     android:textSize="18dp"
                     app:layout_constraintStart_toStartOf="@+id/textView13"
                     app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -155,7 +151,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:background="@android:drawable/editbox_background"
                         android:drawableRight="@android:drawable/arrow_down_float"
                         android:drawablePadding="16dp"
                         android:hint="Select Category"
@@ -192,7 +187,6 @@
                     app:layout_constraintStart_toStartOf="@+id/relativeLayout"
                     app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

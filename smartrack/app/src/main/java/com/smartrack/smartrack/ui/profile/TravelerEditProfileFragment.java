@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class TravelerEditProfileFragment extends Fragment {
     ArrayList<Integer> categoriesList = new ArrayList<>();
     String travelerName,travelerGender;
     int travelerBirthYear;
+
     final String[] categoriesArray={
             "amusement park","aquarium","art gallery","bar","casino",
             "museum","night club","park","shopping mall","spa",
@@ -209,7 +211,7 @@ public class TravelerEditProfileFragment extends Fragment {
                 } else {
                     // when checkbox unselected
                     // Remove position from langList
-                    categoriesList.remove(i);
+                    categoriesList.remove( categoriesList.indexOf(i));
                 }
             }
         });
@@ -296,7 +298,7 @@ public class TravelerEditProfileFragment extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Error! Traveler is not Created", Toast.LENGTH_SHORT).show();
                 }
-                Navigation.findNavController(getView()).navigate(TravelerEditProfileFragmentDirections.actionTravelerEditProfileFragmentToNavHome());
+                Navigation.findNavController(getView()).navigate(TravelerEditProfileFragmentDirections.actionTravelerEditProfileFragmentToNavProfile());
             }
 
         });

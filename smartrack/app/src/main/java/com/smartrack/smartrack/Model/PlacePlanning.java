@@ -1,15 +1,8 @@
 package com.smartrack.smartrack.Model;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.bson.types.ObjectId;
-
 import java.util.List;
-
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class PlacePlanning extends PlaceDetails implements Parcelable {
     private boolean status;

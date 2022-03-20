@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
@@ -25,7 +24,9 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.smartrack.smartrack.Model.Model;
+import com.smartrack.smartrack.Model.Place;
 import com.smartrack.smartrack.Model.Traveler;
+import com.smartrack.smartrack.Model.Trip;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -115,12 +116,18 @@ public class LoginActivity extends AppCompatActivity {
                     Model.instance.getTravelerByEmailInServer(mail, getApplicationContext(), new Model.GetTravelerByEmailListener() {
                         @Override
                         public void onComplete(Traveler traveler, List<String> favoriteCategories) {
-                            myLoadingDialog.dismiss();
-                            Toast.makeText(LoginActivity.this,"Log-in Succeeded",Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
+                            Model.instance.getTripUser(mail,getApplicationContext(), new Model.GetTripUserListener() {
+                                @Override
+                                public void onComplete(boolean isSuccess) {
+                                    myLoadingDialog.dismiss();
+                                    Toast.makeText(LoginActivity.this,"Log-in Succeeded",Toast.LENGTH_LONG).show();
+                                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+
                         }
                     });
 

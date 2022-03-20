@@ -107,6 +107,7 @@ public class PlacesListFragment extends Fragment {
     int count;
     int j;
     private void CreateListForPlanning() {
+        planBtn.setEnabled(false);
         myLoadingDialog.setTitle("Planing Trip");
         myLoadingDialog.setMessage("Please Wait, planing your trip");
         myLoadingDialog.setCanceledOnTouchOutside(false);

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/b2"
+    android:background="@drawable/back4"
     tools:context=".RegisterActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#75FFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -99,7 +100,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="32dp"
                 android:text="Already Have An Account"
-                android:textColor="#3B3C43"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -111,13 +112,12 @@
                 android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="176dp"
+                android:layout_marginTop="164dp"
                 android:text="Signup"
                 android:textColor="#090909"
                 android:textSize="50sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

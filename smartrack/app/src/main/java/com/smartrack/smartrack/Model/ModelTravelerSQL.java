@@ -165,12 +165,7 @@ public class ModelTravelerSQL {
         class MyAsynchTask extends AsyncTask {
             @Override
             protected Object doInBackground(Object[] objects) {
-                Traveler traveler= AppLocalDB.getDatabase(context).travelerDao().getTravelerByEmail(travelerMail).get(0);
-                List<FavoriteCategories> listFavoriteCategories = AppLocalDB.getDatabase(context).favoriteCategoriesDao().getAllFavoriteCategories(travelerMail);
-                AppLocalDB.getDatabase(context).travelerDao().deleteTraveler(traveler);
-                for(int i=0;i<listFavoriteCategories.size();++i){
-                    AppLocalDB.getDatabase(context).favoriteCategoriesDao().deleteFavoriteCategories(listFavoriteCategories.get(i));
-                }
+                context.deleteDatabase("dbFileName.db");
                 return null;
             }
             @Override

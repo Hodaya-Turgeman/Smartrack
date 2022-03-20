@@ -64,6 +64,9 @@ public class Model {
     public void getAllPlacesOfTrip(String tripId,Context context,Model.GetAllPlacesOfTrip listener){
         travelerModelSQL.getAllPlacesOfTrip(tripId,context,listener);
     }
+    public void  getTripUser(String travelerMail, Context context,Model.GetTripUserListener listener){
+        travelerModelServer.getTripUser(travelerMail,context,listener);
+    }
     public interface AddTravelerAndFavoriteCategoriesListener{
         void onComplete(boolean isSuccess);
     }
@@ -93,5 +96,8 @@ public class Model {
     }
     public interface GetAllPlacesOfTrip{
         void onComplete(Place[] places);
+    }
+    public interface GetTripUserListener{
+        void onComplete(boolean isSuccess);
     }
 }

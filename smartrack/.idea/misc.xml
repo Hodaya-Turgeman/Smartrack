@@ -12,12 +12,13 @@
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/drawable/buttom_plan_trip.xml" value="0.1985" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/drawable/roundedbutton.xml" value="0.298" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_forgot_password.xml" value="0.17831813576494426" />
-        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_login.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_logout.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_main.xml" value="0.2214765100671141" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_register.xml" value="0.29483695652173914" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_reset_pass.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_splash.xml" value="0.16354166666666667" />
-        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_user_details.xml" value="0.161231884057971" />
+        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/activity_user_details.xml" value="0.33" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/app_bar_main.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/content_main.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/day_list_row.xml" value="0.2563405797101449" />
@@ -38,6 +39,7 @@
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/nav_header_main.xml" value="0.2911458333333333" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/numberpicker_horizontal.xml" value="0.31657608695652173" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/place_list_row.xml" value="0.26403985507246375" />
+        <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/row_favorite_category.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/layout/trip_in_day_row.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/menu/activity_main_drawer.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/student/Documents/GitHub/Smartrack/smartrack/app/src/main/res/menu/main.xml" value="0.20104166666666667" />
