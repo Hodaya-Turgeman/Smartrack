@@ -181,7 +181,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                     } else {
                         // when checkbox unselected
                         // Remove position from langList
-                        categoriesList.remove(i);
+                        categoriesList.remove(categoriesList.indexOf(i));
                     }
                 }
             });

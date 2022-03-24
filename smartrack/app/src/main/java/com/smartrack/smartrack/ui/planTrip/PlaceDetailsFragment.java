@@ -85,13 +85,13 @@ public class PlaceDetailsFragment extends Fragment {
         ratingBar.setRating((float)placeRating);
         placeImg.setTag(placeFullDetails.getPlaceImgUrl());
 
-        if (placeFullDetails.getPlaceImgUrl() != null && placeFullDetails.getPlaceImgUrl() != "") {
+        if (placeFullDetails.getPlaceImgUrl() != null && !placeFullDetails.getPlaceImgUrl().equals("")) {
             if (placeFullDetails.getPlaceImgUrl() == placeImg.getTag()) {
                 Picasso.get().load(placeFullDetails.getPlaceImgUrl()).into(placeImg);
             }
         }
 
-        if(placePlanning.getStatus()==false){
+        if(!placePlanning.getStatus()){
             addBtn.setText("Add");
             addBtn.setBackgroundColor(colorArray[1]);
         }
@@ -146,7 +146,7 @@ public class PlaceDetailsFragment extends Fragment {
     }
 
     private void placeChosen() {
-        if(placePlanning.getStatus()==false){
+        if(!placePlanning.getStatus()){
             placePlanning.setStatus(true);
             addBtn.setText("Remove");
             addBtn.setBackgroundColor(colorArray[0]);

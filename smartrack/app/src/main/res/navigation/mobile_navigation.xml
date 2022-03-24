@@ -6,12 +6,6 @@
     app:startDestination="@id/nav_profile">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.smartrack.smartrack.ui.TravelerHome"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
         android:id="@+id/nav_plan_trip"
         android:name="com.smartrack.smartrack.ui.planTrip.PlanTripFragment"
         android:label="@string/menu_plan_trip"
@@ -22,21 +16,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_logout"
-        android:name="com.smartrack.smartrack.ui.profile.LogoutFragment"
-        android:label="@string/menu_logout"
-        tools:layout="@layout/fragment_logout">
-        <action
-            android:id="@+id/action_nav_logaut_to_loginActivity3"
-            app:destination="@id/loginActivity3" />
-    </fragment>
-
-    <activity
-        android:id="@+id/registerActivity"
-        android:name="com.smartrack.smartrack.RegisterActivity"
-        android:label="activity_register"
-        tools:layout="@layout/activity_register" />
-    <fragment
         android:id="@+id/placeDetailsFragment"
         android:name="com.smartrack.smartrack.ui.planTrip.PlaceDetailsFragment"
         android:label="1"
@@ -45,11 +24,6 @@
             android:name="place"
             app:argType="com.smartrack.smartrack.Model.PlacePlanning" />
     </fragment>
-    <activity
-        android:id="@+id/loginActivity3"
-        android:name="com.smartrack.smartrack.LoginActivity"
-        android:label="activity_login"
-        tools:layout="@layout/activity_login" />
     <fragment
         android:id="@+id/travelerEditProfileFragment"
         android:name="com.smartrack.smartrack.ui.profile.TravelerEditProfileFragment"
@@ -155,6 +129,12 @@
         <argument
             android:name="arrPlaces"
             app:argType="com.smartrack.smartrack.Model.Place[]" />
+        <action
+            android:id="@+id/action_listTripInDayFragment_to_placeTravelerDetailsFragment"
+            app:destination="@id/placeTravelerDetailsFragment" />
+        <argument
+            android:name="tripDestination"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_myTrip"
@@ -170,4 +150,16 @@
         android:name="com.smartrack.smartrack.ui.profile.LogoutActivity"
         android:label="activity_logout"
         tools:layout="@layout/activity_logout" />
+    <fragment
+        android:id="@+id/placeTravelerDetailsFragment"
+        android:name="com.smartrack.smartrack.ui.MyTrip.PlaceTravelerDetailsFragment"
+        android:label="fragment_place_traveler_details"
+        tools:layout="@layout/fragment_place_traveler_details" >
+        <argument
+            android:name="place"
+            app:argType="com.smartrack.smartrack.Model.Place" />
+        <argument
+            android:name="tripDestination"
+            app:argType="string" />
+    </fragment>
 </navigation>

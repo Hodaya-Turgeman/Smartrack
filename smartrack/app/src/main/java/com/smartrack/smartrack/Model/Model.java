@@ -67,6 +67,17 @@ public class Model {
     public void  getTripUser(String travelerMail, Context context,Model.GetTripUserListener listener){
         travelerModelServer.getTripUser(travelerMail,context,listener);
     }
+    public void getOpenHoursOfPlace(String placeId,Context context,Model.GetOpenHoursOfPlaceListener listener){
+        travelerModelSQL.getOpenHoursOfPlace(placeId,context,listener);
+    }
+    public void editPlace(Place place,String tripDestination,Context context, Model.EditPlaceListener listener){
+        travelerModelServer.editPlace(place,tripDestination,context,listener);
+    }
+    public void getPlaceFromRecommender(String travelerMail,String tripDestination,Model.GetPlaceRecommenderListener listener){
+        travelerModelServer.getPlaceFromRecommender(travelerMail,tripDestination,listener);
+
+    }
+
     public interface AddTravelerAndFavoriteCategoriesListener{
         void onComplete(boolean isSuccess);
     }
@@ -99,5 +110,14 @@ public class Model {
     }
     public interface GetTripUserListener{
         void onComplete(boolean isSuccess);
+    }
+    public interface GetOpenHoursOfPlaceListener{
+        void onComplete(List<String>result);
+    }
+    public interface EditPlaceListener{
+        void onComplete(boolean isSuccess);
+    }
+    public interface GetPlaceRecommenderListener{
+        void onComplete(List<PlacePlanning> result);
     }
 }

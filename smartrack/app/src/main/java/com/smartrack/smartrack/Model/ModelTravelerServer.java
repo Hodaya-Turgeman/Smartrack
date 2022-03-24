@@ -352,4 +352,104 @@ public class ModelTravelerServer {
         }.execute(httpCallPost);
 
     }
+    public  void editPlace(Place place,String tripDestination,Context context, Model.EditPlaceListener listener){
+        final String URL_EDIT_TRIP = "https://smartrack-app.herokuapp.com/traveler/editTravelerPlace";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_EDIT_TRIP);
+        HashMap<String, String> paramsPlace = new HashMap<>();
+        paramsPlace.put("travelerMail", place.getTravelerMail());
+        paramsPlace.put("placeId", place.getPlaceID());
+        paramsPlace.put("tripId", place.getId_trip());
+        paramsPlace.put("placeDayInTrip", String.valueOf(place.getDay_in_trip()));
+        paramsPlace.put("travelerPlaceRating", String.valueOf(place.getTravelerRating()));
+        paramsPlace.put("tripDestination", tripDestination);
+        httpCallPost.setParams(paramsPlace);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+
+                try {
+                    if (response != "false") {
+                        travelerModelSQL.editPlace(place, context, new Model.EditPlaceListener() {
+                            @Override
+                            public void onComplete(boolean isSuccess) {
+                                listener.onComplete(true);
+                            }
+                        });
+                    }
+                    else{
+                        listener.onComplete(false);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute(httpCallPost);
+    }
+    public void getPlaceFromRecommender(String travelerMail,String tripDestination,Model.GetPlaceRecommenderListener listener){
+        final String URL_GET_PLACE = "https://smartrack-app.herokuapp.com/plantrip/recommender";
+        HttpCall httpCallPost = new HttpCall();
+        httpCallPost.setMethodtype(HttpCall.GET);
+        httpCallPost.setUrl(URL_GET_PLACE );
+        HashMap<String, String> paramsPlace = new HashMap<>();
+        paramsPlace.put("travelerMail", travelerMail);
+        paramsPlace.put("tripDestination", tripDestination);
+        httpCallPost.setParams(paramsPlace);
+        new HttpRequest() {
+            @Override
+            public void onResponse(String response) {
+                super.onResponse(response);
+
+                try {
+                    if (response != "false") {
+                        JSONArray places  = new JSONArray(response);
+                        if(places.length()>0) {
+                           List<PlacePlanning>  arrPlace = new ArrayList<>();
+                            for (int i = 0; i < places.length(); ++i) {
+                                JSONObject placeObject = places.getJSONObject(i);
+                                String placeID = placeObject.get("placeId").toString();
+                                String placeName = placeObject.get("placeName").toString();
+                                double placeLocationLat = Double.valueOf(placeObject.get("placeLocationLat").toString());
+                                double placeLocationLng = Double.valueOf(placeObject.get("placeLocationLng").toString());
+                                String placeFormattedAddress = placeObject.get("placeFormattedAddress").toString();
+                                String placeInternationalPhoneNumber = placeObject.get("placeInternationalPhoneNumber").toString();
+                                float placeRating = Float.parseFloat(placeObject.get("placeRating").toString());
+                                String placeWebsite = placeObject.get("placeWebsite").toString();
+                                String placeImgUrl = placeObject.get("placeImgUrl").toString();
+                                JSONArray openHours = placeObject.getJSONArray("placeOpeningHours");
+                                List<String> myOpenHours=null;
+                                if(openHours.length()>0) {
+                                    myOpenHours= new ArrayList<>();
+                                    for (int j = 0; j < openHours.length(); ++j) {
+                                        myOpenHours.add(openHours.get(j).toString());
+                                    }
+                                }
+                                PlacePlanning place= new PlacePlanning(placeID, placeName, placeLocationLat,placeLocationLng, placeFormattedAddress,placeInternationalPhoneNumber, myOpenHours,placeRating, placeWebsite,  placeImgUrl,false);
+                                place.setRecommended("1");
+                                System.out.println(place.getPlaceID());
+                                arrPlace.add(place);
+
+                            }
+                            listener.onComplete(arrPlace);
+
+                        }
+                        else{
+                            listener.onComplete(null);
+                        }
+                    }
+                    else{
+                        listener.onComplete(null);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute(httpCallPost);
+
+
+    }
 }

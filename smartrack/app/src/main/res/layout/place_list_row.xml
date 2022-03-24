@@ -79,6 +79,13 @@
                 app:layout_constraintEnd_toEndOf="@+id/place_list_row_rating"
                 app:layout_constraintStart_toStartOf="@+id/place_list_row_rating" />
 
+            <ImageView
+                android:id="@+id/place_list_row__image_best_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/place_list_row_image"
+                app:layout_constraintTop_toTopOf="@+id/place_list_row_image" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

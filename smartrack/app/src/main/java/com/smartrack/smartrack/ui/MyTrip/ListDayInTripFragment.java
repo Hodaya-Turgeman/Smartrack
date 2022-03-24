@@ -30,7 +30,7 @@ public class ListDayInTripFragment extends Fragment {
     MyAdapter adapter;
     int [] arrDays;
     TextView numDay,nameTrip,locationTrip;
-
+    String location;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class ListDayInTripFragment extends Fragment {
         arrayPlaces = ListDayInTripFragmentArgs.fromBundle(getArguments()).getArrPlaces();
         tripDays=  ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripDays();
         String name= ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripName();
-        String location = ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripLocation();
+        location = ListDayInTripFragmentArgs.fromBundle(getArguments()).getTripLocation();
         arrDays = new int[tripDays];
         nameTrip = view.findViewById(R.id.fragment_list_day_in_trip_name);
         String temp = "Schedule of trip \"";
@@ -63,7 +63,7 @@ public class ListDayInTripFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 Place[] newArrayPlaces = new Place[array_place_days_planing.get(i).size()];
                 array_place_days_planing.get(i).toArray(newArrayPlaces);
-                ListDayInTripFragmentDirections.ActionListDayInTripFragmentToListTripInDayFragment action =  ListDayInTripFragmentDirections.actionListDayInTripFragmentToListTripInDayFragment(newArrayPlaces);
+                ListDayInTripFragmentDirections.ActionListDayInTripFragmentToListTripInDayFragment action =  ListDayInTripFragmentDirections.actionListDayInTripFragmentToListTripInDayFragment(newArrayPlaces,location);
                 Navigation.findNavController(view).navigate( action);
             }
         });

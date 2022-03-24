@@ -5,6 +5,8 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +25,13 @@ import com.squareup.picasso.Picasso;
 
 
 public class ListTripInDayFragment extends Fragment {
-    TextView name,location,numDay;
+    TextView name,numDay;
     ImageView imagev;
     RatingBar rating;
     Place[] arrayPlaces;
     ListView listViewPlaces;
     MyAdapter adapter;
+    String destination;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class ListTripInDayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_trip_in_day, container, false);
         listViewPlaces =view.findViewById(R.id.fragment_list_trip_in_day_list_view);
         arrayPlaces =  ListTripInDayFragmentArgs.fromBundle(getArguments()).getArrPlaces();
+        destination= ListTripInDayFragmentArgs.fromBundle(getArguments()).getTripDestination();
         numDay = view.findViewById(R.id.fragment_list_trip_in_day_num_day);
         numDay.setText("Day "+String.valueOf(arrayPlaces[0].getDay_in_trip()));
         adapter=new MyAdapter();
@@ -43,9 +47,8 @@ public class ListTripInDayFragment extends Fragment {
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                Log.d("TAG","post id"+i);
-//                PlacesListFragmentDirections.ActionPlacesListFragmentToPlaceDetailsFragment action=PlacesListFragmentDirections.actionPlacesListFragmentToPlaceDetailsFragment(arrayPlaces[i]);
-//                Navigation.findNavController(view).navigate( action);
+                ListTripInDayFragmentDirections.ActionListTripInDayFragmentToPlaceTravelerDetailsFragment action= ListTripInDayFragmentDirections.actionListTripInDayFragmentToPlaceTravelerDetailsFragment(arrayPlaces[i],destination);
+                Navigation.findNavController(view).navigate( action);
             }
         });
         return view;

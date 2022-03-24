@@ -62,6 +62,25 @@ public class ModelTravelerSQL {
         task.execute();
 
     }
+    public void editPlace(Place place,Context context,Model.EditPlaceListener listener){
+        class MyAsynchTask extends AsyncTask {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                AppLocalDB.getDatabase(context).placeDao().insertAll(place);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if (listener != null) {
+                    listener.onComplete(true);
+                }
+            }
+        }
+        MyAsynchTask task = new MyAsynchTask();
+        task.execute();
+    }
     public void addTrip(Trip trip,Context context,Model.AddTripListener listener ){
         class MyAsynchTask extends AsyncTask {
             @Override
@@ -240,5 +259,25 @@ public class ModelTravelerSQL {
         task.execute();
 
 
+    }
+    public void getOpenHoursOfPlace(String placeId,Context context,Model.GetOpenHoursOfPlaceListener listener){
+        class MyAsynchTask extends AsyncTask {
+            List<String> openHours;
+            @Override
+            protected Object doInBackground(Object[] objects) {
+               openHours = AppLocalDB.getDatabase(context).openHoursDao().getOpenHoursOfPlace(placeId);
+
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if (listener != null) {
+                    listener.onComplete(openHours);
+                }
+            }
+        }
+        MyAsynchTask task = new MyAsynchTask();
+        task.execute();
     }
 }

@@ -39,7 +39,7 @@ public class PlacesListFragment extends Fragment {
     ListView listViewPlaces;
     MyAdapter adapter;
     TextView name;
-    ImageView imagev;
+    ImageView imagev,imageBest;
     RatingBar rating;
     PlacePlanning[] arrayPlaces;
     ArrayList<PlacePlanning> chosenPlaces;
@@ -51,6 +51,7 @@ public class PlacesListFragment extends Fragment {
     String tripName,tripLocation;
     int[] colorArray;
     User user;
+    String packageName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class PlacesListFragment extends Fragment {
         arrayPlaces =PlacesListFragmentArgs.fromBundle(getArguments()).getArrayPlaces();
         tripDays=PlacesListFragmentArgs.fromBundle(getArguments()).getTripDays();
         String destination = PlacesListFragmentArgs.fromBundle(getArguments()).getLocationTrip();
+       packageName = this.getActivity().getPackageName();
         adapter=new MyAdapter();
         listViewPlaces.setAdapter(adapter);
         listViewPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -230,6 +232,9 @@ public class PlacesListFragment extends Fragment {
 
             name = view.findViewById(R.id.place_list_row_name_trip);
             imagev = view.findViewById(R.id.place_list_row_image);
+            imageBest = view.findViewById(R.id.place_list_row__image_best_place);
+
+
             button=view.findViewById(R.id.place_list_row_button);
             name.setText(place.getPlaceName());
             imagev.setTag(place.getPlaceImgUrl());
@@ -237,7 +242,7 @@ public class PlacesListFragment extends Fragment {
             rating.setRating(place.getPlaceRating());
             Drawable drawable = rating.getProgressDrawable();
             drawable.setColorFilter(Color.parseColor("#FDC313"), PorterDuff.Mode.SRC_ATOP);
-            if (place.getPlaceImgUrl() != null && place.getPlaceImgUrl() != "") {
+            if (place.getPlaceImgUrl() != null && !place.getPlaceImgUrl().equals("")) {
                 if (place.getPlaceImgUrl() == imagev.getTag()) {
                     Picasso.get().load(place.getPlaceImgUrl()).into(imagev);
                 }
@@ -245,10 +250,25 @@ public class PlacesListFragment extends Fragment {
 
 
             }
+            imageBest.setTag(place.isRecommended());
+            if(place.isRecommended()!=null){
+                if(place.isRecommended().equals("1") && imageBest.getTag().equals("1")){
+                    imageBest.setVisibility(View.VISIBLE);
+                    String uri = "@drawable/icons_best_seller";  // where myresource (without the extension) is the file
+
+                    int imageResource = getResources().getIdentifier(uri, null,packageName);
+                    Drawable res = getResources().getDrawable(imageResource);
+                    imageBest.setImageDrawable(res);
+                }
+
+                else{
+                    imageBest.setVisibility(View.GONE);
+                }
+            }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(place.getStatus()==false){
+                    if(!place.getStatus()){
                         place.setStatus(true);
                         placesNum++;
                         arrayPlaces[i].setStatus(true);
@@ -266,7 +286,7 @@ public class PlacesListFragment extends Fragment {
             });
 
             button.setTag(place.getStatus());
-            if(place.getStatus()==false && String.valueOf(button.getTag())=="false"){
+            if(!place.getStatus() && String.valueOf(button.getTag()).equals("false")){
                 button.setText("Add");
                 button.setBackgroundColor(colorArray[1]);
             }
