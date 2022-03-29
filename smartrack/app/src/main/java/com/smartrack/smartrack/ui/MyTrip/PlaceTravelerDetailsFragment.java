@@ -2,15 +2,18 @@ package com.smartrack.smartrack.ui.MyTrip;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -22,11 +25,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smartrack.smartrack.Model.Model;
 import com.smartrack.smartrack.Model.Place;
 import com.smartrack.smartrack.Model.PlacePlanning;
 import com.smartrack.smartrack.R;
+import com.smartrack.smartrack.ui.profile.TravelerProfileFragmentDirections;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -100,10 +105,20 @@ public class PlaceTravelerDetailsFragment extends Fragment {
         editRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowDialog();
+                if(isNetworkConnected()) {
+                    ShowDialog();
+                }
+                else{
+                    Toast.makeText(getContext(), "Error! Connect to Internet", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         return view;
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
     public void ShowDialog()
     {
